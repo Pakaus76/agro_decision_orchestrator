@@ -94,3 +94,34 @@ Project traceability must be preserved through an explicit chronological narrati
 
 **Source**
 - Explicit instruction from the project manager after the first domain and blueprint artifacts were created.
+
+### [LESSON-005]
+**Date:** 2026-04-11  
+**Category:** workflow  
+**Title:** Do not generate auxiliary ZIP packages for this project
+
+**Lesson**  
+Auxiliary ZIP packages used only for convenience in chat delivery are not useful in this project and should not be generated anymore.
+
+**Implication for future work**
+- Deliver only the necessary files separately.
+- Avoid creating ZIP bundles unless the project manager explicitly asks for one.
+
+**Source**
+- Explicit correction from the project manager after repeated ZIP delivery.
+
+### [LESSON-006]
+**Date:** 2026-04-11  
+**Category:** communication  
+**Title:** Make manager summaries cumulative without repeating the same wording
+
+**Lesson**  
+Project-manager summaries must reflect what genuinely changed since the previous milestone and should also connect that change with the accumulated state of the project. They should not recycle the same introductory formula every time. The goal is to help a reader understand both the local step and the broader progression without feeling that the summary is mechanically repeated.
+
+**Implication for future work**
+- When writing a new manager summary, mention the new outcome first and then relate it to the already completed foundations.
+- Avoid repeating the same opening structure across consecutive milestones.
+- Use summaries to show progression, not only isolated activity.
+
+**Source**
+- Explicit correction from the project manager after repeated milestone summaries.

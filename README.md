@@ -18,7 +18,7 @@ Agro-DO combines three explicit planes:
 
 2. **Decision Orchestrator**
    - A reasoning layer that receives a normalized agricultural decision case and returns prioritized, explainable, and actionable recommendations.
-   - Outputs include priority, recommended action, rationale, confidence, alternatives, review requirements, and traceability.
+   - Outputs are expected to include priority, recommended action, rationale, confidence, alternatives, review requirements, and traceability.
 
 3. **Bridge**
    - A thin integration layer that reads cases from the digital plantation, normalizes them into a stable contract, invokes one or more decision policies, persists outputs, and supports comparisons and reporting.
@@ -58,6 +58,24 @@ The first meaningful milestone is a working local prototype where the user can:
   - involved assets,
   - suggested next checks,
 - save the run for later inspection.
+
+---
+
+## Current implemented foundation
+
+The project already includes a first coherent execution path:
+
+- stable domain contracts for the main greenhouse entities,
+- a reference greenhouse blueprint,
+- a normalized decision-case contract,
+- a first sample case based on main irrigation pump degradation,
+- and a first bridge-side loader that can load, validate, cross-check, and assemble a minimal execution payload.
+
+This means the repository has already moved beyond static structure. It can now connect:
+
+**structured environment -> normalized case -> validated execution payload**
+
+That is the first meaningful bridge between modeling and future decision logic.
 
 ---
 
@@ -112,6 +130,7 @@ agro_decision_orchestrator/
 │   ├── greenhouse_blueprints/
 │   │   └── reference_tomato_greenhouse.json
 │   ├── sample_cases/
+│   │   └── case_main_pump_degradation.json
 │   └── scenarios/
 ├── outputs/
 │   ├── exports/
@@ -121,10 +140,12 @@ agro_decision_orchestrator/
 ├── src/
 │   └── agro_do/
 │       ├── bridge/
+│       │   └── loader.py
 │       ├── decision_orchestrator/
 │       ├── digital_plantation/
 │       ├── domain/
 │       │   ├── __init__.py
+│       │   ├── decision_case.py
 │       │   └── models.py
 │       ├── persistence/
 │       ├── reporting/
@@ -151,13 +172,13 @@ agro_decision_orchestrator/
   - Clear boundaries between domain, simulation, orchestration, persistence, reporting, and UI contracts.
 
 - **Explicit contracts**
-  - Stable schemas for domain objects, decision cases, and recommendation outputs.
+  - Stable schemas for domain objects, decision cases, execution payloads, and recommendation outputs.
 
 - **Deterministic foundation first**
   - The system starts with simple and governed deterministic logic before any predictive or LLM-based extension.
 
 - **Thin bridge**
-  - The bridge translates, invokes, persists, and reports.
+  - The bridge translates, validates, invokes, persists, and reports.
   - It must not silently change the meaning of the case.
 
 - **Traceable evolution**
@@ -184,11 +205,11 @@ Define the first stable models:
 ### Phase 3 — Digital plantation MVP
 Build the first greenhouse blueprint and the first structured input files.
 
-### Phase 4 — Deterministic decision orchestrator MVP
-Implement an explainable baseline policy.
+### Phase 4 — Bridge MVP
+Load a digital plantation case, validate the case against the greenhouse blueprint, and build a minimal execution payload.
 
-### Phase 5 — Bridge MVP
-Load a digital plantation case, build the normalized decision case, run the baseline policy, and persist the output.
+### Phase 5 — Deterministic decision orchestrator MVP
+Implement an explainable baseline policy that consumes the validated payload.
 
 ### Phase 6 — UI MVP
 Create the first operator-facing pages:
@@ -221,6 +242,8 @@ Update order for each major milestone:
 
 The project log must explain not only what was created, but also why it was needed, why it was created at that specific moment, and what it enables next. The intention is to make the evolution of the project understandable even to a reader with very limited prior context.
 
+Project-manager summaries should accumulate real progress and avoid repeating the same formula at every milestone. Each new summary should reflect what genuinely changed since the previous one and how that changes the state of the product.
+
 ---
 
 ## Current status
@@ -236,35 +259,45 @@ Current repository stage:
 - first stable domain contracts created in `src/agro_do/domain/models.py`,
 - domain exports validated through `src/agro_do/domain/__init__.py`,
 - first greenhouse blueprint created in `inputs/greenhouse_blueprints/reference_tomato_greenhouse.json`,
-- blueprint JSON validated successfully.
+- blueprint JSON validated successfully,
+- normalized decision-case contract created in `src/agro_do/domain/decision_case.py`,
+- decision-case exports validated through `src/agro_do/domain/__init__.py`,
+- first sample case created in `inputs/sample_cases/case_main_pump_degradation.json`,
+- sample case JSON validated successfully,
+- first bridge-side loading path created in `src/agro_do/bridge/loader.py`,
+- blueprint and sample case successfully loaded together,
+- cross-reference validation successfully performed,
+- first minimal execution payload successfully built.
 
-Immediate next objective:
-- define the first decision-case contract,
-- create the first sample decision cases,
-- start the first loader or validation path from blueprint data to decision-ready inputs.
+At this point, the project already connects four consistent layers:
+- a structured greenhouse environment,
+- a normalized decision-case schema,
+- a concrete operational case,
+- and a validated minimal execution payload ready for future deterministic orchestration.
 
 ---
 
 ## How to use this repository
 
-At the current stage, this repository is still under controlled foundation building.
+At the current stage, this repository is still under controlled early development.
 
-The intended future usage flow is:
+The intended usage flow is already visible:
 
-1. Load or configure a greenhouse scenario.
-2. Build or select an agricultural decision case.
-3. Run a decision policy through the backend.
-4. Inspect the recommendation in a structured view.
-5. Save the result and compare it with previous runs.
+1. Load a greenhouse blueprint.
+2. Load a decision case.
+3. Validate that the case matches the environment.
+4. Build a minimal execution payload.
+5. Pass that payload to future decision logic.
+6. Persist and display the result once recommendation logic is added.
 
 Usage instructions will be expanded as executable components are added.
 
 ---
 
-## Project log, lessons learned, and handoff
+## Project log and handoff
 
 - The chronological project log is maintained in `docs/project_log.md`.
-- Reusable operating knowledge is maintained in `docs/lessons_learned.md`.
+- The durable working lessons are maintained in `docs/lessons_learned.md`.
 - The current assistant handoff document is maintained in `docs/handoff/current_handoff.md`.
 
 Together, these documents preserve:
@@ -272,7 +305,6 @@ Together, these documents preserve:
 - the plan and milestones,
 - completed work,
 - pending decisions,
-- reusable lessons,
 - important manager comments and voice-note transcripts when provided.
 
 ---
@@ -288,5 +320,5 @@ Together, these documents preserve:
 
 ## Status disclaimer
 
-This repository is in early product-foundation stage.
-The architecture is intentionally being built from the ground up in a controlled and traceable way to support future growth without forcing premature complexity.
+This repository is still in early foundation stage.  
+However, it is no longer only a scaffold. The current codebase already demonstrates that the domain layer, input artifacts, and first bridge path can operate together in a controlled and validated way.
