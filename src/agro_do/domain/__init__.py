@@ -21,6 +21,12 @@ from .models import (
     Sensor,
     SensorType,
 )
+from .recommendation import (
+    ConfidenceLevel,
+    RecommendedActionType,
+    Recommendation,
+    RecommendationPriority,
+)
 
 __all__ = [
     "Actuator",
@@ -29,12 +35,16 @@ __all__ = [
     "AssetCategory",
     "AssetRole",
     "CaseSource",
+    "ConfidenceLevel",
     "ContextNote",
     "CropPhase",
     "CropProfile",
     "DecisionCase",
     "Greenhouse",
     "ObservedSignal",
+    "RecommendedActionType",
+    "Recommendation",
+    "RecommendationPriority",
     "Sector",
     "Sensor",
     "SensorType",
