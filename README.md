@@ -92,7 +92,7 @@ Needs:
 
 ---
 
-## Planned repository structure
+## Repository structure
 
 ```text
 agro_decision_orchestrator/
@@ -110,6 +110,7 @@ agro_decision_orchestrator/
 │   └── project_log.md
 ├── inputs/
 │   ├── greenhouse_blueprints/
+│   │   └── reference_tomato_greenhouse.json
 │   ├── sample_cases/
 │   └── scenarios/
 ├── outputs/
@@ -123,6 +124,8 @@ agro_decision_orchestrator/
 │       ├── decision_orchestrator/
 │       ├── digital_plantation/
 │       ├── domain/
+│       │   ├── __init__.py
+│       │   └── models.py
 │       ├── persistence/
 │       ├── reporting/
 │       ├── ui_contracts/
@@ -158,7 +161,7 @@ agro_decision_orchestrator/
   - It must not silently change the meaning of the case.
 
 - **Traceable evolution**
-  - Major decisions, milestones, and relevant test outcomes are recorded in the project log, reflected in the handoff file, and complemented by the lessons-learned registry when reusable knowledge emerges.
+  - Major decisions, milestones, and relevant test outcomes are recorded in the project log, distilled into lessons learned when reusable, and reflected in the handoff file.
 
 ---
 
@@ -216,7 +219,7 @@ Update order for each major milestone:
 4. `docs/handoff/current_handoff.md`
 5. Git commit and GitHub push
 
-This ensures traceability, repository clarity, and smooth handoff between assistants.
+The project log must explain not only what was created, but also why it was needed, why it was created at that specific moment, and what it enables next. The intention is to make the evolution of the project understandable even to a reader with very limited prior context.
 
 ---
 
@@ -224,24 +227,27 @@ This ensures traceability, repository clarity, and smooth handoff between assist
 
 Current repository stage:
 - local repository initialized,
-- branch normalized to `main`,
-- base folder structure created and preserved with `.gitkeep` files where needed,
-- core documentation scaffold created,
-- `.gitignore` configured,
-- `pyproject.toml` configured,
+- base folder structure created,
 - project governance rules established,
-- lessons-learned discipline established.
+- project log started,
+- lessons learned file established,
+- initial bootstrap committed,
+- repository published to GitHub on `main`,
+- first stable domain contracts created in `src/agro_do/domain/models.py`,
+- domain exports validated through `src/agro_do/domain/__init__.py`,
+- first greenhouse blueprint created in `inputs/greenhouse_blueprints/reference_tomato_greenhouse.json`,
+- blueprint JSON validated successfully.
 
 Immediate next objective:
-- define the first stable domain contracts,
-- create the first greenhouse reference blueprint,
-- prepare the first commit and connect the repository to GitHub.
+- define the first decision-case contract,
+- create the first sample decision cases,
+- start the first loader or validation path from blueprint data to decision-ready inputs.
 
 ---
 
 ## How to use this repository
 
-At the current stage, this repository is still under initial setup.
+At the current stage, this repository is still under controlled foundation building.
 
 The intended future usage flow is:
 
@@ -282,5 +288,5 @@ Together, these documents preserve:
 
 ## Status disclaimer
 
-This repository is in early bootstrap stage.  
+This repository is in early product-foundation stage.
 The architecture is intentionally being built from the ground up in a controlled and traceable way to support future growth without forcing premature complexity.

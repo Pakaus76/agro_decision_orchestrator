@@ -3,8 +3,7 @@
 ## Purpose
 This file stores reusable lessons, execution preferences, workflow corrections, and operating knowledge that should influence future interactions in this project.
 
-It is not intended to duplicate the project log.  
-It should capture lessons that are expected to remain useful over time and should be applied again later.
+It is not intended to duplicate the project log. It should capture lessons that are expected to remain useful over time and should be applied again later.
 
 ## Usage rules
 - Add a new entry only when the project manager explicitly asks to preserve a lesson or when a lesson is clearly reusable and confirmed.
@@ -62,3 +61,36 @@ Reusable project knowledge should not rely only on conversation memory or the pr
 
 **Source**
 - Explicit instruction from the project manager during repository bootstrap.
+
+### [LESSON-003]
+**Date:** 2026-04-11  
+**Category:** documentation  
+**Title:** Do not version auxiliary documentation bundles
+
+**Lesson**  
+Archive bundles created only to simplify chat delivery, such as temporary `.zip` documentation packs, should not be committed to the repository unless they are explicitly intended to be part of the product assets.
+
+**Implication for future work**
+- Keep temporary documentation bundles ignored in `.gitignore`.
+- Prefer committing source documents rather than derived delivery bundles.
+
+**Source**
+- Correction applied before the first GitHub push.
+
+### [LESSON-004]
+**Date:** 2026-04-11  
+**Category:** documentation  
+**Title:** Treat chronological traceability as an explanatory narrative, not as a terse checklist
+
+**Lesson**  
+Project traceability must be preserved through an explicit chronological narrative that explains each major step in plain terms. The log must not merely state that a file or module was created. For every relevant milestone, the documentation should explain what was created, why it was necessary, why it was done at that exact point in the plan, how it fits in the architecture, and what it enables next. The goal is for even a poorly informed reader to understand the meaning of the work without reconstructing hidden context from the chat history.
+
+**Implication for future work**
+- Write project-log entries as explanatory milestone narratives, not as sparse technical notes.
+- When documenting a new structural artifact such as a Python module, schema, blueprint, or test result, explicitly explain its role in the product architecture and in the project sequence.
+- Synchronize the same narrative logic across `docs/project_log.md`, `README.md`, and `docs/handoff/current_handoff.md`, adapting the detail to the purpose of each document.
+- Before updating the log for a major milestone, preserve any project-manager comment or voice-note transcript so the chronological record reflects both execution and managerial intent.
+- Use the lessons-learned file to preserve durable documentation rules that future assistants must inherit from the start.
+
+**Source**
+- Explicit instruction from the project manager after the first domain and blueprint artifacts were created.

@@ -2,143 +2,60 @@
 
 ## 1. Purpose of this handoff
 
-This file is intended to let another LLM continue the work without losing architectural continuity, product intent, repository discipline, or execution style.
+This document is intended to let another LLM continue the Agro Decision Orchestrator project without losing context, ambition, decisions, progress state, or working method.
 
-The assistant that receives this handoff must understand that this project is being built from scratch in Visual Studio Code with the user acting as project manager and executor, while the assistant provides structured technical guidance.
+It should be kept synchronized with:
+1. `docs/project_log.md`
+2. `README.md`
+3. `docs/lessons_learned.md`
 
-The project is not a thesis artifact. It is a product-oriented agricultural decision-support prototype intended to evolve toward a realistic operator-facing platform.
-
----
-
-## 2. Project ambition
-
-The target product is a modular agricultural decision-support platform for protected horticulture environments.
-
-Its purpose is to transform greenhouse operational context into prioritized, explainable, and actionable recommendations related to:
-- irrigation,
-- fertigation,
-- climate control,
-- actuator and sensor reliability,
-- equipment health,
-- intervention prioritization.
-
-The long-term ambition is to build a system that could evolve toward:
-- SaaS-style productization,
-- operator-facing dashboards,
-- configurable scenario execution,
-- historical run traceability,
-- richer governed reasoning,
-- future predictive or AI extensions.
+This file is not meant to replace those documents. It should synthesize them and preserve the execution context needed for continuity.
 
 ---
 
-## 3. Non-negotiable operating rules
+## 2. Non-negotiable operating rules
 
-The following rules are already fixed and must be preserved:
-
-1. The user executes locally in **Visual Studio Code**.  
-   The assistant acts as the user's technical assistant.
-
-2. The assistant must guide the work **step by step**:
-   - one objective at a time,
-   - one step at a time,
-   - exact shell or PowerShell command first,
-   - then exact text to paste when needed,
-   - expected output must always be stated,
-   - do not move forward until the current step is validated.
-
-3. All project files must be written in **English**:
-   - `.md`,
-   - `.py`,
-   - `.csv`,
-   - configuration files,
-   - comments,
-   - identifiers,
-   - variable names,
-   - parameters.
-
-4. The conversation with the user remains in **Spanish**.
-
-5. The repository must live in **GitHub** and be kept synchronized through normal version-control discipline.
-
-6. Three core documentation files must always be kept synchronized:
-   - `docs/project_log.md`
-   - `README.md`
-   - `docs/handoff/current_handoff.md`
-
-7. A fourth knowledge-preservation file must also exist:
-   - `docs/lessons_learned.md`
-
-8. Update order for meaningful milestones:
+1. The assistant acts as the project assistant. The user executes commands locally in Visual Studio Code.
+2. All repository files must be written in English.
+3. Code comments, markdown documentation, CSV headers, structured texts, variable names, and identifiers must remain in English.
+4. Conversation with the user remains in Spanish.
+5. The repository must stay synchronized in this order:
    1. `docs/project_log.md`
    2. `README.md`
    3. `docs/lessons_learned.md` when applicable
    4. `docs/handoff/current_handoff.md`
    5. Git commit and GitHub push
-
-9. If reusable knowledge emerges, `docs/lessons_learned.md` must be updated and then reflected in the handoff.
-
-10. Before a major log update, the user must have the opportunity to add:
-   - a project-manager comment,
-   - a note,
-   - or a voice-note transcript.
-
-11. The root `README.md` must always remain useful and current.  
-    It must explain:
-   - what the project is,
-   - why it exists,
-   - how it is structured,
-   - where key files live,
-   - how to use current capabilities,
-   - how to interpret outputs,
-   - and it must contain an up-to-date repository tree.
-
-12. Markdown files are preferably delivered to the user as attached files when practical, because long inline markdown is inconvenient in the chat UI.
+6. Before a major log update, the project manager must have the opportunity to add a comment or voice-note transcript.
+7. The root `README.md` must always explain the project clearly enough for an external visitor to understand purpose, structure, usage direction, and result interpretation.
+8. The `README.md` must include an updated repository tree that matches the real tracked structure.
+9. The handoff file must remain detailed enough for another LLM to continue the work without losing ambition, plan, decisions, progress state, or user preferences.
+10. For repository markdown files that the user needs to copy easily, attached file delivery is preferred when practical.
+11. Chronological traceability must be explanatory, not telegraphic: major milestones must document what was done, why it mattered, why it was done then, and what it unlocks next.
 
 ---
 
-## 4. Current architectural direction
+## 3. Product vision
 
-The product is organized around three explicit planes:
+The target product is a modular agricultural decision-support platform that combines:
 
-### 4.1. Digital Plantation
-A structured representation of the greenhouse environment, including:
-- greenhouse structure,
-- sectors,
-- assets,
-- sensors,
-- actuators,
-- crop context,
-- external weather,
-- incidents,
-- operational constraints.
+1. **Digital Plantation**  
+   A structured digital representation of the greenhouse environment, including sectors, assets, sensors, actuators, crop context, external weather, incidents, and operational constraints.
 
-### 4.2. Decision Orchestrator
-A reasoning layer that consumes a normalized agricultural decision case and produces:
-- priority,
-- recommended action,
-- rationale,
-- confidence,
-- alternatives,
-- human-review requirement,
-- traceability.
+2. **Decision Orchestrator**  
+   A reasoning layer that receives a normalized agricultural decision case and returns a prioritized, explainable, and actionable recommendation.
 
-### 4.3. Bridge
-A thin and explicit layer that:
-- reads cases from the digital plantation,
-- normalizes them into a stable decision-case contract,
-- invokes one or more decision policies,
-- persists outputs,
-- supports future comparisons and reporting.
+3. **Bridge**  
+   A thin and explicit integration layer that reads cases from the digital plantation, normalizes them into a stable contract, invokes one or more decision policies, persists outputs, and supports comparisons or reporting.
 
-The bridge must not silently introduce business logic or semantic changes.
+The system is intended to help greenhouse owners, greenhouse managers, technicians, and agronomic advisors make better decisions regarding irrigation, fertigation, humidity control, temperature control, ventilation, shading, water system health, actuator reliability, sensor trustworthiness, and operational prioritization.
 
 ---
 
-## 5. Canonical reference environment
+## 4. Canonical starting environment
 
-The initial MVP must start with one realistic but manageable environment:
+The initial reference environment has already been fixed and should not be broadened prematurely.
 
+**Canonical scenario:**
 - tomato greenhouse,
 - substrate cultivation,
 - 3 sectors,
@@ -149,13 +66,34 @@ The initial MVP must start with one realistic but manageable environment:
 - shading screen,
 - basic irrigation and climate sensing.
 
-This is the canonical baseline and should guide the first domain models, blueprints, and cases.
+This scope is deliberately narrow enough to stay controllable and rich enough to support realistic product behavior.
 
 ---
 
-## 6. Current repository design
+## 5. Intended MVP
 
-Planned repository structure:
+The first meaningful product milestone is a working local prototype where the user can:
+
+- open the project in Visual Studio Code,
+- run the backend locally,
+- load a predefined greenhouse scenario,
+- choose a fault case from a UI,
+- execute the agricultural decision orchestrator,
+- inspect a recommendation card that shows:
+  - priority,
+  - action,
+  - rationale,
+  - involved assets,
+  - suggested next checks,
+- save the run.
+
+This MVP is more important than speculative future sophistication.
+
+---
+
+## 6. Repository structure currently in place
+
+The repository has already been bootstrapped with this tracked structure:
 
 ```text
 agro_decision_orchestrator/
@@ -173,6 +111,7 @@ agro_decision_orchestrator/
 │   └── project_log.md
 ├── inputs/
 │   ├── greenhouse_blueprints/
+│   │   └── reference_tomato_greenhouse.json
 │   ├── sample_cases/
 │   └── scenarios/
 ├── outputs/
@@ -186,6 +125,8 @@ agro_decision_orchestrator/
 │       ├── decision_orchestrator/
 │       ├── digital_plantation/
 │       ├── domain/
+│       │   ├── __init__.py
+│       │   └── models.py
 │       ├── persistence/
 │       ├── reporting/
 │       ├── ui_contracts/
@@ -199,187 +140,198 @@ agro_decision_orchestrator/
 └── README.md
 ```
 
----
+The repository is already published on GitHub and tracks `origin/main`.
 
-## 7. Work completed so far
-
-### Completed
-- Project vision defined as product-oriented rather than thesis-oriented.
-- Canonical reference environment selected.
-- Local project folder created.
-- Local Git repository initialized.
-- Branch normalized to `main`.
-- Base repository structure created.
-- Empty structural directories preserved with `.gitkeep` files where needed.
-- Documentation discipline fixed.
-- Project log created.
-- README created.
-- Lessons-learned registry adopted and created.
-- Current handoff created.
-- `.gitignore` configured.
-- `pyproject.toml` configured.
-- Base Python package skeleton created.
-
-### In progress
-- Repository bootstrap is complete and ready to be committed.
-- Core documentation is being synchronized with the latest milestone closure.
-
-### Not started yet
-- Stable domain contracts.
-- First greenhouse blueprint.
-- First commit.
-- GitHub remote creation and push.
+**GitHub repository:**  
+`https://github.com/Pakaus76/agro_decision_orchestrator`
 
 ---
 
-## 8. Immediate next objective
+## 7. Technology stack currently fixed
 
-The correct immediate objective is:
+### Backend
+- Python
+- `pydantic` as current base dependency
+- `FastAPI` and `uvicorn` prepared as optional API dependencies in `pyproject.toml`
 
-**Finish the bootstrap documentation and repository skeleton, then define the first stable domain contracts and the first greenhouse blueprint.**
+### Quality / development tooling
+- `pytest`
+- `ruff`
+- `mypy`
 
-This means the next correct sequence is:
+### Packaging structure
+- `src/` layout
+- Python target version: `3.11`
 
-1. finish synchronizing `docs/project_log.md`,
-2. finish synchronizing `README.md`,
-3. update `docs/lessons_learned.md` when a reusable lesson applies,
-4. finish synchronizing `docs/handoff/current_handoff.md`,
-5. create the first commit,
-6. create the GitHub repository and push,
-7. define the first stable domain contracts,
-8. create the first greenhouse blueprint.
-
-Only after that should richer application logic be created.
-
----
-
-## 9. Planned implementation path
-
-### Phase 1 — Repository bootstrap
-Create:
-- repository structure,
-- core docs,
-- base package,
-- Git discipline.
-
-### Phase 2 — Domain contracts
-Define:
-- greenhouse,
-- sector,
-- asset,
-- sensor,
-- actuator,
-- crop profile,
-- decision case,
-- recommendation.
-
-### Phase 3 — Digital plantation MVP
-Create:
-- first greenhouse blueprint,
-- first structured input files,
-- initial sample cases.
-
-### Phase 4 — Deterministic decision orchestrator MVP
-Implement:
-- transparent baseline policy,
-- explainable rule-based outputs.
-
-### Phase 5 — Bridge MVP
-Implement:
-- case loading,
-- normalization,
-- policy invocation,
-- output persistence.
-
-### Phase 6 — UI MVP
-Implement:
-- scenario selection,
-- run execution,
-- recommendation view,
-- history page.
-
-### Phase 7 — Expert elicitation support
-Create:
-- interview packs,
-- transcript distillation templates,
-- knowledge extraction workflows.
-
-### Phase 8 — Richer decision logic
-Add:
-- more context-sensitive conditions,
-- governed escalation and review behavior.
-
-### Phase 9 — Optional predictive or AI layer
-Only after the deterministic product foundation is stable.
+The frontend stack has not yet been implemented, but the working direction remains React / Next.js with TypeScript once the backend contracts are stable enough.
 
 ---
 
-## 10. Product and knowledge discipline
+## 8. What has already been completed
 
-This assistant handoff must always remain coordinated with:
-- `docs/project_log.md`,
-- `README.md`,
-- `docs/lessons_learned.md`.
+### Completed milestone A — Repository bootstrap
+Completed:
+- project root created,
+- local Git repository initialized,
+- branch renamed to `main`,
+- modular folder structure created,
+- `.gitkeep` placeholders added where needed,
+- `.gitignore` created,
+- `pyproject.toml` created,
+- initial `README.md` created,
+- initial `docs/project_log.md` created,
+- initial `docs/lessons_learned.md` created,
+- initial `docs/handoff/current_handoff.md` created,
+- first commit completed.
 
-The handoff must preserve:
-- project ambition,
-- plan and subphases,
-- progress versus plan,
-- decisions taken,
-- pending decisions,
-- test outcomes,
-- reusable lessons,
-- project-manager comments and voice-note transcripts when available.
+### Completed milestone B — GitHub publication
+Completed:
+- remote repository created on GitHub,
+- local `origin` connected,
+- `main` pushed successfully,
+- local branch tracking `origin/main` confirmed.
+
+### Completed milestone C — Initial domain foundation
+Completed:
+- `src/agro_do/domain/models.py` created with the first stable domain contracts,
+- `src/agro_do/domain/__init__.py` updated to export the domain models cleanly,
+- imports validated successfully through `PYTHONPATH=src`,
+- first greenhouse blueprint created at `inputs/greenhouse_blueprints/reference_tomato_greenhouse.json`,
+- blueprint validated successfully as JSON.
+
+This is the first moment when the project has both:
+- a stable abstract vocabulary of domain entities, and
+- a concrete operational environment built with that vocabulary.
+
+### Cleanup already handled
+A local assistant-generated archive file was accidentally staged during the initial commit workflow. This was corrected before the first push by removing it from version control history and adding the bundle names to `.gitignore`.
 
 ---
 
-## 11. Known user preferences that affect execution
+## 9. Current project status
 
-- The user prefers practical execution over abstract discussion.
-- The user wants exact commands and expected outputs.
-- The user does not want large undocumented jumps.
-- When new files are created, shell or PowerShell commands should be provided.
-- For technical work, files and structured content must remain in English.
-- Markdown files are better delivered as attached files than pasted inline in the chat UI.
-- The assistant must behave as an execution partner, not as a detached advisor.
+The project is still in **early product-foundation stage**, but it has moved beyond pure bootstrap.
+
+The documentation layer is in place, the repository is published remotely, the first domain contracts exist, and the first greenhouse blueprint has been validated successfully.
+
+The current highest-priority next objective is:
+
+1. define the first decision-case contract,
+2. create the first sample decision cases,
+3. begin the first loader or validation path from blueprint data into decision-ready input structures,
+4. only then move toward the first deterministic decision-orchestrator behavior.
 
 ---
 
-## 12. Pending decisions
+## 10. Immediate next technical objective
 
-The following decisions still need to be made later:
-- final backend dependency set beyond the current bootstrap baseline,
-- initial FastAPI structure timing,
-- initial frontend stack timing,
+The next assistant should start with:
+
+### Objective
+Define the initial decision-case foundation that will sit between the blueprint and the future deterministic orchestration logic.
+
+### Expected next artifacts
+- first decision-case model or schema,
+- first recommendation model or schema if needed to keep outputs explicit,
+- first sample cases under `inputs/sample_cases/`,
+- possibly the first simple loader or validation script that proves blueprint and case data can be consumed coherently.
+
+### Rationale
+The domain and blueprint now exist, but the project still lacks the explicit structure of a “decision-ready case.” That structure must exist before meaningful orchestration logic, comparisons, or UI forms can be built.
+
+The assistant must not jump ahead to LLM logic, predictive models, or frontend implementation before these foundations exist.
+
+---
+
+## 11. Product and modeling guidance to preserve
+
+### Product mindset
+Always think first in terms of:
+- user value,
+- workflows,
+- configurable inputs,
+- understandable outputs,
+- explainability for non-technical operators.
+
+Avoid drifting into research-first or benchmark-first framing.
+
+### Modeling scope discipline
+Do not broaden to “all agriculture.” Keep the first implementation anchored to one greenhouse reference environment.
+
+### Bridge discipline
+The bridge must remain thin. It should translate, invoke, persist, and report. It must not become the hidden center of business logic.
+
+### Deterministic-first discipline
+The first decision layer should be explainable and deterministic. Richer or AI-based layers are deferred until the product foundation is stable.
+
+---
+
+## 12. Interview and expert elicitation direction
+
+This has not yet been implemented, but it is already a core design requirement.
+
+When the project reaches that phase, expert knowledge should be elicited through concrete operational storytelling, not abstract modeling questions.
+
+Preferred prompts later include:
+- what happened last time this failed,
+- what they check first,
+- what cannot wait,
+- which alarms waste time,
+- when they trust intuition over the system.
+
+This direction is already part of the intended product refinement strategy and should remain visible in future work.
+
+---
+
+## 13. Durable lessons already identified
+
+The following lessons are already formalized in `docs/lessons_learned.md` and should remain active:
+
+1. Deliver markdown documents as attached files when practical.
+2. Preserve reusable knowledge in a dedicated lessons-learned file.
+3. Do not commit auxiliary documentation bundles or similar archive artifacts unless intentionally part of the repository.
+4. Treat chronological traceability as an explanatory narrative, not as a terse checklist.
+
+---
+
+## 14. Open decisions still pending
+
+The following items are still pending and should be decided later, not prematurely:
+
+- exact internal taxonomy for asset types,
+- exact schema granularity for sensors versus logical measurements,
 - persistence choice for early MVP (`JSON`/`CSV` only vs `SQLite`),
-- naming details for first blueprint files,
 - shape of the first decision-case schema,
-- shape of the first recommendation schema.
+- shape of the first recommendation schema,
+- exact timing for the first FastAPI scaffold,
+- exact timing for the first frontend scaffold.
 
-These decisions should be taken only when the project reaches the corresponding step.
-
----
-
-## 13. Current checkpoint summary
-
-At this checkpoint, the project has:
-- a clear product vision,
-- a clear greenhouse baseline,
-- a strict documentation workflow,
-- a handoff discipline,
-- a lessons-learned discipline,
-- and a stepwise execution method.
-
-The next assistant must not skip ahead into AI layers, frontend overdesign, or abstract agricultural overmodeling.
-
-The next correct move is still:
-**complete bootstrap documentation and repository skeleton first.**
+These are valid pending decisions, but none of them blocks starting the decision-case layer.
 
 ---
 
-## 14. Latest milestone note
+## 15. What the next assistant must avoid
 
-The initial repository bootstrap has been completed successfully.
+1. Do not start with AI or prediction models.
+2. Do not create UI first.
+3. Do not overcomplicate the stack.
+4. Do not expand the domain beyond the chosen greenhouse reference too early.
+5. Do not write repository files in Spanish.
+6. Do not break the documentation update order.
+7. Do not advance multiple implementation steps without validating the current one with the user.
 
-Project manager comment recorded for this milestone:
-- "We are starting the project now that the repository structure has been created."
+---
+
+## 16. Working style expected by the user
+
+The user strongly prefers a controlled stepwise execution style:
+
+- one immediate objective at a time,
+- one step at a time,
+- completed / current / pending structure made explicit,
+- exact shell or PowerShell command first,
+- exact text to paste after the command,
+- expected output stated clearly,
+- no forward jumping before the current step is validated.
+
+In addition, when the log is updated for a meaningful milestone, the narrative should be understandable to a poorly informed reader and should not assume hidden chat context.
