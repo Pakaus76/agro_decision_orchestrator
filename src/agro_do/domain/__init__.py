@@ -1,5 +1,13 @@
 """Domain package exports for the Agro Decision Orchestrator."""
 
+from .decision_case import (
+    CaseSource,
+    ContextNote,
+    DecisionCase,
+    ObservedSignal,
+    SeverityLevel,
+    VisibilityLevel,
+)
 from .models import (
     Actuator,
     ActuatorType,
@@ -20,10 +28,16 @@ __all__ = [
     "Asset",
     "AssetCategory",
     "AssetRole",
+    "CaseSource",
+    "ContextNote",
     "CropPhase",
     "CropProfile",
+    "DecisionCase",
     "Greenhouse",
+    "ObservedSignal",
     "Sector",
     "Sensor",
     "SensorType",
+    "SeverityLevel",
+    "VisibilityLevel",
 ]

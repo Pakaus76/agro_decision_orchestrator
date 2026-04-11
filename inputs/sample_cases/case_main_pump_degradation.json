@@ -1,0 +1,92 @@
+{
+  "case_id": "case_main_pump_degradation_001",
+  "title": "Main irrigation pump degradation",
+  "summary": "The greenhouse shows unstable irrigation behavior that may be linked to degradation of the main irrigation pump.",
+  "greenhouse_id": "gh_tomato_01",
+  "sector_id": null,
+  "crop_phase": "production",
+  "source": "manual",
+  "suspected_issue": "Possible degradation of the main irrigation pump affecting irrigation stability.",
+  "severity_hint": "high",
+  "visibility_level": "full",
+  "affected_asset_ids": [
+    "asset_main_pump",
+    "asset_main_filter",
+    "asset_main_tank"
+  ],
+  "related_sensor_ids": [
+    "sensor_main_pressure",
+    "sensor_main_flow",
+    "sensor_tank_level"
+  ],
+  "related_actuator_ids": [
+    "actuator_main_pump",
+    "actuator_backup_pump"
+  ],
+  "symptoms": [
+    "Main line pressure is unstable during irrigation windows.",
+    "Flow is lower than expected for the active irrigation program.",
+    "Some irrigation cycles appear to finish with uneven sector coverage.",
+    "The issue affects a production-phase tomato greenhouse."
+  ],
+  "observed_signals": [
+    {
+      "signal_id": "signal_001",
+      "metric_name": "Main line pressure",
+      "sensor_id": "sensor_main_pressure",
+      "value": "1.3",
+      "unit": "bar",
+      "interpretation": "Pressure is below the expected operating range for stable irrigation.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_002",
+      "metric_name": "Main flow",
+      "sensor_id": "sensor_main_flow",
+      "value": "17.5",
+      "unit": "l_min",
+      "interpretation": "Flow is below the expected range and may indicate pumping or distribution weakness.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_003",
+      "metric_name": "Main tank level",
+      "sensor_id": "sensor_tank_level",
+      "value": "78",
+      "unit": "pct",
+      "interpretation": "Tank level is adequate, so low supply volume is not the main suspected cause.",
+      "is_out_of_expected_range": false,
+      "is_trusted": true
+    }
+  ],
+  "operational_context": [
+    {
+      "category": "operational",
+      "note": "The greenhouse is currently operating under normal daytime irrigation schedule.",
+      "impact": "The issue is occurring during routine production conditions, not during an exceptional test."
+    },
+    {
+      "category": "operational",
+      "note": "A backup pump is installed and available.",
+      "impact": "There is a fallback path that may reduce operational risk if the main pump is confirmed to be degraded."
+    }
+  ],
+  "agronomic_context": [
+    {
+      "category": "agronomic",
+      "note": "The crop is in production phase.",
+      "impact": "Irrigation instability may affect yield consistency and fruit quality."
+    }
+  ],
+  "business_context": [
+    {
+      "category": "business",
+      "note": "The greenhouse is in regular production mode with no declared harvest emergency.",
+      "impact": "The case is important but does not yet indicate an exceptional commercial emergency."
+    }
+  ],
+  "recommended_review_by_human": true,
+  "notes": "This initial MVP case is designed to represent a realistic irrigation-related decision situation with sufficient visibility and a clear fallback option."
+}
