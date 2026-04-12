@@ -19,19 +19,20 @@ keywords = [
   "irrigation",
   "fertigation",
   "climate-control",
-  "process-intelligence"
+  "process-intelligence",
+  "generative-ai"
 ]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.11",
   "Operating System :: OS Independent",
-  "Intended Audience :: Science/Research",
   "Intended Audience :: Developers",
-  "Topic :: Software Development :: Libraries",
-  "Topic :: Scientific/Engineering"
+  "Topic :: Scientific/Engineering",
+  "Topic :: Software Development :: Libraries"
 ]
 dependencies = [
-  "pydantic>=2.7,<3.0"
+  "pydantic>=2.7,<3.0",
+  "openai>=1.40,<2.0"
 ]
 
 [project.optional-dependencies]

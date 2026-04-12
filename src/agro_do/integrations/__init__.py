@@ -1,0 +1,1 @@
+"""Integration layer package for external service adapters."""
