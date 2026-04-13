@@ -687,3 +687,49 @@ It proves that the governed recommendation path can align its action style not o
 **Project manager comment / voice note**
 - The fourth governed generative validation produced another strong and meaningful result. Agro-DO handled the manual-override mismatch case with high priority, required human review, reduced confidence to medium, and selected stop_and_review as the action type. This is the kind of behavior the product should show when the central risk is not only technical severity, but also the possibility that the reported digital control state no longer matches physical reality.
 
+### [LOG-027]
+**Date:** 2026-04-11  
+**Type:** milestone  
+**Title:** Fifth realistic sample case created and validated through the bridge
+
+**What happened**  
+A fifth realistic operational case was added to the project: sensor drift and flatline in humidity monitoring. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload.
+
+**Why this was needed**  
+The project already distinguished between failure, climate correction, degraded visibility, and state mismatch. It still needed a case where the main operational danger comes from misleading sensor quality rather than actuator failure, backup availability, or a broader telemetry outage.
+
+**Why it happened at this moment**  
+This was the right next step after validating stop-and-review behavior for state mismatch, because the next meaningful policy-hardening scenario was one in which the service must distrust the quality of a key signal while the rest of the digital layer still appears functional.
+
+**What this enables next**  
+It broadens case coverage toward data-quality risk and allows the service to prove whether it can escalate appropriately when the main problem is the trustworthiness of the information used for decision-making.
+
+**Files affected**
+- `inputs/sample_cases/case_sensor_drift_flatline.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-028]
+**Date:** 2026-04-11  
+**Type:** test-result  
+**Title:** Fifth governed generative run confirmed expert escalation for misleading sensor behavior
+
+**What happened**  
+The fifth case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, reduced confidence to medium, and selected `escalate_to_human` with an action summary focused on expert review and manual verification of the sensor issue.
+
+**Why this was needed**  
+The project needed evidence that the service can distinguish unreliable sensor behavior from other forms of operational risk. It also needed to show that the recommendation style remains prudent when the main problem is data quality rather than actuator state or communication availability.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the fifth case and was necessary before documenting that Agro-DO can already respond coherently to sensor-trust problems.
+
+**What this enables next**  
+It proves that the governed recommendation path can align its response not only with severity and visibility, but also with the trustworthiness of the data itself. This creates a stronger basis for continuing policy hardening through broader scenario coverage.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The fifth governed generative validation produced another strong and coherent result. Agro-DO handled the sensor drift and flatline case with high priority, required human review, reduced confidence to medium, and selected escalate_to_human as the action type. This is the kind of behavior the product should show when the central risk is not a confirmed actuator failure or a communication outage, but the possibility that a key sensor is producing misleading data.
+

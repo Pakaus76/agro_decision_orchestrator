@@ -1,0 +1,92 @@
+{
+  "case_id": "case_sensor_drift_flatline_001",
+  "title": "Sensor drift and flatline in humidity monitoring",
+  "summary": "A key humidity sensor appears to be drifting or flatlining, reducing trust in climate decisions for Sector B during active production.",
+  "greenhouse_id": "gh_tomato_01",
+  "sector_id": "sector_b",
+  "crop_phase": "production",
+  "source": "manual",
+  "suspected_issue": "The main humidity sensing path for Sector B may be producing misleading data due to drift or flatline behavior.",
+  "severity_hint": "high",
+  "visibility_level": "limited",
+  "affected_asset_ids": [
+    "asset_controller",
+    "asset_sector_b_fan",
+    "asset_roof_window"
+  ],
+  "related_sensor_ids": [
+    "sensor_indoor_humidity_b",
+    "sensor_indoor_temp_b",
+    "sensor_gateway_heartbeat"
+  ],
+  "related_actuator_ids": [
+    "actuator_sector_b_fan",
+    "actuator_roof_window"
+  ],
+  "symptoms": [
+    "The reported humidity value remains almost unchanged despite environmental conditions that should create variation.",
+    "Field observations suggest that actual moisture conditions do not match the reported digital reading.",
+    "Climate decisions for Sector B are becoming less reliable because a key signal may be misleading.",
+    "The crop is in production phase and delayed correction may increase disease-risk exposure."
+  ],
+  "observed_signals": [
+    {
+      "signal_id": "signal_001",
+      "metric_name": "Sector B indoor humidity",
+      "sensor_id": "sensor_indoor_humidity_b",
+      "value": "78",
+      "unit": "pct",
+      "interpretation": "The humidity reading appears suspiciously stable and may not reflect real environmental variation.",
+      "is_out_of_expected_range": false,
+      "is_trusted": false
+    },
+    {
+      "signal_id": "signal_002",
+      "metric_name": "Sector B indoor temperature",
+      "sensor_id": "sensor_indoor_temp_b",
+      "value": "23",
+      "unit": "celsius",
+      "interpretation": "Temperature is plausible, but it does not remove the concern that the humidity sensor may be misleading.",
+      "is_out_of_expected_range": false,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_003",
+      "metric_name": "Gateway heartbeat",
+      "sensor_id": "sensor_gateway_heartbeat",
+      "value": "normal",
+      "unit": null,
+      "interpretation": "Communication appears normal, which suggests the issue is more likely sensor quality than telemetry outage.",
+      "is_out_of_expected_range": false,
+      "is_trusted": true
+    }
+  ],
+  "operational_context": [
+    {
+      "category": "operational",
+      "note": "Sector B climate decisions currently depend on this humidity sensing path.",
+      "impact": "The service should avoid overconfidence because a misleading sensor can drive wrong operational actions."
+    },
+    {
+      "category": "operational",
+      "note": "No explicit backup sensing path is confirmed for humidity in this sector.",
+      "impact": "The service should emphasize verification and cautious interpretation rather than assuming a clean fallback."
+    }
+  ],
+  "agronomic_context": [
+    {
+      "category": "agronomic",
+      "note": "The crop is in production phase and sustained hidden humidity problems can increase disease pressure.",
+      "impact": "A misleading sensor may delay response and expose the crop to avoidable phytosanitary risk."
+    }
+  ],
+  "business_context": [
+    {
+      "category": "business",
+      "note": "Poor sensor trust affects the reliability of greenhouse decisions even if actuator hardware is still functional.",
+      "impact": "The business impact comes from acting on misleading data rather than from a confirmed actuator failure."
+    }
+  ],
+  "recommended_review_by_human": true,
+  "notes": "This case is designed to test whether Agro-DO responds prudently when the core issue is misleading sensor behavior rather than physical failure, backup availability, or full communication loss."
+}

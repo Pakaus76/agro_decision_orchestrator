@@ -223,3 +223,13 @@ A decision-support service can look reliable while it only recommends escalation
 - Treat `stop_and_review` behavior as a first-class policy outcome, not only as an exception.
 - Use these cases to test whether the service can distrust the control layer without assuming a full communication outage.
 
+### [LESSON-014]
+**Title:** Sensor-trust scenarios are essential for testing whether the service knows when data quality becomes the main risk
+
+A decision-support service can appear mature while it still assumes that most available signals are basically trustworthy. A stronger maturity signal appears when it can recognize that the main danger is acting on misleading data rather than on a confirmed physical failure.
+
+**Operational consequence**
+- Include sensor-drift and flatline cases in the case library, not only actuator and communication cases.
+- Treat data-trust behavior as a first-class policy concern.
+- Use these cases to test whether the service can reduce confidence and escalate prudently even when the wider control infrastructure still appears available.
+

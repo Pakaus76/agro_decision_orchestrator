@@ -42,7 +42,8 @@ The repository has already demonstrated that Agro-DO can:
 - apply stricter policy for high-risk cases with an available backup path,
 - distinguish between different problem families,
 - respond more cautiously when operational visibility is degraded and signal trust is limited,
-- and stop automated behavior when the digital control state may not match physical reality.
+- stop automated behavior when the digital control state may not match physical reality,
+- and escalate for expert review when the core issue is misleading sensor behavior.
 
 ## Currently validated case families
 
@@ -50,7 +51,7 @@ The repository has already demonstrated that Agro-DO can:
 Validated case:
 - `inputs/sample_cases/case_main_pump_degradation.json`
 
-Observed governed behavior after policy hardening:
+Observed governed behavior:
 - high priority,
 - switch_to_backup,
 - human review required,
@@ -86,22 +87,34 @@ Observed governed behavior:
 - human review required,
 - medium confidence.
 
+### 5. Sensor drift or flatline affecting decision trust
+Validated case:
+- `inputs/sample_cases/case_sensor_drift_flatline.json`
+
+Observed governed behavior:
+- high priority,
+- escalate_to_human,
+- human review required,
+- medium confidence.
+
 This confirms that the product can distinguish between:
 - a severe problem with continuity fallback,
 - a severe problem that requires operational correction,
 - a severe problem where the safest response is human escalation under degraded visibility,
-- and a severe problem where automation should be halted until physical reality is verified.
+- a severe problem where automation should be halted until physical reality is verified,
+- and a severe problem where the main risk is acting on misleading sensor data.
 
 ## Current product conclusion
 
-Agro-DO is no longer only a generative recommendation prototype. It now behaves as a governed service that can distinguish at least four operational patterns:
+Agro-DO is no longer only a generative recommendation prototype. It now behaves as a governed service that can distinguish at least five operational patterns:
 
 - **irrigation failure + backup available** → continuity-oriented escalation
 - **climate/disease risk + no backup path** → operational adjustment response
 - **communication loss + limited trusted visibility** → cautious escalation to human review
 - **manual override mismatch** → stop-and-review behavior with physical verification emphasis
+- **sensor drift / flatline** → expert escalation focused on data trust
 
-This is a meaningful maturity step because it shows that the service is aligning recommendation behavior not only with severity, but also with the operational nature of the problem, the quality of visibility, and the level of trust that can be placed in the digital state of the system.
+This is a meaningful maturity step because it shows that the service is aligning recommendation behavior not only with severity, but also with the operational nature of the problem, the quality of visibility, and the level of trust that can be placed in both the digital state and the available sensor data.
 
 ## Current open product question
 
@@ -117,15 +130,15 @@ The highest-value next step is:
 Current repository stage:
 - domain layer implemented,
 - reference greenhouse blueprint implemented,
-- four realistic sample cases implemented,
+- five realistic sample cases implemented,
 - bridge loading path implemented,
 - recommendation contract implemented,
 - deterministic fallback orchestrator implemented,
 - OpenAI integration implemented,
 - governed generative orchestrator validated locally,
 - explicit policy-hardening rules implemented and validated,
-- four case families now confirm differentiated governed behavior.
+- five case families now confirm differentiated governed behavior.
 
 Immediate next objective:
 - continue broadening policy hardening through additional realistic cases,
-- especially to verify that current confidence, escalation, and stop-and-review behavior generalize beyond the first four validated patterns.
+- especially to verify that current confidence, escalation, stop-and-review, and data-trust behavior generalize beyond the first five validated patterns.

@@ -19,21 +19,23 @@ Important:
 - a second case confirmed that the service can differentiate between problem families
 - a third case confirmed that the service behaves more cautiously under limited visibility and partially untrusted signals
 - a fourth case confirmed that the service can stop automation and require physical verification when digital state may not match physical reality
+- a fifth case confirmed that the service can escalate prudently when the main problem is misleading sensor behavior
 
 Observed current validated patterns:
 - pump degradation case → `high` + `switch_to_backup`
 - high humidity disease-risk case → `high` + `adjust_operation`
 - communication loss partial-blindness case → `high` + `escalate_to_human` + `medium` confidence
 - manual override mismatch case → `high` + `stop_and_review` + `medium` confidence
+- sensor drift / flatline case → `high` + `escalate_to_human` + `medium` confidence
 
-All four required human review and remained operationally coherent.
+All five required human review and remained operationally coherent.
 
 ## Main conclusions
 1. The project has crossed from static modeling into real service behavior.
 2. Generative AI is already functioning in practice.
 3. The key challenge is no longer plumbing, but policy hardening.
 4. Agro-DO now includes explicit product-policy escalation and differentiated behavior across multiple case families.
-5. The service is already beginning to align recommendation style not only with severity, but also with the operational nature of the problem, fallback availability, the degree of uncertainty, and the trustworthiness of the digital control state.
+5. The service is already beginning to align recommendation style not only with severity, but also with the operational nature of the problem, fallback availability, the degree of uncertainty, the trustworthiness of the digital control state, and the trustworthiness of the sensor data.
 6. The next work should keep broadening the case library and only then continue tightening policy where needed.
 
 ## Correct next objective
