@@ -14,3 +14,14 @@ Keep deterministic orchestration for fallback and service robustness. Treat the 
 **Title:** After proving generative execution, the next priority is reliability rather than breadth
 
 After generative execution is proven, product work should prioritize guardrails, policy, and reliability before expanding breadth again.
+
+### [LESSON-009]
+**Title:** When giving file text, always state whether it replaces the whole file or only adds to it
+
+Ambiguity about whether content should replace the file or be appended can create avoidable mistakes during step-by-step repository work.
+
+**Operational consequence**
+- Every time text is provided for a file, the instruction must explicitly say one of these:
+  - replace the full file content,
+  - append this content to the current file,
+  - insert this block in a specific section.

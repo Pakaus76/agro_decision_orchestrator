@@ -28,26 +28,32 @@ Important:
 - bridge payload validated
 - real local generative execution succeeded with OpenAI
 - governed generative execution also succeeded
+- explicit high-risk backup-available policy escalation also succeeded
 
-Observed governed output on the pump case:
+Observed latest policy-hardened output on the pump case:
 - priority: `high`
-- action type: `inspect`
+- action type: `switch_to_backup`
 - human review required: `True`
 - confidence: `high`
 - next checks: `6`
 - decision trace: `8`
+- action summary: "Switch irrigation to backup pump to restore stable flow and pressure."
 
 ## Main conclusions
 1. The project has crossed from static modeling into real service behavior.
 2. Generative AI is already functioning in practice.
 3. The key challenge is no longer plumbing, but policy hardening.
-4. The next live design question is how strict the service should be when severity is high and a backup path is available.
+4. Agro-DO now includes at least one explicit product-policy escalation rule that changes recommendation behavior in practice.
+5. The next work should broaden policy hardening with more realistic cases rather than return to foundational redesign.
 
 ## Correct next objective
-Policy hardening for high-risk scenarios.
+Add at least one additional realistic case and use it to continue policy hardening.
 
 More concretely:
-- strengthen guardrails in `llm_orchestrator.py`,
-- especially for high-severity + backup-available cases,
-- retest on the current case,
-- then add more realistic cases.
+- create a second operationally meaningful sample case,
+- validate it through the same bridge and generative path,
+- identify whether current policy is sufficient,
+- then refine `llm_orchestrator.py` further if needed.
+
+## Important process rule
+Whenever text is given for a file, instructions must explicitly state whether the user should replace the whole file or append to the current content.

@@ -51,6 +51,8 @@ def _build_system_prompt() -> str:
         "Do not return fewer than 2 next_checks or more than 6. "
         "Do not return fewer than 3 decision_trace items or more than 8. "
         "Do not return a lower recommendation priority than the severity implied by the case. "
+        "If the case is high or critical and an available backup path exists, do not keep the "
+        "recommendation in a soft state such as inspect, continue_with_monitoring, or no_action. "
         "Return JSON with exactly these keys: "
         "priority, action_type, action_summary, rationale, confidence, "
         "human_review_required, next_checks, decision_trace."
@@ -87,7 +89,8 @@ def _build_user_prompt(payload: MinimalExecutionPayload) -> str:
         "- Keep action_summary and rationale short but clear.\n"
         "- next_checks must be a list of short actionable items.\n"
         "- decision_trace must be a list of short reasoning steps.\n"
-        "- Never lower recommendation priority below what the case severity justifies.\n\n"
+        "- Never lower recommendation priority below what the case severity justifies.\n"
+        "- If severity is high or critical and backup is available, do not stay in inspect-only mode.\n\n"
         f"Payload:\n{serialized_payload}"
     )
 
@@ -104,11 +107,7 @@ def _normalize_text_list(
     if not isinstance(raw_value, list):
         raise ValueError(f"{field_name} must be a list.")
 
-    normalized_items = [
-        str(item).strip()
-        for item in raw_value
-        if str(item).strip()
-    ]
+    normalized_items = [str(item).strip() for item in raw_value if str(item).strip()]
 
     if len(normalized_items) < min_items:
         raise ValueError(
@@ -118,7 +117,9 @@ def _normalize_text_list(
     return normalized_items[:max_items]
 
 
-def _minimum_allowed_priority(payload: MinimalExecutionPayload) -> RecommendationPriority:
+def _minimum_allowed_priority(
+    payload: MinimalExecutionPayload,
+) -> RecommendationPriority:
     """Return the minimum allowed priority based on the incoming decision case."""
 
     severity_value = payload.decision_case.severity_hint.value
@@ -132,6 +133,78 @@ def _is_priority_lower_than_case(
     """Return whether a recommendation priority is lower than the minimum allowed level."""
 
     return _PRIORITY_ORDER[candidate] < _PRIORITY_ORDER[minimum_allowed]
+
+
+def _detect_backup_option(payload: MinimalExecutionPayload) -> bool:
+    """Detect whether the operational context explicitly mentions an available backup."""
+
+    for context_note in payload.decision_case.operational_context:
+        combined_text = f"{context_note.note} {context_note.impact or ''}".lower()
+        if "backup" in combined_text and "available" in combined_text:
+            return True
+    return False
+
+
+def _enforce_high_severity_backup_policy(
+    recommendation: Recommendation,
+    payload: MinimalExecutionPayload,
+) -> tuple[Recommendation, list[str]]:
+    """Enforce stricter policy for high-risk cases with an available backup path."""
+
+    guardrail_notes: list[str] = []
+    has_backup_option = _detect_backup_option(payload)
+
+    if not has_backup_option:
+        return recommendation, guardrail_notes
+
+    if recommendation.priority not in {
+        RecommendationPriority.HIGH,
+        RecommendationPriority.CRITICAL,
+    }:
+        return recommendation, guardrail_notes
+
+    if recommendation.action_type in {
+        RecommendedActionType.INSPECT,
+        RecommendedActionType.CONTINUE_WITH_MONITORING,
+        RecommendedActionType.NO_ACTION,
+    }:
+        updated_next_checks = list(recommendation.next_checks)
+
+        enforced_check = (
+            "Prepare and execute a controlled switch to the backup pump if operating conditions allow."
+        )
+
+        if enforced_check not in updated_next_checks:
+            updated_next_checks.insert(0, enforced_check)
+
+        updated_trace = list(recommendation.decision_trace)
+        updated_trace.append(
+            "Policy escalation applied: high-severity case with available backup cannot remain in a soft-response mode."
+        )
+
+        updated_rationale = (
+            f"{recommendation.rationale} Policy escalation was applied because the case is "
+            "high-severity and an available backup path exists."
+        )
+
+        recommendation = recommendation.model_copy(
+            update={
+                "action_type": RecommendedActionType.SWITCH_TO_BACKUP,
+                "action_summary": (
+                    "Initiate a controlled switch to the backup pump and inspect the primary irrigation path."
+                ),
+                "human_review_required": True,
+                "next_checks": updated_next_checks[:6],
+                "decision_trace": updated_trace[:8],
+                "rationale": updated_rationale[:600],
+            }
+        )
+
+        guardrail_notes.append(
+            "Action was escalated to switch_to_backup due to high-severity risk with backup availability."
+        )
+
+    return recommendation, guardrail_notes
 
 
 def _apply_guardrails(
@@ -229,10 +302,25 @@ def _apply_guardrails(
         updated_trace.extend(guardrail_notes)
         updates["decision_trace"] = updated_trace[:8]
 
-    if not updates:
-        return recommendation
+    if updates:
+        recommendation = recommendation.model_copy(update=updates)
 
-    return recommendation.model_copy(update=updates)
+    recommendation, policy_notes = _enforce_high_severity_backup_policy(
+        recommendation=recommendation,
+        payload=payload,
+    )
+
+    if policy_notes:
+        updated_trace = list(recommendation.decision_trace)
+        updated_trace.extend(policy_notes)
+
+        recommendation = recommendation.model_copy(
+            update={
+                "decision_trace": updated_trace[:8],
+            }
+        )
+
+    return recommendation
 
 
 def _parse_recommendation_response(
