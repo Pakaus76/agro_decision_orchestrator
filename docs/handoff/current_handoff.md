@@ -57,3 +57,32 @@ More concretely:
 
 ## Important process rule
 Whenever text is given for a file, instructions must explicitly state whether the user should replace the whole file or append to the current content.
+
+### Anti-overwrite safeguard for cumulative memory files
+
+A previous documentation incident proved that `docs/project_log.md` and `docs/lessons_learned.md` must never be treated as disposable summary files. They are cumulative project-memory artifacts and must preserve the full historical continuity of the repository.
+
+Therefore, every future assistant must apply these controls before updating the four core markdown files:
+
+1. `docs/project_log.md` and `docs/lessons_learned.md` are cumulative by default.
+   - Append or edit locally in a targeted way.
+   - Do not regenerate them as shortened replacements unless the project manager explicitly orders a full restructuring.
+
+2. Inspect the current file before updating it.
+   - Identify the last visible `LOG-*` entry.
+   - Identify the last visible `LESSON-*` entry.
+   - Verify that earlier entries are still present.
+
+3. Apply an anti-truncation check.
+   - If the proposed new file is much shorter than the current one, treat that as a likely error.
+   - If numbering continuity is broken, correct it before any commit.
+
+4. Every file-edit instruction must explicitly state one of these modes:
+   - replace the full file content,
+   - append this block to the current file,
+   - insert this block in a specific section.
+
+5. No documentation milestone may be committed until cumulative memory integrity has been checked.
+
+This safeguard is mandatory because the loss of accumulated documentation would seriously damage traceability, continuity, and handoff quality.
+
