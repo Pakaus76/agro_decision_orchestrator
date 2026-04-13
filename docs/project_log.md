@@ -1019,3 +1019,55 @@ This means Agro-DO is already treating mild hydraulic degradation as sufficient 
 
 **Project manager comment / voice note**
 - The ninth governed generative validation is useful because it shows that the system does not currently expose a rich middle-band behavior in the scarcity family. Even with only borderline hydraulic degradation, Agro-DO still selected stop_and_review with high priority, high confidence, and human review. That means the current threshold is already quite conservative once execution stability is no longer clearly safe.
+
+### [LOG-037]
+**Date:** 2026-04-13  
+**Type:** milestone  
+**Title:** Tenth realistic sample case created and validated through the bridge for early-warning hydraulic softening
+
+**What happened**  
+A tenth realistic operational case was added to the project: early-warning hydraulic softening under low-water conditions. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload without structural inconsistencies.
+
+**Why this was needed**  
+Case 9 had shown that even borderline hydraulic degradation still pushed Agro-DO toward `stop_and_review`. The project therefore needed a softer transition case to test whether the current policy tolerated any visible degradation at all before crossing into interruption-oriented logic.
+
+**Why it happened at this moment**  
+This was the correct next step after validating the borderline-degradation case, because the next useful question was whether Agro-DO still had a narrower permissive band when hydraulic behavior was only mildly softened rather than meaningfully unstable.
+
+**What this enables next**  
+It extends the scarcity-family map with a softer early-warning condition and allows the project to compare four closely related scenarios across the same policy family. This provides a much better basis for locating the real switching threshold between controlled mitigation and stop-oriented response.
+
+**Files affected**
+- `inputs/sample_cases/case_early_warning_hydraulic_softening.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-038]
+**Date:** 2026-04-13  
+**Type:** test-result  
+**Title:** Tenth governed generative run confirmed a narrow permissive band before stop-oriented logic dominates
+
+**What happened**  
+The tenth case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, kept confidence high, and selected `adjust_operation` with an action summary focused on controlled rationing under close monitoring despite low water and mild hydraulic softening.
+
+**Why this was needed**  
+The project needed evidence about whether Agro-DO had any narrower transition band before visible degradation automatically triggered `stop_and_review`. It also needed to determine whether the conservative threshold inferred from Case 9 was absolute or whether very mild degradation could still remain on the controlled-mitigation side.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the tenth case and was necessary before concluding whether the scarcity policy boundary was binary or whether it still contained a small permissive zone under early-warning conditions.
+
+**What this enables next**  
+It confirms that the current policy is not purely binary. The emerging map is now:
+- Case 7 -> `adjust_operation`
+- Case 8 -> `stop_and_review`
+- Case 9 -> `stop_and_review`
+- Case 10 -> `adjust_operation`
+
+This is a valuable maturity signal because Agro-DO does tolerate a very mild degradation pattern, but only within a narrow band. The next useful step is to probe the exact switching point between the Case 10 side and the Case 9 side.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The tenth governed generative validation is very useful because it shows that the policy is not simply "stable means adjust and any degradation means stop." Agro-DO still selected adjust_operation with high priority, high confidence, and human review when the hydraulic softening remained very mild. That means a narrow permissive band does exist, even if it is tighter than originally expected.

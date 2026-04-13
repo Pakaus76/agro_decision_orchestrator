@@ -273,3 +273,13 @@ A decision-support service may appear to have a rich internal policy boundary, b
 - Do not assume that a conceptual middle zone exists just because it was designed into the case family.
 - Test the boundary with multiple gradual transition cases before concluding that the system differentiates finely.
 - Treat the current threshold as conservative: stable execution supports `adjust_operation`, while even mild hydraulic degradation may already be enough to trigger `stop_and_review`.
+
+### [LESSON-019]
+**Title:** Very mild hydraulic degradation can still remain inside the controlled-mitigation zone
+
+A decision-support service may appear overly conservative after a borderline transition case, but a softer early-warning case can reveal that a narrow permissive band still exists. In Agro-DO, low-water continuity pressure combined with very mild hydraulic softening can still justify `adjust_operation` when flow and pressure remain largely functional and degradation does not yet imply meaningful instability.
+
+**Operational consequence**
+- Do not conclude too early that any visible degradation automatically triggers interruption-oriented logic.
+- Separate borderline degradation from genuinely mild early-warning softening when designing scarcity cases.
+- Use additional threshold-probing cases to locate the exact switching point between `adjust_operation` and `stop_and_review`.
