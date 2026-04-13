@@ -1,0 +1,92 @@
+{
+  "case_id": "case_manual_override_mismatch_001",
+  "title": "Manual override mismatch in climate control",
+  "summary": "The greenhouse control system reports one actuator state, but field indications suggest that a manual override may have changed the real physical state.",
+  "greenhouse_id": "gh_tomato_01",
+  "sector_id": "sector_b",
+  "crop_phase": "production",
+  "source": "manual",
+  "suspected_issue": "A manual override may have desynchronized the reported actuator state from the real physical state in Sector B climate control.",
+  "severity_hint": "high",
+  "visibility_level": "limited",
+  "affected_asset_ids": [
+    "asset_controller",
+    "asset_roof_window",
+    "asset_sector_b_fan"
+  ],
+  "related_sensor_ids": [
+    "sensor_indoor_humidity_b",
+    "sensor_indoor_temp_b",
+    "sensor_gateway_heartbeat"
+  ],
+  "related_actuator_ids": [
+    "actuator_roof_window",
+    "actuator_sector_b_fan"
+  ],
+  "symptoms": [
+    "The digital system reports that climate actuators are operating normally.",
+    "Field observation suggests that at least one actuator may have been manually overridden.",
+    "Sector B climate conditions are not improving as expected from the reported actuator state.",
+    "The crop is in production phase and delayed correction could affect quality and disease exposure."
+  ],
+  "observed_signals": [
+    {
+      "signal_id": "signal_001",
+      "metric_name": "Sector B indoor humidity",
+      "sensor_id": "sensor_indoor_humidity_b",
+      "value": "89",
+      "unit": "pct",
+      "interpretation": "Humidity remains too high despite the reported control state, suggesting a possible mismatch between digital and physical behavior.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_002",
+      "metric_name": "Sector B indoor temperature",
+      "sensor_id": "sensor_indoor_temp_b",
+      "value": "22",
+      "unit": "celsius",
+      "interpretation": "Temperature looks stable, but this does not resolve the mismatch concern around actuator effectiveness.",
+      "is_out_of_expected_range": false,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_003",
+      "metric_name": "Gateway heartbeat",
+      "sensor_id": "sensor_gateway_heartbeat",
+      "value": "normal",
+      "unit": null,
+      "interpretation": "Communication appears available, so the mismatch is more likely related to manual intervention than full telemetry loss.",
+      "is_out_of_expected_range": false,
+      "is_trusted": true
+    }
+  ],
+  "operational_context": [
+    {
+      "category": "operational",
+      "note": "A recent manual intervention may have occurred in Sector B climate control.",
+      "impact": "The service should prioritize physical verification of actuator state instead of trusting digital status alone."
+    },
+    {
+      "category": "operational",
+      "note": "No explicit backup climate-control path is confirmed for this mismatch scenario.",
+      "impact": "The service should not assume a clean fallback path and should emphasize review and verification."
+    }
+  ],
+  "agronomic_context": [
+    {
+      "category": "agronomic",
+      "note": "Persistent climate mismatch during production can sustain high humidity and increase disease pressure.",
+      "impact": "A delayed correction may affect both crop quality and plant-health stability."
+    }
+  ],
+  "business_context": [
+    {
+      "category": "business",
+      "note": "A mismatch between reported state and real field behavior reduces trust in the control layer.",
+      "impact": "The operational impact is not only technical but also managerial, because decisions become less reliable."
+    }
+  ],
+  "recommended_review_by_human": true,
+  "notes": "This case is designed to test whether Agro-DO reacts prudently when the problem is not a direct failure or visibility outage, but a mismatch between the digital control state and probable physical reality."
+}

@@ -213,3 +213,13 @@ A decision-support service can appear strong when it only handles physical-failu
 - Treat confidence behavior and escalation behavior as first-class policy concerns.
 - Do not assume that policy hardening is complete until the service has been tested under uncertainty, not only under clearly observable failures.
 
+### [LESSON-013]
+**Title:** State-mismatch cases are essential for testing whether the service knows when to stop automation
+
+A decision-support service can look reliable while it only recommends escalation or adjustment. A stronger maturity signal appears when it can also recognize that the safest action is to stop and verify because the digital state may no longer reflect physical reality.
+
+**Operational consequence**
+- Include state-mismatch cases in the case library, not only failure and visibility cases.
+- Treat `stop_and_review` behavior as a first-class policy outcome, not only as an exception.
+- Use these cases to test whether the service can distrust the control layer without assuming a full communication outage.
+

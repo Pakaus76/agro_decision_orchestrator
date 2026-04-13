@@ -8,21 +8,6 @@ Important:
 - deterministic orchestration exists only as fallback and resilience,
 - do not reintroduce A/B/C/F-style framing.
 
-## Current implemented architecture
-- `src/agro_do/domain/models.py`
-- `src/agro_do/domain/decision_case.py`
-- `src/agro_do/domain/recommendation.py`
-- `inputs/greenhouse_blueprints/reference_tomato_greenhouse.json`
-- `inputs/sample_cases/case_main_pump_degradation.json`
-- `inputs/sample_cases/case_high_humidity_disease_risk.json`
-- `inputs/sample_cases/case_communication_loss_partial_blindness.json`
-- `src/agro_do/bridge/loader.py`
-- `src/agro_do/decision_orchestrator/orchestrator.py`
-- `src/agro_do/decision_orchestrator/llm_orchestrator.py`
-- `src/agro_do/integrations/openai_client.py`
-- `.env.example`
-- `pyproject.toml`
-
 ## What has already been proven
 - domain contracts validated
 - blueprint validated
@@ -33,20 +18,22 @@ Important:
 - explicit high-risk backup-available policy escalation succeeded
 - a second case confirmed that the service can differentiate between problem families
 - a third case confirmed that the service behaves more cautiously under limited visibility and partially untrusted signals
+- a fourth case confirmed that the service can stop automation and require physical verification when digital state may not match physical reality
 
 Observed current validated patterns:
 - pump degradation case → `high` + `switch_to_backup`
 - high humidity disease-risk case → `high` + `adjust_operation`
 - communication loss partial-blindness case → `high` + `escalate_to_human` + `medium` confidence
+- manual override mismatch case → `high` + `stop_and_review` + `medium` confidence
 
-All three required human review and remained operationally coherent.
+All four required human review and remained operationally coherent.
 
 ## Main conclusions
 1. The project has crossed from static modeling into real service behavior.
 2. Generative AI is already functioning in practice.
 3. The key challenge is no longer plumbing, but policy hardening.
 4. Agro-DO now includes explicit product-policy escalation and differentiated behavior across multiple case families.
-5. The service is already beginning to align recommendation style not only with severity, but also with the operational nature of the problem and the degree of uncertainty in the available information.
+5. The service is already beginning to align recommendation style not only with severity, but also with the operational nature of the problem, fallback availability, the degree of uncertainty, and the trustworthiness of the digital control state.
 6. The next work should keep broadening the case library and only then continue tightening policy where needed.
 
 ## Correct next objective

@@ -641,3 +641,49 @@ It proves that the governed generative path can align recommendation style with 
 **Project manager comment / voice note**
 - The third governed generative validation produced a very strong and useful result. Agro-DO handled the communication-loss and partial-blindness case with high priority, required human review, reduced confidence to medium, and selected `escalate_to_human` as the action type. This is exactly the kind of behavior the product should show when operational visibility is degraded and some signals cannot be fully trusted.
 
+### [LOG-025]
+**Date:** 2026-04-11  
+**Type:** milestone  
+**Title:** Fourth realistic sample case created and validated through the bridge
+
+**What happened**  
+A fourth realistic operational case was added to the project: manual override mismatch in climate control. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload.
+
+**Why this was needed**  
+The project already distinguished between equipment failure, climate-risk correction, and degraded digital visibility. It still needed a case where the central operational danger is that the reported digital state may no longer match physical reality in the greenhouse.
+
+**Why it happened at this moment**  
+This was the right next step after validating cautious escalation under degraded visibility, because the next meaningful policy-hardening scenario was one in which the service must distrust the control layer without assuming complete telemetry loss.
+
+**What this enables next**  
+It broadens policy coverage toward state-mismatch situations and allows the service to prove whether it can move beyond escalation into stop-and-review behavior when the digital operating picture may be actively misleading.
+
+**Files affected**
+- `inputs/sample_cases/case_manual_override_mismatch.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-026]
+**Date:** 2026-04-11  
+**Type:** test-result  
+**Title:** Fourth governed generative run confirmed stop-and-review behavior for state mismatch
+
+**What happened**  
+The fourth case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, reduced confidence to medium, and selected `stop_and_review` with an action summary focused on halting automated climate control and performing immediate physical verification.
+
+**Why this was needed**  
+The project needed evidence that the service can do more than escalate or adjust operation. It also needed to show that it can recommend halting automated behavior when the main risk is a mismatch between the digital control state and probable physical reality.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the fourth case and was necessary before documenting that Agro-DO can already express differentiated stop-and-review behavior.
+
+**What this enables next**  
+It proves that the governed recommendation path can align its action style not only with severity and visibility, but also with the risk that automation itself may be acting on unreliable assumptions about the physical system.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The fourth governed generative validation produced another strong and meaningful result. Agro-DO handled the manual-override mismatch case with high priority, required human review, reduced confidence to medium, and selected stop_and_review as the action type. This is the kind of behavior the product should show when the central risk is not only technical severity, but also the possibility that the reported digital control state no longer matches physical reality.
+
