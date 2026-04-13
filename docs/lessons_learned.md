@@ -183,3 +183,23 @@ Before any future update of the four core markdown files, the following control 
 
 This safeguard is mandatory for all future assistants and must also be reflected in the handoff so that no later LLM repeats the same mistake.
 
+### [LESSON-010]
+**Title:** Policy hardening must be tested against more than one case family
+
+A policy rule that looks correct on one severe case can still be overfitted if it is not validated against a second case with a different operational pattern.
+
+**Operational consequence**
+- After hardening a policy rule on one case, validate it against at least one additional realistic case from a different problem family.
+- Do not assume that a stricter rule is good just because it improved one scenario.
+- Prefer expanding the case library before tightening policy further.
+
+### [LESSON-011]
+**Title:** Cumulative memory files require explicit anti-overwrite checks
+
+`docs/project_log.md` and `docs/lessons_learned.md` are not rolling summaries. They are cumulative memory artifacts and must preserve historical continuity.
+
+**Operational consequence**
+- Before updating either file, verify the last visible entry and numbering continuity.
+- If a proposed new version is much shorter than the current one, assume it is wrong until proven otherwise.
+- Never replace these files with shortened generated summaries unless the project manager explicitly requests a full restructuring.
+

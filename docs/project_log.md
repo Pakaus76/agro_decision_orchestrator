@@ -545,3 +545,52 @@ It restores confidence in project traceability and establishes a permanent rule:
 **Project manager comment / voice note**
 - None recorded.
 
+### [LOG-021]
+**Date:** 2026-04-11  
+**Type:** milestone  
+**Title:** Second realistic sample case created and validated through the bridge
+
+**What happened**  
+A second realistic operational case was added to the project: persistent high humidity and disease risk in Sector B. The case was validated first as JSON and then validated again through the bridge, confirming that it references real greenhouse entities and can be converted into a proper execution payload.
+
+**Why this was needed**  
+The product had already hardened policy around the pump-degradation case, but relying on a single case would create a serious risk of overfitting policy and product behavior to one specific problem pattern. A second case from a different operational family was needed.
+
+**Why it happened at this moment**  
+This was the right next step immediately after the first explicit policy-hardening rule was validated, because the project needed to test whether that growing strictness remained sensible outside the irrigation/backup scenario.
+
+**What this enables next**  
+It creates broader policy coverage and allows the product to be tested against climate-risk logic instead of only asset-failure logic.
+
+**Files affected**
+- `inputs/sample_cases/case_high_humidity_disease_risk.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-022]
+**Date:** 2026-04-11  
+**Type:** test-result  
+**Title:** Second governed generative run confirmed problem-family differentiation
+
+**What happened**  
+The second case was executed successfully through the governed generative path. The resulting recommendation kept high priority and required human review, but instead of falling into the backup-driven escalation pattern of the pump case, it selected `adjust_operation` with a climate-control-oriented action summary.
+
+**Why this was needed**  
+The project needed evidence that the new policy hardening was not simply pushing every severe case toward the same type of response. The system had to show that it could still distinguish between different operational families.
+
+**Why it happened at this moment**  
+This validation directly followed the creation and bridge validation of the second case and was necessary before deciding whether policy hardening was becoming too narrow or too aggressive.
+
+**What this enables next**  
+It proves that the product is beginning to differentiate between:
+- irrigation failure with backup available, and
+- climate/disease risk without a clear fallback path.
+
+This creates a stronger basis for expanding the case library and refining service policy.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The second governed run produced a high-priority recommendation with `adjust_operation`, human review, and a climate-control-oriented action summary. This is important because it shows that the current policy does not simply force every severe case into the same response pattern. The service is already beginning to distinguish between problem families in a meaningful way.
