@@ -1,0 +1,105 @@
+{
+  "case_id": "case_high_humidity_disease_risk_001",
+  "title": "Persistent high humidity and disease risk",
+  "summary": "The greenhouse shows persistent high relative humidity and low VPD during production conditions, increasing disease risk and requiring an operational decision.",
+  "greenhouse_id": "gh_tomato_01",
+  "sector_id": "sector_b",
+  "crop_phase": "production",
+  "source": "manual",
+  "suspected_issue": "Persistent high humidity with insufficient climate correction and rising disease-risk exposure.",
+  "severity_hint": "high",
+  "visibility_level": "full",
+  "affected_asset_ids": [
+    "asset_roof_window",
+    "asset_sector_b_fan",
+    "asset_shading_screen",
+    "asset_controller"
+  ],
+  "related_sensor_ids": [
+    "sensor_indoor_humidity_b",
+    "sensor_indoor_temp_b",
+    "sensor_radiation",
+    "sensor_outdoor_wind"
+  ],
+  "related_actuator_ids": [
+    "actuator_roof_window",
+    "actuator_sector_b_fan",
+    "actuator_shading_screen"
+  ],
+  "symptoms": [
+    "Relative humidity remains abnormally high in Sector B during the daytime.",
+    "VPD is believed to be too low for healthy production conditions.",
+    "Ventilation response appears insufficient for the observed moisture load.",
+    "The crop is in production phase and disease exposure is becoming a concern."
+  ],
+  "observed_signals": [
+    {
+      "signal_id": "signal_001",
+      "metric_name": "Sector B indoor humidity",
+      "sensor_id": "sensor_indoor_humidity_b",
+      "value": "92",
+      "unit": "pct",
+      "interpretation": "Humidity is above the expected range and supports a disease-risk concern.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_002",
+      "metric_name": "Sector B indoor temperature",
+      "sensor_id": "sensor_indoor_temp_b",
+      "value": "21",
+      "unit": "celsius",
+      "interpretation": "Temperature is not extreme, so humidity control is the main concern rather than heat stress.",
+      "is_out_of_expected_range": false,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_003",
+      "metric_name": "Global radiation",
+      "sensor_id": "sensor_radiation",
+      "value": "640",
+      "unit": "w_m2",
+      "interpretation": "Radiation is sufficient for daytime climate correction measures to matter.",
+      "is_out_of_expected_range": false,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_004",
+      "metric_name": "Outdoor wind",
+      "sensor_id": "sensor_outdoor_wind",
+      "value": "3.5",
+      "unit": "m_s",
+      "interpretation": "Outdoor wind conditions do not suggest that ventilation should be fully blocked.",
+      "is_out_of_expected_range": false,
+      "is_trusted": true
+    }
+  ],
+  "operational_context": [
+    {
+      "category": "operational",
+      "note": "The issue is affecting Sector B during normal daytime production conditions.",
+      "impact": "This is not an isolated maintenance test or a night-only anomaly."
+    },
+    {
+      "category": "operational",
+      "note": "No explicit backup climate-control path is available for the affected sector.",
+      "impact": "The service should not rely on backup switching as the main response."
+    }
+  ],
+  "agronomic_context": [
+    {
+      "category": "agronomic",
+      "note": "Tomato crop is in production phase with disease sensitivity under persistent moisture stress.",
+      "impact": "A delayed response may affect yield quality and increase phytosanitary risk."
+    }
+  ],
+  "business_context": [
+    {
+      "category": "business",
+      "note": "Sector B is part of normal production flow and quality stability matters.",
+      "impact": "The case should be treated as operationally important even if it is not yet a harvest emergency."
+    }
+  ],
+  "recommended_review_by_human": true,
+  "notes": "This case is designed to broaden policy coverage beyond irrigation backup scenarios and test how the service behaves under climate-risk conditions without a clear fallback asset path."
+}
