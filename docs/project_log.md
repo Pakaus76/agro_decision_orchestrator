@@ -594,3 +594,50 @@ This creates a stronger basis for expanding the case library and refining servic
 
 **Project manager comment / voice note**
 - The second governed run produced a high-priority recommendation with `adjust_operation`, human review, and a climate-control-oriented action summary. This is important because it shows that the current policy does not simply force every severe case into the same response pattern. The service is already beginning to distinguish between problem families in a meaningful way.
+
+### [LOG-023]
+**Date:** 2026-04-11  
+**Type:** milestone  
+**Title:** Third realistic sample case created and validated through the bridge
+
+**What happened**  
+A third realistic operational case was added to the project: communication loss and partial digital blindness. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload.
+
+**Why this was needed**  
+The product already distinguished between irrigation failure and climate risk, but it still needed a case centered on uncertainty, limited visibility, and partially untrusted signals. Without this, the service could not be evaluated properly in situations where the main problem is not a physical failure itself, but reduced trust in the digital operating picture.
+
+**Why it happened at this moment**  
+This was the right next step after validating differentiated behavior on two problem families, because the next meaningful stress test for policy hardening was a scenario where confidence and prudence matter more than direct operational correction.
+
+**What this enables next**  
+It broadens case coverage toward degraded-visibility situations and allows the service to prove whether it can behave conservatively under uncertainty instead of overcommitting to confident action.
+
+**Files affected**
+- `inputs/sample_cases/case_communication_loss_partial_blindness.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-024]
+**Date:** 2026-04-11  
+**Type:** test-result  
+**Title:** Third governed generative run confirmed cautious escalation under limited visibility
+
+**What happened**  
+The third case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, reduced confidence to medium, and selected `escalate_to_human` with an action summary explicitly grounded in limited trusted visibility.
+
+**Why this was needed**  
+The project needed evidence that the current policy and guardrails do more than separate problem families. It also needed to show that the service behaves more cautiously when operational visibility is degraded and signals cannot be fully trusted.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the third case and was necessary before documenting that Agro-DO can already incorporate uncertainty-aware behavior.
+
+**What this enables next**  
+It proves that the governed generative path can align recommendation style with uncertainty itself. This strengthens the case for expanding the case library further instead of redesigning the architecture again.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The third governed generative validation produced a very strong and useful result. Agro-DO handled the communication-loss and partial-blindness case with high priority, required human review, reduced confidence to medium, and selected `escalate_to_human` as the action type. This is exactly the kind of behavior the product should show when operational visibility is degraded and some signals cannot be fully trusted.
+

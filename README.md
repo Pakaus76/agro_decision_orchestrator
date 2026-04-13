@@ -40,7 +40,8 @@ The repository has already demonstrated that Agro-DO can:
 - generate a structured recommendation,
 - govern the generative result through explicit guardrails and fallback behavior,
 - apply stricter policy for high-risk cases with an available backup path,
-- and distinguish between different problem families instead of responding with one overfitted pattern.
+- distinguish between different problem families,
+- and respond more cautiously when operational visibility is degraded and signal trust is limited.
 
 ## Currently validated case families
 
@@ -54,8 +55,6 @@ Observed governed behavior after policy hardening:
 - human review required,
 - high confidence.
 
-This confirms that the product can escalate appropriately when risk is high and service continuity has an available fallback path.
-
 ### 2. Climate and disease risk without a clear backup path
 Validated case:
 - `inputs/sample_cases/case_high_humidity_disease_risk.json`
@@ -66,25 +65,39 @@ Observed governed behavior:
 - human review required,
 - high confidence.
 
-This confirms that the product does not over-apply the backup-driven policy from the irrigation case. Instead, it can differentiate a climate-risk scenario and move toward operational correction rather than asset fallback switching.
+### 3. Communication loss with limited trusted visibility
+Validated case:
+- `inputs/sample_cases/case_communication_loss_partial_blindness.json`
+
+Observed governed behavior:
+- high priority,
+- escalate_to_human,
+- human review required,
+- medium confidence.
+
+This confirms that the product can distinguish between:
+- a severe problem with continuity fallback,
+- a severe problem that requires operational correction,
+- and a severe problem where the safest response is to escalate because trusted visibility is degraded.
 
 ## Current product conclusion
 
-Agro-DO is no longer only a generative recommendation prototype. It now behaves as a governed service that can distinguish at least two operational patterns:
+Agro-DO is no longer only a generative recommendation prototype. It now behaves as a governed service that can distinguish at least three operational patterns:
 
 - **irrigation failure + backup available** → continuity-oriented escalation
 - **climate/disease risk + no backup path** → operational adjustment response
+- **communication loss + limited trusted visibility** → cautious escalation to human review
 
-This is a meaningful maturity step because it shows that the service is beginning to align its behavior with the type of problem, not only with the fact that a case is severe.
+This is a meaningful maturity step because it shows that the service is aligning recommendation behavior not only with severity, but also with the operational nature of the problem and with the level of uncertainty in the available information.
 
 ## Current open product question
 
-The next important question is no longer whether policy hardening is needed, but how broadly it should be extended.
+The next important question is not whether policy hardening is needed, but how broadly it should be extended across additional realistic scenarios.
 
 The highest-value next step is:
 - add more realistic cases,
 - test whether current policy remains coherent across those cases,
-- and only then continue tightening guardrails where the service still behaves too softly or too inconsistently.
+- and only then continue tightening guardrails where the service still behaves too softly or too confidently.
 
 ## Planned repository structure
 
@@ -107,7 +120,8 @@ agro_decision_orchestrator/
 │   │   └── reference_tomato_greenhouse.json
 │   ├── sample_cases/
 │   │   ├── case_main_pump_degradation.json
-│   │   └── case_high_humidity_disease_risk.json
+│   │   ├── case_high_humidity_disease_risk.json
+│   │   └── case_communication_loss_partial_blindness.json
 │   └── scenarios/
 ├── outputs/
 │   ├── exports/
@@ -167,7 +181,7 @@ Completed.
 Completed.
 
 ### Phase 4 — Decision-case modeling
-Completed for two realistic case families.
+Completed for three realistic case families.
 
 ### Phase 5 — Bridge MVP
 Completed.
@@ -176,7 +190,7 @@ Completed.
 Completed.
 
 ### Phase 7 — Policy hardening
-In progress and already validated on more than one case family.
+In progress and already validated on multiple case families, including degraded-visibility scenarios.
 
 ### Phase 8 — Service entry path
 Pending.
@@ -203,18 +217,18 @@ For cumulative memory files:
 Current repository stage:
 - domain layer implemented,
 - reference greenhouse blueprint implemented,
-- two realistic sample cases implemented,
+- three realistic sample cases implemented,
 - bridge loading path implemented,
 - recommendation contract implemented,
 - deterministic fallback orchestrator implemented,
 - OpenAI integration implemented,
 - governed generative orchestrator validated locally,
 - first explicit policy-hardening rule implemented and validated,
-- second case confirms that the service can differentiate problem families.
+- three case families now confirm differentiated governed behavior.
 
 Immediate next objective:
 - continue broadening policy hardening through additional realistic cases,
-- especially to verify that the current rules generalize beyond the first two validated patterns.
+- especially to verify that current confidence and escalation behavior generalize beyond the first three validated patterns.
 
 ## Language and documentation conventions
 

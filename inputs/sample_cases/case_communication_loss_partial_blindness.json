@@ -1,0 +1,93 @@
+{
+  "case_id": "case_communication_loss_partial_blindness_001",
+  "title": "Communication loss and partial digital blindness",
+  "summary": "The greenhouse has lost reliable communication visibility for part of the control layer, making actuator state and telemetry trust uncertain during normal production conditions.",
+  "greenhouse_id": "gh_tomato_01",
+  "sector_id": null,
+  "crop_phase": "production",
+  "source": "manual",
+  "suspected_issue": "Partial communication loss is reducing trust in telemetry and actuator state visibility.",
+  "severity_hint": "high",
+  "visibility_level": "limited",
+  "affected_asset_ids": [
+    "asset_gateway",
+    "asset_controller",
+    "asset_roof_window",
+    "asset_sector_b_fan"
+  ],
+  "related_sensor_ids": [
+    "sensor_gateway_heartbeat",
+    "sensor_indoor_humidity_b",
+    "sensor_indoor_temp_b"
+  ],
+  "related_actuator_ids": [
+    "actuator_roof_window",
+    "actuator_sector_b_fan"
+  ],
+  "symptoms": [
+    "The gateway heartbeat appears delayed or unstable.",
+    "Recent telemetry cannot be fully trusted for real-time operational decisions.",
+    "The current physical state of some climate actuators cannot be confirmed with confidence.",
+    "The crop remains in active production conditions while operational visibility is degraded."
+  ],
+  "observed_signals": [
+    {
+      "signal_id": "signal_001",
+      "metric_name": "Gateway heartbeat delay",
+      "sensor_id": "sensor_gateway_heartbeat",
+      "value": "420",
+      "unit": "seconds",
+      "interpretation": "The gateway heartbeat exceeds the expected range and suggests degraded communication reliability.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_002",
+      "metric_name": "Sector B indoor humidity",
+      "sensor_id": "sensor_indoor_humidity_b",
+      "value": "88",
+      "unit": "pct",
+      "interpretation": "Humidity seems elevated, but confidence in full system visibility is reduced.",
+      "is_out_of_expected_range": true,
+      "is_trusted": false
+    },
+    {
+      "signal_id": "signal_003",
+      "metric_name": "Sector B indoor temperature",
+      "sensor_id": "sensor_indoor_temp_b",
+      "value": "22",
+      "unit": "celsius",
+      "interpretation": "Temperature appears normal, but the signal is only partially trusted due to communication instability.",
+      "is_out_of_expected_range": false,
+      "is_trusted": false
+    }
+  ],
+  "operational_context": [
+    {
+      "category": "operational",
+      "note": "The greenhouse remains in normal production mode, but communication reliability is degraded.",
+      "impact": "The service must avoid overconfidence because some digital visibility is uncertain."
+    },
+    {
+      "category": "operational",
+      "note": "No explicit backup control path is confirmed for the affected communication layer.",
+      "impact": "The service should favor human verification and cautious action over confident automation."
+    }
+  ],
+  "agronomic_context": [
+    {
+      "category": "agronomic",
+      "note": "Production-stage tomato crop may be affected if climate deviation persists without reliable visibility.",
+      "impact": "Delayed confirmation of actuator state could increase crop stress and disease exposure."
+    }
+  ],
+  "business_context": [
+    {
+      "category": "business",
+      "note": "Loss of trusted visibility creates operational risk even before full failure is confirmed.",
+      "impact": "The case should be prioritized because uncertainty itself has business impact."
+    }
+  ],
+  "recommended_review_by_human": true,
+  "notes": "This case is designed to test how Agro-DO behaves when severity is high but operational confidence is weakened by limited visibility and partially untrusted signals."
+}

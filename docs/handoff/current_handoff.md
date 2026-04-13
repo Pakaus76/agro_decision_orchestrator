@@ -15,6 +15,7 @@ Important:
 - `inputs/greenhouse_blueprints/reference_tomato_greenhouse.json`
 - `inputs/sample_cases/case_main_pump_degradation.json`
 - `inputs/sample_cases/case_high_humidity_disease_risk.json`
+- `inputs/sample_cases/case_communication_loss_partial_blindness.json`
 - `src/agro_do/bridge/loader.py`
 - `src/agro_do/decision_orchestrator/orchestrator.py`
 - `src/agro_do/decision_orchestrator/llm_orchestrator.py`
@@ -31,19 +32,21 @@ Important:
 - governed generative execution succeeded
 - explicit high-risk backup-available policy escalation succeeded
 - a second case confirmed that the service can differentiate between problem families
+- a third case confirmed that the service behaves more cautiously under limited visibility and partially untrusted signals
 
 Observed current validated patterns:
 - pump degradation case → `high` + `switch_to_backup`
 - high humidity disease-risk case → `high` + `adjust_operation`
+- communication loss partial-blindness case → `high` + `escalate_to_human` + `medium` confidence
 
-Both required human review and remained operationally coherent.
+All three required human review and remained operationally coherent.
 
 ## Main conclusions
 1. The project has crossed from static modeling into real service behavior.
 2. Generative AI is already functioning in practice.
 3. The key challenge is no longer plumbing, but policy hardening.
-4. Agro-DO now includes at least one explicit product-policy escalation rule that changes recommendation behavior in practice.
-5. A second case has already shown that the service can distinguish between different families of severe problems instead of collapsing them into one pattern.
+4. Agro-DO now includes explicit product-policy escalation and differentiated behavior across multiple case families.
+5. The service is already beginning to align recommendation style not only with severity, but also with the operational nature of the problem and the degree of uncertainty in the available information.
 6. The next work should keep broadening the case library and only then continue tightening policy where needed.
 
 ## Correct next objective

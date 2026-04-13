@@ -203,3 +203,13 @@ A policy rule that looks correct on one severe case can still be overfitted if i
 - If a proposed new version is much shorter than the current one, assume it is wrong until proven otherwise.
 - Never replace these files with shortened generated summaries unless the project manager explicitly requests a full restructuring.
 
+### [LESSON-012]
+**Title:** Degraded-visibility scenarios are essential for testing recommendation prudence
+
+A decision-support service can appear strong when it only handles physical-failure or climate-correction cases. Real reliability also depends on how it behaves when the main issue is uncertainty, incomplete visibility, or partially untrusted signals.
+
+**Operational consequence**
+- Include degraded-visibility cases in the case library early.
+- Treat confidence behavior and escalation behavior as first-class policy concerns.
+- Do not assume that policy hardening is complete until the service has been tested under uncertainty, not only under clearly observable failures.
+
