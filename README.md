@@ -43,7 +43,8 @@ The repository has already demonstrated that Agro-DO can:
 - distinguish between different problem families,
 - respond more cautiously when operational visibility is degraded and signal trust is limited,
 - stop automated behavior when the digital control state may not match physical reality,
-- and escalate for expert review when the core issue is misleading sensor behavior.
+- escalate for expert review when the core issue is misleading sensor behavior,
+- and identify serious resource-continuity risk even before a full irrigation failure is confirmed.
 
 ## Currently validated case families
 
@@ -97,48 +98,64 @@ Observed governed behavior:
 - human review required,
 - medium confidence.
 
+### 6. Low water reserve and uncertain supply continuity
+Validated case:
+- `inputs/sample_cases/case_low_tank_supply_uncertainty.json`
+
+Observed governed behavior:
+- high priority,
+- stop_and_review,
+- human review required,
+- high confidence.
+
 This confirms that the product can distinguish between:
 - a severe problem with continuity fallback,
 - a severe problem that requires operational correction,
 - a severe problem where the safest response is human escalation under degraded visibility,
 - a severe problem where automation should be halted until physical reality is verified,
-- and a severe problem where the main risk is acting on misleading sensor data.
+- a severe problem where the main risk is acting on misleading sensor data,
+- and a serious continuity threat caused by resource depletion before full mechanical failure occurs.
 
 ## Current product conclusion
 
-Agro-DO is no longer only a generative recommendation prototype. It now behaves as a governed service that can distinguish at least five operational patterns:
+Agro-DO is no longer only a generative recommendation prototype. It now behaves as a governed service that can distinguish at least six operational patterns:
 
-- **irrigation failure + backup available** → continuity-oriented escalation
-- **climate/disease risk + no backup path** → operational adjustment response
-- **communication loss + limited trusted visibility** → cautious escalation to human review
-- **manual override mismatch** → stop-and-review behavior with physical verification emphasis
-- **sensor drift / flatline** → expert escalation focused on data trust
+- irrigation failure + backup available → continuity-oriented escalation
+- climate/disease risk + no backup path → operational adjustment response
+- communication loss + limited trusted visibility → cautious escalation to human review
+- manual override mismatch → stop-and-review behavior with physical verification emphasis
+- sensor drift / flatline → expert escalation focused on data trust
+- low tank / uncertain supply continuity → strong interruption-oriented response to reserve risk
 
-This is a meaningful maturity step because it shows that the service is aligning recommendation behavior not only with severity, but also with the operational nature of the problem, the quality of visibility, and the level of trust that can be placed in both the digital state and the available sensor data.
+This is a meaningful maturity step because it shows that the service is aligning recommendation behavior not only with severity, but also with the operational nature of the problem, the quality of visibility, the trustworthiness of both digital state and sensor data, and the near-term continuity risk of essential resources.
 
 ## Current open product question
 
-The next important question is not whether policy hardening is needed, but how broadly it should be extended across additional realistic scenarios.
+The next important question is not whether policy hardening is needed, but how precisely it should be tuned across additional realistic scenarios.
+
+The low-tank case was especially useful because it showed both a strength and a refinement opportunity:
+- the service correctly recognized serious continuity risk,
+- but its current stop_and_review response may be stricter than ideal for a resource-shortage scenario that might benefit from more graduated continuity-management logic.
 
 The highest-value next step is:
 - add more realistic cases,
 - test whether current policy remains coherent across those cases,
-- and only then continue tightening guardrails where the service still behaves too softly, too confidently, or too uniformly.
+- and then refine guardrails where the service is still too soft, too confident, or too abrupt.
 
 ## Current status
 
 Current repository stage:
 - domain layer implemented,
 - reference greenhouse blueprint implemented,
-- five realistic sample cases implemented,
+- six realistic sample cases implemented,
 - bridge loading path implemented,
 - recommendation contract implemented,
 - deterministic fallback orchestrator implemented,
 - OpenAI integration implemented,
 - governed generative orchestrator validated locally,
 - explicit policy-hardening rules implemented and validated,
-- five case families now confirm differentiated governed behavior.
+- six case families now confirm differentiated governed behavior.
 
 Immediate next objective:
 - continue broadening policy hardening through additional realistic cases,
-- especially to verify that current confidence, escalation, stop-and-review, and data-trust behavior generalize beyond the first five validated patterns.
+- especially to refine how the service should respond to continuity-risk scenarios that are serious but may still allow controlled mitigation instead of immediate stop behavior.

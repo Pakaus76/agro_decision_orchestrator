@@ -233,3 +233,12 @@ A decision-support service can appear mature while it still assumes that most av
 - Treat data-trust behavior as a first-class policy concern.
 - Use these cases to test whether the service can reduce confidence and escalate prudently even when the wider control infrastructure still appears available.
 
+### [LESSON-015]
+**Title:** Resource-continuity cases are useful for finding when the service becomes too abrupt instead of merely prudent
+
+A decision-support service can recognize a serious risk correctly and still respond with an action that is stronger than ideal for the exact operational pattern. Resource-shortage scenarios are especially good at revealing whether the service knows the difference between “unsafe to continue” and “serious but still manageable through controlled mitigation.”
+
+**Operational consequence**
+- Include reserve-depletion and continuity-risk cases in the case library, not only failure and visibility cases.
+- Treat continuity-management behavior as a distinct policy concern.
+- Use these cases to refine whether the service should stop immediately, adjust operation, or escalate with continuity planning when resources are running low but service has not fully failed yet.

@@ -1,0 +1,94 @@
+{
+  "case_id": "case_low_tank_supply_uncertainty_001",
+  "title": "Low water tank level and supply uncertainty",
+  "summary": "The main irrigation water tank is approaching a critically low level while supply continuity is uncertain during active production conditions.",
+  "greenhouse_id": "gh_tomato_01",
+  "sector_id": null,
+  "crop_phase": "production",
+  "source": "manual",
+  "suspected_issue": "The greenhouse may soon be unable to complete planned irrigation cycles because water reserves are low and incoming supply is uncertain.",
+  "severity_hint": "high",
+  "visibility_level": "full",
+  "affected_asset_ids": [
+    "asset_main_tank",
+    "asset_main_pump",
+    "asset_controller"
+  ],
+  "related_sensor_ids": [
+    "sensor_tank_level",
+    "sensor_main_flow",
+    "sensor_main_pressure"
+  ],
+  "related_actuator_ids": [
+    "actuator_main_pump",
+    "actuator_sector_a_valve",
+    "actuator_sector_b_valve",
+    "actuator_sector_c_valve"
+  ],
+  "symptoms": [
+    "The main tank level is approaching a critical minimum threshold.",
+    "Planned irrigation demand may exceed available reserves if the current situation continues.",
+    "Incoming replenishment is uncertain and cannot be assumed as guaranteed.",
+    "The crop is in production phase and delayed irrigation may create stress and yield-quality risk."
+  ],
+  "observed_signals": [
+    {
+      "signal_id": "signal_001",
+      "metric_name": "Main tank level",
+      "sensor_id": "sensor_tank_level",
+      "value": "12",
+      "unit": "pct",
+      "interpretation": "Tank level is critically low for normal production continuity.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_002",
+      "metric_name": "Main line flow",
+      "sensor_id": "sensor_flow_main",
+      "value": "stable",
+      "unit": null,
+      "interpretation": "The current flow is still functional, which means the issue is reserve uncertainty rather than an immediate mechanical outage.",
+      "is_out_of_expected_range": false,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_003",
+      "metric_name": "Main line pressure",
+      "sensor_id": "sensor_pressure_main",
+      "value": "normal",
+      "unit": null,
+      "interpretation": "Pressure is currently normal, so the main concern is near-term supply continuity rather than pressure failure.",
+      "is_out_of_expected_range": false,
+      "is_trusted": true
+    }
+  ],
+  "operational_context": [
+    {
+      "category": "operational",
+      "note": "The greenhouse remains in active production and irrigation demand is still expected during the next cycles.",
+      "impact": "The service should not treat this as a harmless warning because production irrigation still has to be executed."
+    },
+    {
+      "category": "operational",
+      "note": "No guaranteed backup water reserve is confirmed for this situation.",
+      "impact": "The service should emphasize prioritization, review, and near-term action rather than assuming easy continuity."
+    }
+  ],
+  "agronomic_context": [
+    {
+      "category": "agronomic",
+      "note": "Production-stage tomato crop may experience stress quickly if irrigation cycles are reduced or delayed.",
+      "impact": "A poor decision here may affect both plant health and commercial quality."
+    }
+  ],
+  "business_context": [
+    {
+      "category": "business",
+      "note": "Water reserve uncertainty directly threatens continuity of normal production operations.",
+      "impact": "The business risk comes from interruption of irrigation service before the next safe replenishment window."
+    }
+  ],
+  "recommended_review_by_human": true,
+  "notes": "This case is designed to test whether Agro-DO responds appropriately when the main risk is not an immediate equipment failure, but a near-term inability to sustain irrigation continuity because reserves are running low."
+}

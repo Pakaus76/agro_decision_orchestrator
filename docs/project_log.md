@@ -733,3 +733,49 @@ It proves that the governed recommendation path can align its response not only 
 **Project manager comment / voice note**
 - The fifth governed generative validation produced another strong and coherent result. Agro-DO handled the sensor drift and flatline case with high priority, required human review, reduced confidence to medium, and selected escalate_to_human as the action type. This is the kind of behavior the product should show when the central risk is not a confirmed actuator failure or a communication outage, but the possibility that a key sensor is producing misleading data.
 
+### [LOG-029]
+**Date:** 2026-04-11  
+**Type:** milestone  
+**Title:** Sixth realistic sample case created and validated through the bridge
+
+**What happened**  
+A sixth realistic operational case was added to the project: low water tank level and supply uncertainty. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload after correcting the sensor IDs to match the blueprint.
+
+**Why this was needed**  
+The project already distinguished between equipment failure, climate correction, degraded visibility, state mismatch, and misleading sensor behavior. It still needed a case where the main danger is not immediate mechanical failure, but the near-term inability to sustain irrigation continuity because reserves are running low.
+
+**Why it happened at this moment**  
+This was the right next step after validating sensor-trust behavior, because the next meaningful policy-hardening scenario was one in which the service must react to a serious continuity threat before the system has actually stopped working.
+
+**What this enables next**  
+It broadens case coverage toward resource-continuity risk and allows the service to prove whether it can reason about imminent service interruption rather than only about already materialized failures.
+
+**Files affected**
+- `inputs/sample_cases/case_low_tank_supply_uncertainty.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-030]
+**Date:** 2026-04-11  
+**Type:** test-result  
+**Title:** Sixth governed generative run revealed both strong continuity-risk recognition and a policy refinement opportunity
+
+**What happened**  
+The sixth case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, kept confidence high, and selected `stop_and_review` with an action summary focused on halting irrigation cycles due to critically low water reserves and uncertain supply.
+
+**Why this was needed**  
+The project needed evidence that the service can recognize serious continuity risk even before a full irrigation failure occurs. It also needed to test whether the recommendation style remains operationally appropriate when the central issue is reserve depletion rather than hardware malfunction.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the sixth case and was necessary before documenting that Agro-DO can already reason about continuity threats caused by low resource availability.
+
+**What this enables next**  
+It confirms that the service correctly understands the seriousness of reserve depletion, but it also exposes a useful refinement opportunity: the current stop_and_review response may be somewhat stricter than ideal for a continuity-risk scenario that could potentially benefit from more graduated mitigation logic.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The sixth governed generative validation produced a useful and revealing result. Agro-DO handled the low-tank and supply-uncertainty case with high priority, required human review, kept confidence high, and selected stop_and_review as the action type. This confirms that the service correctly recognizes the seriousness of a near-term irrigation continuity risk even when there is no confirmed mechanical failure yet.
+
