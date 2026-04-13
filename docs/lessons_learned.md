@@ -242,3 +242,15 @@ A decision-support service can recognize a serious risk correctly and still resp
 - Include reserve-depletion and continuity-risk cases in the case library, not only failure and visibility cases.
 - Treat continuity-management behavior as a distinct policy concern.
 - Use these cases to refine whether the service should stop immediately, adjust operation, or escalate with continuity planning when resources are running low but service has not fully failed yet.
+
+
+### [LESSON-016]
+**Title:** Scarcity scenarios must distinguish between stop conditions and controlled mitigation conditions
+
+A decision-support service becomes more credible when it can separate two situations that are both serious but not operationally identical: one in which continuity risk justifies a stop-oriented response, and another in which continuity can still be preserved through controlled mitigation such as rationing, prioritization, or temporary operational adjustment.
+
+**Operational consequence**
+- Do not treat all low-resource scenarios as equivalent to immediate interruption.
+- Build paired cases inside the same risk family so that the service is tested on whether it can distinguish between abrupt-stop logic and graduated continuity-management logic.
+- When flow and pressure remain stable, test whether scarcity can be managed through `adjust_operation` or escalation with continuity planning before assuming `stop_and_review` is the best response.
+

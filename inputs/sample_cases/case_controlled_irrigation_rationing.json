@@ -1,0 +1,110 @@
+{
+  "case_id": "case_controlled_irrigation_rationing_001",
+  "title": "Controlled irrigation rationing under low-water conditions",
+  "summary": "The main irrigation water tank is low and replenishment remains uncertain, but current hydraulic conditions still allow a controlled, prioritized irrigation strategy instead of an immediate full stop.",
+  "greenhouse_id": "gh_tomato_01",
+  "sector_id": null,
+  "crop_phase": "production",
+  "source": "manual",
+  "suspected_issue": "The greenhouse may not be able to sustain all planned irrigation cycles at normal intensity, but controlled rationing and sector prioritization may preserve continuity until replenishment is secured.",
+  "severity_hint": "high",
+  "visibility_level": "full",
+  "affected_asset_ids": [
+    "asset_main_tank",
+    "asset_main_pump",
+    "asset_controller"
+  ],
+  "related_sensor_ids": [
+    "sensor_tank_level",
+    "sensor_main_flow",
+    "sensor_main_pressure"
+  ],
+  "related_actuator_ids": [
+    "actuator_main_pump",
+    "actuator_sector_a_valve",
+    "actuator_sector_b_valve",
+    "actuator_sector_c_valve"
+  ],
+  "symptoms": [
+    "The main tank level is low and creates a serious continuity constraint, but the system has not yet reached a confirmed hard-stop condition.",
+    "Full planned irrigation demand may not be sustainable during the next cycles unless water use is reduced and prioritized.",
+    "Incoming replenishment remains uncertain and cannot be assumed as guaranteed in the short term.",
+    "The crop is in production phase, so irrigation should be managed carefully to reduce stress while preserving continuity as much as possible.",
+    "A controlled rationing strategy may be operationally preferable to an immediate total interruption if the situation is handled deliberately."
+  ],
+  "observed_signals": [
+    {
+      "signal_id": "signal_001",
+      "metric_name": "Main tank level",
+      "sensor_id": "sensor_tank_level",
+      "value": "18",
+      "unit": "pct",
+      "interpretation": "Tank level is low enough to threaten normal irrigation continuity, but it does not yet prove that an immediate full stop is unavoidable.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_002",
+      "metric_name": "Main line flow",
+      "sensor_id": "sensor_flow_main",
+      "value": "stable",
+      "unit": null,
+      "interpretation": "Flow remains stable, which suggests the system can still execute controlled irrigation if demand is reduced and prioritized.",
+      "is_out_of_expected_range": false,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_003",
+      "metric_name": "Main line pressure",
+      "sensor_id": "sensor_pressure_main",
+      "value": "normal",
+      "unit": null,
+      "interpretation": "Pressure remains normal, so the issue is scarcity management rather than an immediate hydraulic collapse.",
+      "is_out_of_expected_range": false,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_004",
+      "metric_name": "Supply replenishment status",
+      "sensor_id": null,
+      "value": "unconfirmed",
+      "unit": null,
+      "interpretation": "No reliable short-term replenishment commitment is confirmed, which means continuity planning must be cautious and explicit.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    }
+  ],
+  "operational_context": [
+    {
+      "category": "operational",
+      "note": "The greenhouse remains in active production and the next irrigation cycles still matter for crop continuity.",
+      "impact": "The service should treat this as a serious operational decision, not as a harmless warning."
+    },
+    {
+      "category": "operational",
+      "note": "Hydraulic behavior is currently stable enough to allow a temporary controlled response rather than assuming immediate total failure.",
+      "impact": "The service should consider adjustment, prioritization, or escalation with continuity planning before recommending a full stop."
+    },
+    {
+      "category": "operational",
+      "note": "No guaranteed backup water reserve is confirmed for this situation.",
+      "impact": "The service should avoid optimistic assumptions and remain conservative about duration and continuity risk."
+    }
+  ],
+  "agronomic_context": [
+    {
+      "category": "agronomic",
+      "note": "Production-stage tomato crop may tolerate a brief prioritized irrigation strategy better than a full interruption, but stress risk increases if scarcity persists.",
+      "impact": "The service should balance short-term continuity management against crop stress and quality deterioration."
+    }
+  ],
+  "business_context": [
+    {
+      "category": "business",
+      "note": "A controlled rationing response may protect near-term operational continuity better than an immediate hard stop if managed deliberately and reviewed closely.",
+      "impact": "The business risk is not only crop stress, but also choosing an unnecessarily abrupt interruption when a managed continuity response may still be feasible."
+    }
+  ],
+  "recommended_review_by_human": true,
+  "notes": "This case is designed to test whether Agro-DO can distinguish between a true stop-immediately condition and a serious but still manageable low-water scenario that may justify controlled irrigation rationing, prioritization, or escalation with continuity planning."
+}

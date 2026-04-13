@@ -1,161 +1,193 @@
 # Agro Decision Orchestrator
 
-**Agro-DO** is a modular decision-support product prototype for protected horticulture environments, starting with a realistic greenhouse reference scenario.
+Agro Decision Orchestrator (Agro-DO) is a product-oriented, governed decision-support service for greenhouse operations.
 
-The system is designed to help greenhouse owners, managers, technicians, and agronomic advisors make better operational decisions related to irrigation, fertigation, climate control, equipment health, sensor trustworthiness, and intervention prioritization.
+The project is designed as a real service concept for protected horticulture environments. It combines structured greenhouse context, normalized operational cases, a validated bridge payload, a deterministic fallback path, a generative orchestration layer using OpenAI, and explicit policy guardrails.
 
-This repository is product-oriented. It is not being developed as a thesis-only artifact or as a benchmark-first repository. The goal is to build a modular software foundation that can evolve into a real operator-facing service.
-
-## Current product direction
-
-Agro-DO is being built as **one real service-oriented product**.
-
-This means:
-- generative AI is a **mandatory part** of the target architecture,
-- deterministic orchestration exists as a **fallback and resilience layer**,
-- internal implementation steps are used to build the service in an orderly way,
-- but those steps are **not** treated as competing product versions.
-
-## Current service flow
-
-1. Load the greenhouse blueprint.
-2. Load a normalized decision case.
-3. Validate references and build a minimal execution payload.
-4. Generate a recommendation through either:
-   - the deterministic fallback orchestrator, or
-   - the generative orchestrator backed by OpenAI.
-5. Normalize the result into the shared recommendation contract.
-6. Apply explicit structural guardrails to the generative output.
-7. Apply policy hardening rules for high-risk cases.
-8. Fall back to deterministic orchestration if the generative path is unavailable or invalid.
-
-## Current proven capability
-
-The repository has already demonstrated that Agro-DO can:
-- load a structured greenhouse environment,
-- load realistic operational decision cases,
-- validate consistency between environment and case,
-- construct a stable execution payload,
-- call OpenAI from the local environment,
-- generate a structured recommendation,
-- govern the generative result through explicit guardrails and fallback behavior,
-- apply stricter policy for high-risk cases with an available backup path,
-- distinguish between different problem families,
-- respond more cautiously when operational visibility is degraded and signal trust is limited,
-- stop automated behavior when the digital control state may not match physical reality,
-- escalate for expert review when the core issue is misleading sensor behavior,
-- and identify serious resource-continuity risk even before a full irrigation failure is confirmed.
-
-## Currently validated case families
-
-### 1. Irrigation failure with backup available
-Validated case:
-- `inputs/sample_cases/case_main_pump_degradation.json`
-
-Observed governed behavior:
-- high priority,
-- switch_to_backup,
-- human review required,
-- high confidence.
-
-### 2. Climate and disease risk without a clear backup path
-Validated case:
-- `inputs/sample_cases/case_high_humidity_disease_risk.json`
-
-Observed governed behavior:
-- high priority,
-- adjust_operation,
-- human review required,
-- high confidence.
-
-### 3. Communication loss with limited trusted visibility
-Validated case:
-- `inputs/sample_cases/case_communication_loss_partial_blindness.json`
-
-Observed governed behavior:
-- high priority,
-- escalate_to_human,
-- human review required,
-- medium confidence.
-
-### 4. Manual override mismatch between digital state and physical reality
-Validated case:
-- `inputs/sample_cases/case_manual_override_mismatch.json`
-
-Observed governed behavior:
-- high priority,
-- stop_and_review,
-- human review required,
-- medium confidence.
-
-### 5. Sensor drift or flatline affecting decision trust
-Validated case:
-- `inputs/sample_cases/case_sensor_drift_flatline.json`
-
-Observed governed behavior:
-- high priority,
-- escalate_to_human,
-- human review required,
-- medium confidence.
-
-### 6. Low water reserve and uncertain supply continuity
-Validated case:
-- `inputs/sample_cases/case_low_tank_supply_uncertainty.json`
-
-Observed governed behavior:
-- high priority,
-- stop_and_review,
-- human review required,
-- high confidence.
-
-This confirms that the product can distinguish between:
-- a severe problem with continuity fallback,
-- a severe problem that requires operational correction,
-- a severe problem where the safest response is human escalation under degraded visibility,
-- a severe problem where automation should be halted until physical reality is verified,
-- a severe problem where the main risk is acting on misleading sensor data,
-- and a serious continuity threat caused by resource depletion before full mechanical failure occurs.
-
-## Current product conclusion
-
-Agro-DO is no longer only a generative recommendation prototype. It now behaves as a governed service that can distinguish at least six operational patterns:
-
-- irrigation failure + backup available → continuity-oriented escalation
-- climate/disease risk + no backup path → operational adjustment response
-- communication loss + limited trusted visibility → cautious escalation to human review
-- manual override mismatch → stop-and-review behavior with physical verification emphasis
-- sensor drift / flatline → expert escalation focused on data trust
-- low tank / uncertain supply continuity → strong interruption-oriented response to reserve risk
-
-This is a meaningful maturity step because it shows that the service is aligning recommendation behavior not only with severity, but also with the operational nature of the problem, the quality of visibility, the trustworthiness of both digital state and sensor data, and the near-term continuity risk of essential resources.
-
-## Current open product question
-
-The next important question is not whether policy hardening is needed, but how precisely it should be tuned across additional realistic scenarios.
-
-The low-tank case was especially useful because it showed both a strength and a refinement opportunity:
-- the service correctly recognized serious continuity risk,
-- but its current stop_and_review response may be stricter than ideal for a resource-shortage scenario that might benefit from more graduated continuity-management logic.
-
-The highest-value next step is:
-- add more realistic cases,
-- test whether current policy remains coherent across those cases,
-- and then refine guardrails where the service is still too soft, too confident, or too abrupt.
+The current goal is not to build a scientific benchmark product made of competing versions. The goal is to build one credible governed service that can support operational decisions related to irrigation continuity, climate correction, equipment health, sensor trust, degraded visibility, and digital-physical state mismatch.
 
 ## Current status
 
-Current repository stage:
-- domain layer implemented,
-- reference greenhouse blueprint implemented,
-- six realistic sample cases implemented,
-- bridge loading path implemented,
-- recommendation contract implemented,
-- deterministic fallback orchestrator implemented,
-- OpenAI integration implemented,
-- governed generative orchestrator validated locally,
-- explicit policy-hardening rules implemented and validated,
-- six case families now confirm differentiated governed behavior.
+The repository is working locally and is already connected to GitHub.
 
-Immediate next objective:
-- continue broadening policy hardening through additional realistic cases,
-- especially to refine how the service should respond to continuity-risk scenarios that are serious but may still allow controlled mitigation instead of immediate stop behavior.
+The following capabilities have already been validated:
+
+- domain contracts
+- greenhouse blueprint loading
+- decision-case loading
+- bridge payload generation
+- local OpenAI integration
+- governed generative recommendation execution
+
+The project has already validated seven realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
+
+### Latest validated result
+
+The latest validated scenario is:
+
+- `inputs/sample_cases/case_controlled_irrigation_rationing.json`
+
+This case was created to test whether Agro-DO can distinguish between:
+
+- a true stop-oriented continuity threat
+- and a still-manageable scarcity scenario that should favor controlled mitigation
+
+The governed recommendation for this case produced:
+
+- priority: `high`
+- action type: `adjust_operation`
+- human review required: `true`
+- confidence: `high`
+
+This is important because the previous related scarcity case, `case_low_tank_supply_uncertainty.json`, produced `stop_and_review`. The comparison confirms that Agro-DO can now distinguish between:
+
+- continuity-risk that may justify a hard stop
+- and continuity-risk that can still be managed through controlled rationing and sector prioritization
+
+## Core architecture
+
+Agro-DO currently relies on the following structural layers:
+
+- domain models
+- decision case contract
+- recommendation contract
+- blueprint and case loader
+- bridge payload builder
+- deterministic orchestrator
+- governed LLM orchestrator
+- OpenAI integration layer
+
+Main implemented modules:
+
+- `src/agro_do/domain/models.py`
+- `src/agro_do/domain/decision_case.py`
+- `src/agro_do/domain/recommendation.py`
+- `src/agro_do/bridge/loader.py`
+- `src/agro_do/decision_orchestrator/orchestrator.py`
+- `src/agro_do/decision_orchestrator/llm_orchestrator.py`
+- `src/agro_do/integrations/openai_client.py`
+
+## Reference inputs
+
+### Greenhouse blueprint
+
+- `inputs/greenhouse_blueprints/reference_tomato_greenhouse.json`
+
+### Validated sample cases
+
+- `inputs/sample_cases/case_main_pump_degradation.json`
+- `inputs/sample_cases/case_high_humidity_disease_risk.json`
+- `inputs/sample_cases/case_communication_loss_partial_blindness.json`
+- `inputs/sample_cases/case_manual_override_mismatch.json`
+- `inputs/sample_cases/case_sensor_drift_flatline.json`
+- `inputs/sample_cases/case_low_tank_supply_uncertainty.json`
+- `inputs/sample_cases/case_controlled_irrigation_rationing.json`
+
+## Validated behavioral coverage
+
+The project has already demonstrated coherent governed behavior for at least these operational patterns:
+
+- severe failure with backup available -> continuity-oriented response
+- severe climate issue without a backup path -> operational adjustment
+- degraded visibility -> cautious escalation with reduced confidence
+- digital-physical state mismatch -> stop and review
+- misleading sensor behavior -> escalation because data trust becomes the main risk
+- low reserve and supply uncertainty -> stop-oriented continuity protection
+- low reserve with still-manageable hydraulic conditions -> controlled mitigation through operational adjustment
+
+This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator.
+
+## Decision policy signal exposed by Case 6 and Case 7
+
+A major recent refinement question was whether the service had become too abrupt in low-water continuity-risk scenarios.
+
+That question is now clearer:
+
+- Case 6 confirmed that Agro-DO correctly recognizes serious reserve depletion risk.
+- Case 7 confirmed that Agro-DO does not collapse all scarcity situations into the same stop-oriented policy.
+
+This is a useful maturity signal because the service remains:
+
+- high priority
+- human reviewed
+- operationally conservative
+
+while also becoming more precise about when controlled mitigation is still preferable to an immediate interruption.
+
+## Local execution notes
+
+The repository is already configured for local OpenAI execution through a local `.env` file.
+
+Important points:
+
+- `.env` remains local and must not be committed
+- `.env.example` exists in the repository
+- OpenAI integration has already been tested successfully
+- deterministic fallback remains part of the runtime behavior for resilience and inspection
+
+## Minimal validation flow
+
+A safe local validation flow for a new case is:
+
+1. Create the case JSON in `inputs/sample_cases/`
+2. Validate JSON syntax
+3. Validate the case through the bridge
+4. Execute the governed LLM recommendation
+5. Compare the result against the closest existing case
+6. Update documentation in the required order
+7. Commit and push
+
+## Documentation discipline
+
+The four core markdown files are:
+
+- `README.md`
+- `docs/project_log.md`
+- `docs/lessons_learned.md`
+- `docs/handoff/current_handoff.md`
+
+Required update order:
+
+1. `docs/project_log.md`
+2. `README.md`
+3. `docs/lessons_learned.md` when applicable
+4. `docs/handoff/current_handoff.md`
+5. Git commit and GitHub push
+
+### Anti-overwrite safeguard
+
+`docs/project_log.md` and `docs/lessons_learned.md` are cumulative memory files.
+
+They must be treated as append-only by default.
+
+Before editing either file:
+
+- inspect the last visible `LOG-*` entry
+- inspect the last visible `LESSON-*` entry
+- verify that previous entries still exist
+- assume that any much shorter replacement is wrong unless explicitly requested
+
+### File-edit instruction rule
+
+Whenever content is prepared for a repository file, the instruction must explicitly say one of these:
+
+- replace the full file content
+- append this block to the current file
+- insert this block in a specific section
+
+Ambiguous edit instructions are not acceptable.
+
+## Immediate next focus
+
+The scarcity-management distinction required by Case 7 has already been validated.
+
+The next work should build from that result rather than reopening architecture or product identity questions too early.
+
+In practical terms, the repository is now in a stronger position to continue expanding realistic case coverage and policy precision inside the same governed product direction.
+
+## Repository language rules
+
+- conversation with the project manager: Spanish
+- repository files: English
+- code comments: English
+- structured technical documentation inside files: English
