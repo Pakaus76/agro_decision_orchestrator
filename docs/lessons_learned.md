@@ -254,3 +254,5 @@ A decision-support service becomes more credible when it can separate two situat
 - Build paired cases inside the same risk family so that the service is tested on whether it can distinguish between abrupt-stop logic and graduated continuity-management logic.
 - When flow and pressure remain stable, test whether scarcity can be managed through `adjust_operation` or escalation with continuity planning before assuming `stop_and_review` is the best response.
 
+
+

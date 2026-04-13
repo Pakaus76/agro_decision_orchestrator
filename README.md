@@ -19,30 +19,30 @@ The following capabilities have already been validated:
 - local OpenAI integration
 - governed generative recommendation execution
 
-The project has already validated seven realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
+The project has already validated eight realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
 
 ### Latest validated result
 
 The latest validated scenario is:
 
-- `inputs/sample_cases/case_controlled_irrigation_rationing.json`
+- `inputs/sample_cases/case_low_water_hydraulic_instability.json`
 
 This case was created to test whether Agro-DO can distinguish between:
 
-- a true stop-oriented continuity threat
-- and a still-manageable scarcity scenario that should favor controlled mitigation
+- scarcity that still allows controlled mitigation
+- and scarcity that has become unsafe to manage because hydraulic execution is deteriorating
 
 The governed recommendation for this case produced:
 
 - priority: `high`
-- action type: `adjust_operation`
+- action type: `stop_and_review`
 - human review required: `true`
 - confidence: `high`
 
-This is important because the previous related scarcity case, `case_low_tank_supply_uncertainty.json`, produced `stop_and_review`. The comparison confirms that Agro-DO can now distinguish between:
+This is important because the closely related previous scarcity case, `case_controlled_irrigation_rationing.json`, produced `adjust_operation` under low reserves but stable flow and pressure. The new comparison confirms that Agro-DO can now distinguish between:
 
-- continuity-risk that may justify a hard stop
-- and continuity-risk that can still be managed through controlled rationing and sector prioritization
+- low-water continuity risk that still supports controlled rationing
+- and low-water continuity risk that should move back toward interruption-oriented logic because delivery stability is degrading
 
 ## Core architecture
 
@@ -82,6 +82,7 @@ Main implemented modules:
 - `inputs/sample_cases/case_sensor_drift_flatline.json`
 - `inputs/sample_cases/case_low_tank_supply_uncertainty.json`
 - `inputs/sample_cases/case_controlled_irrigation_rationing.json`
+- `inputs/sample_cases/case_low_water_hydraulic_instability.json`
 
 ## Validated behavioral coverage
 
@@ -94,17 +95,19 @@ The project has already demonstrated coherent governed behavior for at least the
 - misleading sensor behavior -> escalation because data trust becomes the main risk
 - low reserve and supply uncertainty -> stop-oriented continuity protection
 - low reserve with still-manageable hydraulic conditions -> controlled mitigation through operational adjustment
+- low reserve with deteriorating hydraulic stability -> return to stop-oriented logic
 
 This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator.
 
-## Decision policy signal exposed by Case 6 and Case 7
+## Decision policy signal exposed by Case 6, Case 7, and Case 8
 
 A major recent refinement question was whether the service had become too abrupt in low-water continuity-risk scenarios.
 
-That question is now clearer:
+That question is now substantially clearer:
 
 - Case 6 confirmed that Agro-DO correctly recognizes serious reserve depletion risk.
-- Case 7 confirmed that Agro-DO does not collapse all scarcity situations into the same stop-oriented policy.
+- Case 7 confirmed that Agro-DO does not collapse all scarcity situations into the same stop-oriented policy when hydraulic execution remains stable.
+- Case 8 confirmed that Agro-DO can move back toward `stop_and_review` once scarcity is combined with unstable flow and worsening pressure behavior.
 
 This is a useful maturity signal because the service remains:
 
@@ -112,7 +115,7 @@ This is a useful maturity signal because the service remains:
 - human reviewed
 - operationally conservative
 
-while also becoming more precise about when controlled mitigation is still preferable to an immediate interruption.
+while also becoming more precise about when controlled mitigation is still preferable and when it is no longer operationally credible.
 
 ## Local execution notes
 
@@ -179,9 +182,11 @@ Ambiguous edit instructions are not acceptable.
 
 ## Immediate next focus
 
-The scarcity-management distinction required by Case 7 has already been validated.
+The project has now validated that scarcity policy depends not only on reserve depletion, but also on execution feasibility.
 
-The next work should build from that result rather than reopening architecture or product identity questions too early.
+The next work should build from that result by exploring the transition zone between:
+- manageable scarcity with stable execution
+- and unsafe scarcity with degraded execution
 
 In practical terms, the repository is now in a stronger position to continue expanding realistic case coverage and policy precision inside the same governed product direction.
 

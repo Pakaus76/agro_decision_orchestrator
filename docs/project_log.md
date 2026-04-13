@@ -871,3 +871,49 @@ It confirms that Agro-DO can now differentiate within the same continuity-risk f
 
 **Project manager comment / voice note**
 - The seventh governed generative validation produced exactly the kind of distinction the project needed. Agro-DO handled the controlled irrigation rationing case with high priority, required human review, kept confidence high, and selected adjust_operation as the action type. This shows that the service is not merely becoming stricter. It is becoming more precise, because it can now separate a true stop-oriented continuity threat from a still-manageable scarcity situation where prioritization and controlled mitigation make more sense than an immediate hard stop.
+
+### [LOG-031]
+**Date:** 2026-04-13  
+**Type:** milestone  
+**Title:** Seventh realistic sample case created and validated through the bridge for controlled irrigation rationing
+
+**What happened**  
+A seventh realistic operational case was added to the project: controlled irrigation rationing under low-water conditions. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload without structural inconsistencies.
+
+**Why this was needed**  
+The sixth case had already shown that Agro-DO correctly recognizes continuity-risk caused by low reserves, but it also revealed a policy refinement frontier: the current response could be stricter than ideal in scenarios where continuity is still manageable through controlled mitigation. The project therefore needed a second scarcity-related case that preserved seriousness while introducing room for a more graduated operational response.
+
+**Why it happened at this moment**  
+This was the correct next step after validating the low-tank and supply-uncertainty case, because the most useful immediate question was whether the service could distinguish between a true stop condition and a still-manageable scarcity condition requiring prioritization and controlled rationing.
+
+**What this enables next**  
+It broadens the case library inside the same resource-continuity family and creates a direct comparison point against Case 6. This allows the project to validate whether Agro-DO can already behave in a more graduated way when scarcity is serious but not yet equivalent to an immediate interruption condition.
+
+**Files affected**
+- `inputs/sample_cases/case_controlled_irrigation_rationing.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-032]
+**Date:** 2026-04-13  
+**Type:** test-result  
+**Title:** Seventh governed generative run confirmed graduated continuity management under water scarcity
+
+**What happened**  
+The seventh case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, kept confidence high, and selected `adjust_operation` with an action summary focused on controlled irrigation rationing and sector prioritization to preserve crop continuity under low-water conditions.
+
+**Why this was needed**  
+The project needed evidence that Agro-DO can distinguish between an immediate stop-oriented continuity-risk response and a still-serious but manageable scarcity scenario where controlled mitigation is more appropriate than a hard interruption.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the seventh case and was necessary before documenting whether the service still overreacted with `stop_and_review` or had already developed a more mature scarcity-management distinction.
+
+**What this enables next**  
+It confirms that Agro-DO can now differentiate within the same continuity-risk family: Case 6 produced `stop_and_review`, whereas Case 7 produced `adjust_operation` under stable flow and pressure conditions. This is a meaningful maturity signal because the service remains prudent, high-priority, and human-reviewed without forcing an unnecessarily abrupt stop when controlled mitigation remains viable.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The seventh governed generative validation produced exactly the kind of distinction the project needed. Agro-DO handled the controlled irrigation rationing case with high priority, required human review, kept confidence high, and selected adjust_operation as the action type. This shows that the service is not merely becoming stricter. It is becoming more precise, because it can now separate a true stop-oriented continuity threat from a still-manageable scarcity situation where prioritization and controlled mitigation make more sense than an immediate hard stop.
