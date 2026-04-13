@@ -131,6 +131,7 @@ Validated case files:
 - `inputs/sample_cases/case_low_tank_supply_uncertainty.json`
 - `inputs/sample_cases/case_controlled_irrigation_rationing.json`
 - `inputs/sample_cases/case_low_water_hydraulic_instability.json`
+- `inputs/sample_cases/case_borderline_hydraulic_degradation.json`
 
 ### 4.4 Local OpenAI integration
 Already working locally through:
@@ -238,15 +239,25 @@ Observed output:
 Meaning:
 The system can move back toward interruption-oriented logic when scarcity is combined with unstable flow and worsening pressure behavior, indicating that controlled mitigation is no longer operationally credible enough.
 
+#### Case 9 — Borderline hydraulic degradation under low-water conditions
+Observed output:
+- priority: `high`
+- action: `stop_and_review`
+- human review: `true`
+- confidence: `high`
+
+Meaning:
+The system currently treats even borderline hydraulic degradation as sufficient reason to stay on the interruption-oriented side once water reserves are critically low. This suggests that the effective scarcity boundary is earlier and more conservative than hoped.
+
 Important conclusion:
-Case 7 and Case 8 together are the most important recent result because they confirm that Agro-DO is not simply becoming more severe or more permissive. It is becoming more precise inside the same resource-continuity problem family.
+Case 7, Case 8, and Case 9 together are the most important recent result because they show that Agro-DO does have a differentiated scarcity policy, but that the current threshold is conservative: stable execution still supports `adjust_operation`, while even mild degradation already tends to trigger `stop_and_review`.
 
 ---
 
 ## 6. Current project maturity
 
 Agro-DO is no longer just a structured prototype.  
-It already behaves as a governed service that distinguishes at least eight operational patterns:
+It already behaves as a governed service that distinguishes at least nine operational patterns:
 
 - severe failure with backup → continuity response
 - severe climate issue without backup → operational adjustment
@@ -256,6 +267,7 @@ It already behaves as a governed service that distinguishes at least eight opera
 - low reserve / continuity threat with stronger interruption signal → stop-oriented response
 - low reserve with still-manageable hydraulic conditions → controlled mitigation through operational adjustment
 - low reserve with deteriorating hydraulic stability → return to stop-oriented logic
+- low reserve with borderline hydraulic degradation → stop-oriented logic remains active
 
 This means the project already has:
 - differentiated behavior,
@@ -266,37 +278,36 @@ This means the project already has:
 
 ## 7. Current weakness / refinement area
 
-The most useful current refinement area is no longer simply “does the service understand scarcity?” and not even only “does it distinguish scarcity plus stable execution from scarcity plus unstable execution?”
+The most useful current refinement area is no longer simply whether the system distinguishes stable scarcity from clearly unstable scarcity.
 
-Those questions have already been answered.
+That question has already been answered.
 
 The current frontier is now this:
 
-Can Agro-DO identify the intermediate transition zone between:
-- scarcity that is still manageable through controlled mitigation,
-- and scarcity that has become unsafe enough to justify a stop-oriented response?
+Can Agro-DO still expose any narrower transition zone before mild hydraulic degradation becomes enough to trigger `stop_and_review`?
 
 ### Current interpretation
-Case 7 and Case 8 together show that the system can already separate:
-- a stable-hydraulics scarcity pattern leading to `adjust_operation`,
-- and a deteriorating-hydraulics scarcity pattern leading to `stop_and_review`.
+Case 7, Case 8, and Case 9 together show:
+- stable hydraulic scarcity → `adjust_operation`
+- clearly unstable hydraulic scarcity → `stop_and_review`
+- borderline hydraulic scarcity → `stop_and_review`
 
 ### The remaining issue
-What is not yet mapped precisely is the middle band between those two poles.
+What is not yet known is whether the system has any softer transition band at all, or whether the current policy threshold is simply binary around “clearly stable” versus “not clearly stable.”
 
-The project still needs a case where hydraulic execution is degraded but not yet clearly collapsing, so that the system is forced to reveal whether it:
-- still tolerates adjustment,
-- escalates to human review with stronger caution,
-- or moves immediately to stop-oriented logic.
+The project still needs a case where:
+- low-water continuity pressure remains serious,
+- hydraulic behavior is only minimally degraded,
+- and the system is forced to reveal whether it still tolerates `adjust_operation` under a softer early-warning condition.
 
 ### Why this matters
-The next level of product maturity is not only identifying both ends of the policy boundary. It is understanding the transition zone between them.
+The next level of product maturity is not only mapping the boundary. It is determining whether that boundary has any usable granularity.
 
 In other words, the next refinement should help the service distinguish between:
-- “stable enough for controlled mitigation”
-- “borderline enough to demand stronger escalation or caution”
+- “clearly stable enough for controlled mitigation”
+- “slightly degraded but still tolerable”
 - and
-- “unstable enough to justify interruption-oriented response”
+- “already degraded enough to justify interruption-oriented response”
 
 This is the current best refinement frontier.
 
@@ -305,19 +316,17 @@ This is the current best refinement frontier.
 ## 8. The single correct next objective
 
 ## Next correct objective
-Create and validate Case 9 focused on borderline hydraulic degradation under low-water conditions, so that the project can test the transition zone between `adjust_operation` and `stop_and_review`.
+Create and validate Case 10 focused on very mild early-warning hydraulic degradation under low-water conditions, so that the project can test whether any narrower transition zone exists before `stop_and_review` becomes dominant.
 
 ### Why this is the correct next step
-Case 7 already showed that Agro-DO can choose a graduated response when flow and pressure remain stable.
-Case 8 already showed that Agro-DO can move back to `stop_and_review` when hydraulic behavior clearly deteriorates.
+Case 7 already showed that Agro-DO can choose `adjust_operation` under stable execution.
+Case 8 already showed that Agro-DO moves to `stop_and_review` under clearly unstable execution.
+Case 9 showed that even borderline degradation still remains on the `stop_and_review` side.
 
 The next meaningful question is therefore:
-What happens in the middle zone, where hydraulic execution is no longer fully healthy but is not yet obviously failing either?
+Does the system tolerate any degradation at all before crossing that line?
 
-Case 9 must test whether the service:
-- still uses `adjust_operation`,
-- shifts toward a more cautious escalation-oriented pattern,
-- or already crosses into `stop_and_review`.
+Case 10 must test whether a very mild, early-warning degradation pattern still allows `adjust_operation`, or whether the current threshold is already triggered by any visible loss of stability.
 
 ### What must not happen before this
 Do not:
@@ -327,7 +336,7 @@ Do not:
 - rewrite guardrails broadly,
 - write the global external-facing validation report yet.
 
-The next LLM must do Case 9 first.
+The next LLM must do Case 10 first.
 
 ---
 
@@ -336,21 +345,21 @@ The next LLM must do Case 9 first.
 This is the section the next LLM must follow first, without asking what to do.
 
 ### 9.1 First file to create
-`inputs/sample_cases/case_borderline_hydraulic_degradation.json`
+`inputs/sample_cases/case_early_warning_hydraulic_softening.json`
 
-### 9.2 Intent of Case 9
+### 9.2 Intent of Case 10
 This case should represent a situation where:
 - water reserves are low,
 - continuity is threatened,
-- hydraulic execution is no longer fully stable,
-- but the deterioration is not as severe as in Case 8.
+- hydraulic execution is still mostly functional,
+- but weak early-warning signs suggest slight softening or minor deviation from ideal behavior.
 
 Possible signals should suggest:
-- intermittent but not fully unstable flow,
-- pressure behavior slightly below normal or fluctuating mildly,
-- partial doubt about whether controlled rationing remains reliable.
+- near-normal flow with only minor inconsistency,
+- pressure slightly below ideal but not fluctuating strongly,
+- still-plausible controlled rationing with caution.
 
-The purpose is to force the system to reveal how it behaves in the transition zone between manageable scarcity and clearly unsafe scarcity.
+The purpose is to test whether Agro-DO has any narrower permissive band before it shifts into `stop_and_review`.
 
 ### 9.3 Validation sequence to follow
 The next LLM must use exactly this sequence:
@@ -359,15 +368,14 @@ The next LLM must use exactly this sequence:
 2. Validate JSON
 3. Validate through the bridge
 4. Execute the governed LLM run
-5. Compare Case 9 behavior against Case 8 and Case 7
+5. Compare Case 10 behavior against Case 9, Case 8, and Case 7
 6. Document the milestone
 7. Commit and push
 
 ### 9.4 Expected evaluation question
 The next LLM must explicitly ask itself:
-- Does Agro-DO still choose `adjust_operation` in the borderline transition zone?
-- Does it move toward a more cautious escalation pattern?
-- Or does it already collapse into `stop_and_review` before the degradation is truly severe?
+- Does Agro-DO still choose `adjust_operation` when degradation is only a very mild early-warning signal?
+- Or does any visible hydraulic softening already push it to `stop_and_review`?
 
 That is the key question.
 
@@ -421,7 +429,7 @@ The next LLM should keep these files in focus:
 
 ## 12. Documentation rule for the next LLM
 
-When Case 9 is completed, the next LLM must update documentation using this safe pattern:
+When Case 10 is completed, the next LLM must update documentation using this safe pattern:
 
 ### Replace full file content
 - `README.md`
@@ -437,19 +445,18 @@ And it must explicitly say which mode is being used.
 
 ## 13. What success looks like for the next step
 
-Case 9 will be successful if it helps answer this:
+Case 10 will be successful if it helps answer this:
 
 Can Agro-DO distinguish between:
-- “manage scarcity in a controlled way”
-- “the transition zone where stronger caution may be needed”
+- “clearly stable enough for controlled mitigation”
+- “very mild early-warning degradation that may still be tolerable”
 - and
-- “hydraulic deterioration makes controlled mitigation no longer reliable enough”
+- “already degraded enough to justify interruption-oriented response”
 
-If the service still chooses `adjust_operation`, that is useful because it shows the current policy remains tolerant deeper into degradation than expected.
-If it chooses a more cautious escalation-style pattern, that may indicate a richer middle-zone behavior.
-If it chooses `stop_and_review`, that is still useful because it shows the current policy boundary is earlier and more conservative than expected.
+If the service chooses `adjust_operation`, that is useful because it would reveal a narrower permissive band than currently visible.
+If it chooses `stop_and_review`, that is still useful because it would confirm that the present threshold is triggered by almost any visible hydraulic degradation.
 
-Either result is useful, but the value comes from the comparison with Case 7 and Case 8.
+Either result is useful, but the value comes from the comparison with Case 7, Case 8, and Case 9.
 
 ---
 
@@ -458,6 +465,6 @@ Either result is useful, but the value comes from the comparison with Case 7 and
 Do not ask what the next step is.  
 It is already defined:
 
-> Create and validate Case 9 focused on borderline hydraulic degradation under low-water conditions, then compare its governed behavior with Case 8 and Case 7.
+> Create and validate Case 10 focused on very mild early-warning hydraulic degradation under low-water conditions, then compare its governed behavior with Case 9, Case 8, and Case 7.
 
 That is the correct immediate next action.

@@ -1,0 +1,110 @@
+{
+  "case_id": "case_borderline_hydraulic_degradation_001",
+  "title": "Borderline hydraulic degradation under low-water conditions",
+  "summary": "The main irrigation water tank is low and replenishment remains uncertain, while flow and pressure show mild degradation that raises doubt about whether controlled rationing remains reliable.",
+  "greenhouse_id": "gh_tomato_01",
+  "sector_id": null,
+  "crop_phase": "production",
+  "source": "manual",
+  "suspected_issue": "The greenhouse is under low-water continuity pressure and hydraulic execution is no longer fully healthy, but deterioration is not yet as severe as in a clearly unstable condition. The case is intended to test whether Agro-DO still supports controlled mitigation, shifts to stronger escalation, or moves prematurely to interruption-oriented logic.",
+  "severity_hint": "high",
+  "visibility_level": "full",
+  "affected_asset_ids": [
+    "asset_main_tank",
+    "asset_main_pump",
+    "asset_controller"
+  ],
+  "related_sensor_ids": [
+    "sensor_tank_level",
+    "sensor_main_flow",
+    "sensor_main_pressure"
+  ],
+  "related_actuator_ids": [
+    "actuator_main_pump",
+    "actuator_sector_a_valve",
+    "actuator_sector_b_valve",
+    "actuator_sector_c_valve"
+  ],
+  "symptoms": [
+    "The main tank level is low and creates serious continuity pressure during active production conditions.",
+    "Incoming replenishment remains uncertain and cannot be assumed as guaranteed in the short term.",
+    "Main line flow is less stable than normal, but not clearly failing.",
+    "Pressure is slightly degraded and occasionally fluctuating, creating uncertainty about how reliable the next irrigation cycles will be.",
+    "Controlled rationing may still be possible, but the delivery conditions are no longer as reassuring as in the stable-hydraulics scarcity case."
+  ],
+  "observed_signals": [
+    {
+      "signal_id": "signal_001",
+      "metric_name": "Main tank level",
+      "sensor_id": "sensor_tank_level",
+      "value": "16",
+      "unit": "pct",
+      "interpretation": "Tank level is critically low enough to threaten normal irrigation continuity.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_002",
+      "metric_name": "Main line flow",
+      "sensor_id": "sensor_flow_main",
+      "value": "slightly_unstable",
+      "unit": null,
+      "interpretation": "Flow is no longer ideally stable, but has not yet deteriorated into a clearly unreliable state.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_003",
+      "metric_name": "Main line pressure",
+      "sensor_id": "sensor_pressure_main",
+      "value": "mild_fluctuation",
+      "unit": null,
+      "interpretation": "Pressure shows mild degradation that increases caution, but does not yet prove imminent hydraulic collapse.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_004",
+      "metric_name": "Supply replenishment status",
+      "sensor_id": null,
+      "value": "unconfirmed",
+      "unit": null,
+      "interpretation": "No reliable short-term replenishment commitment is confirmed, so continuity planning must assume continued scarcity pressure.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    }
+  ],
+  "operational_context": [
+    {
+      "category": "operational",
+      "note": "The greenhouse remains in active production and upcoming irrigation cycles are still important for crop continuity.",
+      "impact": "The service should treat this as a serious operational decision with direct short-term consequences."
+    },
+    {
+      "category": "operational",
+      "note": "Hydraulic behavior is no longer fully stable, but it is not as clearly degraded as in the hydraulic-instability case.",
+      "impact": "The service should reveal whether this middle zone still supports operational adjustment or already justifies interruption-oriented logic."
+    },
+    {
+      "category": "operational",
+      "note": "No guaranteed backup water reserve is confirmed for this situation.",
+      "impact": "The service should remain conservative and avoid optimistic continuity assumptions."
+    }
+  ],
+  "agronomic_context": [
+    {
+      "category": "agronomic",
+      "note": "Production-stage tomato crop remains sensitive to delayed or incomplete irrigation, while uneven delivery quality could create asymmetric stress across sectors.",
+      "impact": "The service should balance the crop risk of interruption against the risk of continuing irrigation under partially degraded execution conditions."
+    }
+  ],
+  "business_context": [
+    {
+      "category": "business",
+      "note": "The business risk comes from scarcity combined with uncertainty about whether the delivery system can still execute a mitigation plan consistently enough.",
+      "impact": "A weak decision here may either interrupt production unnecessarily or continue with an irrigation pattern that is no longer reliable enough."
+    }
+  ],
+  "recommended_review_by_human": true,
+  "notes": "This case is designed to test the transition zone between controlled low-water mitigation and a stricter stop-oriented response. It should help reveal whether Agro-DO has a meaningful middle-band policy inside the scarcity family."
+}

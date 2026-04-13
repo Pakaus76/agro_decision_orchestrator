@@ -917,3 +917,105 @@ It confirms that Agro-DO can now differentiate within the same continuity-risk f
 
 **Project manager comment / voice note**
 - The seventh governed generative validation produced exactly the kind of distinction the project needed. Agro-DO handled the controlled irrigation rationing case with high priority, required human review, kept confidence high, and selected adjust_operation as the action type. This shows that the service is not merely becoming stricter. It is becoming more precise, because it can now separate a true stop-oriented continuity threat from a still-manageable scarcity situation where prioritization and controlled mitigation make more sense than an immediate hard stop.
+
+### [LOG-033]
+**Date:** 2026-04-13  
+**Type:** milestone  
+**Title:** Eighth realistic sample case created and validated through the bridge for low-water hydraulic instability
+
+**What happened**  
+An eighth realistic operational case was added to the project: low-water continuity risk combined with deteriorating hydraulic stability. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload without structural inconsistencies.
+
+**Why this was needed**  
+Case 7 had already shown that Agro-DO can choose a graduated continuity-management response when reserves are low but hydraulic behavior remains stable. The project therefore needed the next scarcity-family case to test the opposite edge of that boundary: whether the service would shift back toward a stricter response once scarcity is combined with unstable flow and worsening pressure behavior.
+
+**Why it happened at this moment**  
+This was the correct next step after validating controlled irrigation rationing, because the most useful immediate question was no longer whether Agro-DO understands scarcity, but whether it can detect when scarcity has become unsafe to manage through controlled mitigation alone.
+
+**What this enables next**  
+It strengthens the internal policy map of the resource-continuity family by adding a case that sits beyond the controlled-rationing scenario. This creates a clearer comparison set across Case 6, Case 7, and Case 8, allowing the project to reason more explicitly about where the policy boundary lies between adjustment and interruption.
+
+**Files affected**
+- `inputs/sample_cases/case_low_water_hydraulic_instability.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-034]
+**Date:** 2026-04-13  
+**Type:** test-result  
+**Title:** Eighth governed generative run confirmed return to stop-oriented logic under hydraulic deterioration
+
+**What happened**  
+The eighth case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, kept confidence high, and selected `stop_and_review` with an action summary focused on halting irrigation and performing immediate human review due to critically low water and unstable hydraulic conditions.
+
+**Why this was needed**  
+The project needed evidence that Agro-DO does not remain in `adjust_operation` mode once scarcity is no longer paired with stable hydraulic execution. It also needed to verify that the service can move back toward a stricter interruption-oriented response when mitigation reliability is no longer credible.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the eighth case and was necessary before documenting whether the policy boundary exposed by Case 7 was real or merely accidental.
+
+**What this enables next**  
+It confirms a meaningful internal policy gradient inside the scarcity family:
+- Case 6 -> `stop_and_review`
+- Case 7 -> `adjust_operation`
+- Case 8 -> `stop_and_review`
+
+This is a strong maturity signal because Agro-DO does not simply become softer or stricter over time. Instead, it differentiates based on execution feasibility: stable hydraulic conditions support controlled mitigation, while deteriorating hydraulic behavior pushes the service back toward interruption-oriented logic.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The eighth governed generative validation confirms the policy boundary very clearly. Agro-DO handled the low-water plus hydraulic-instability case with high priority, required human review, kept confidence high, and selected stop_and_review as the action type. This is exactly the distinction the product needed to demonstrate after Case 7, because it shows that the service is not merely tolerant of scarcity. It is sensitive to whether the mitigation plan can still be executed reliably.
+
+### [LOG-035]
+**Date:** 2026-04-13  
+**Type:** milestone  
+**Title:** Ninth realistic sample case created and validated through the bridge for borderline hydraulic degradation
+
+**What happened**  
+A ninth realistic operational case was added to the project: borderline hydraulic degradation under low-water conditions. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload without structural inconsistencies.
+
+**Why this was needed**  
+Case 7 had already shown that Agro-DO can choose `adjust_operation` when scarcity exists but hydraulic behavior remains stable. Case 8 had shown that Agro-DO returns to `stop_and_review` once hydraulic behavior clearly deteriorates. The project therefore needed a middle-band case to determine whether the system had a meaningful transition zone between those two endpoints.
+
+**Why it happened at this moment**  
+This was the correct next step after validating the hydraulic-instability case, because the next useful question was whether Agro-DO would still tolerate controlled mitigation under only mild hydraulic degradation or whether it would already revert to interruption-oriented logic.
+
+**What this enables next**  
+It makes the current policy boundary more explicit by showing that even borderline hydraulic degradation is already enough to trigger a stop-oriented response. This creates a clearer basis for deciding whether the next refinement should explore an even softer transition case or whether the current policy should later be adjusted if that conservatism proves too strict.
+
+**Files affected**
+- `inputs/sample_cases/case_borderline_hydraulic_degradation.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-036]
+**Date:** 2026-04-13  
+**Type:** test-result  
+**Title:** Ninth governed generative run showed that the current policy boundary remains conservative in the middle transition zone
+
+**What happened**  
+The ninth case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, kept confidence high, and selected `stop_and_review` with an action summary focused on stopping irrigation and escalating for human review due to critical low tank level and borderline hydraulic instability.
+
+**Why this was needed**  
+The project needed evidence about whether Agro-DO had developed a meaningful middle-band behavior between the clearly stable scarcity case and the clearly unstable scarcity case. It also needed to test whether mild hydraulic degradation would still allow `adjust_operation` or whether the current policy boundary already becomes interruption-oriented at that point.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the ninth case and was necessary before documenting whether the transition zone between Case 7 and Case 8 was actually differentiated or still collapsed into the stricter policy side.
+
+**What this enables next**  
+It confirms that the current policy boundary is earlier and more conservative than hoped:  
+- Case 7 -> `adjust_operation`  
+- Case 8 -> `stop_and_review`  
+- Case 9 -> `stop_and_review`  
+
+This means Agro-DO is already treating mild hydraulic degradation as sufficient reason to stop and review under low-water continuity pressure. The next useful step will be either to test an even softer degradation pattern or to accept that the current policy has a deliberately conservative threshold.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The ninth governed generative validation is useful because it shows that the system does not currently expose a rich middle-band behavior in the scarcity family. Even with only borderline hydraulic degradation, Agro-DO still selected stop_and_review with high priority, high confidence, and human review. That means the current threshold is already quite conservative once execution stability is no longer clearly safe.

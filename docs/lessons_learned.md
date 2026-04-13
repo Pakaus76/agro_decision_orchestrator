@@ -254,5 +254,22 @@ A decision-support service becomes more credible when it can separate two situat
 - Build paired cases inside the same risk family so that the service is tested on whether it can distinguish between abrupt-stop logic and graduated continuity-management logic.
 - When flow and pressure remain stable, test whether scarcity can be managed through `adjust_operation` or escalation with continuity planning before assuming `stop_and_review` is the best response.
 
+### [LESSON-017]
+**Title:** Controlled scarcity mitigation is only credible while execution stability still exists
 
+A decision-support service should not evaluate scarcity only by reserve level. It must also consider whether the delivery system remains stable enough for the proposed mitigation to be executed reliably. Low reserves with stable hydraulic behavior can justify controlled mitigation, but low reserves combined with unstable flow or deteriorating pressure can legitimately shift the response back toward interruption-oriented logic.
 
+**Operational consequence**
+- Do not model scarcity policy only around reserve percentage.
+- Pair resource-continuity cases with execution-feasibility signals such as flow stability and pressure behavior.
+- Treat hydraulic deterioration as a first-class reason to move from `adjust_operation` back toward `stop_and_review`.
+
+### [LESSON-018]
+**Title:** The current scarcity policy boundary appears earlier and more conservative than expected
+
+A decision-support service may appear to have a rich internal policy boundary, but paired transition cases can show that the effective threshold is actually simpler and more conservative. In Agro-DO, once hydraulic behavior stops being clearly stable, the system already tends to move to `stop_and_review`, even before degradation becomes fully severe.
+
+**Operational consequence**
+- Do not assume that a conceptual middle zone exists just because it was designed into the case family.
+- Test the boundary with multiple gradual transition cases before concluding that the system differentiates finely.
+- Treat the current threshold as conservative: stable execution supports `adjust_operation`, while even mild hydraulic degradation may already be enough to trigger `stop_and_review`.

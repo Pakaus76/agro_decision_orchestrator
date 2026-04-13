@@ -19,18 +19,18 @@ The following capabilities have already been validated:
 - local OpenAI integration
 - governed generative recommendation execution
 
-The project has already validated eight realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
+The project has already validated nine realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
 
 ### Latest validated result
 
 The latest validated scenario is:
 
-- `inputs/sample_cases/case_low_water_hydraulic_instability.json`
+- `inputs/sample_cases/case_borderline_hydraulic_degradation.json`
 
-This case was created to test whether Agro-DO can distinguish between:
+This case was created to test whether Agro-DO exposes a meaningful middle-zone policy between:
 
 - scarcity that still allows controlled mitigation
-- and scarcity that has become unsafe to manage because hydraulic execution is deteriorating
+- and scarcity that already justifies interruption-oriented logic
 
 The governed recommendation for this case produced:
 
@@ -39,10 +39,12 @@ The governed recommendation for this case produced:
 - human review required: `true`
 - confidence: `high`
 
-This is important because the closely related previous scarcity case, `case_controlled_irrigation_rationing.json`, produced `adjust_operation` under low reserves but stable flow and pressure. The new comparison confirms that Agro-DO can now distinguish between:
+This is important because the closely related previous scarcity cases produced:
 
-- low-water continuity risk that still supports controlled rationing
-- and low-water continuity risk that should move back toward interruption-oriented logic because delivery stability is degrading
+- `case_controlled_irrigation_rationing.json` -> `adjust_operation`
+- `case_low_water_hydraulic_instability.json` -> `stop_and_review`
+
+The new comparison confirms that Agro-DO currently uses a conservative policy boundary: once hydraulic execution stops being clearly stable, the service already tends to return to interruption-oriented logic.
 
 ## Core architecture
 
@@ -83,6 +85,7 @@ Main implemented modules:
 - `inputs/sample_cases/case_low_tank_supply_uncertainty.json`
 - `inputs/sample_cases/case_controlled_irrigation_rationing.json`
 - `inputs/sample_cases/case_low_water_hydraulic_instability.json`
+- `inputs/sample_cases/case_borderline_hydraulic_degradation.json`
 
 ## Validated behavioral coverage
 
@@ -96,18 +99,19 @@ The project has already demonstrated coherent governed behavior for at least the
 - low reserve and supply uncertainty -> stop-oriented continuity protection
 - low reserve with still-manageable hydraulic conditions -> controlled mitigation through operational adjustment
 - low reserve with deteriorating hydraulic stability -> return to stop-oriented logic
+- low reserve with borderline hydraulic degradation -> stop-oriented logic remains active
 
-This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator.
+This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator, but it also reveals that the current scarcity threshold is conservative once execution stability becomes doubtful.
 
-## Decision policy signal exposed by Case 6, Case 7, and Case 8
+## Decision policy signal exposed by Case 7, Case 8, and Case 9
 
-A major recent refinement question was whether the service had become too abrupt in low-water continuity-risk scenarios.
+A major recent refinement question was whether the service had a real middle transition zone in low-water continuity-risk scenarios.
 
 That question is now substantially clearer:
 
-- Case 6 confirmed that Agro-DO correctly recognizes serious reserve depletion risk.
 - Case 7 confirmed that Agro-DO does not collapse all scarcity situations into the same stop-oriented policy when hydraulic execution remains stable.
 - Case 8 confirmed that Agro-DO can move back toward `stop_and_review` once scarcity is combined with unstable flow and worsening pressure behavior.
+- Case 9 confirmed that even borderline hydraulic degradation is already sufficient to keep the service on the `stop_and_review` side.
 
 This is a useful maturity signal because the service remains:
 
@@ -115,7 +119,7 @@ This is a useful maturity signal because the service remains:
 - human reviewed
 - operationally conservative
 
-while also becoming more precise about when controlled mitigation is still preferable and when it is no longer operationally credible.
+while also revealing that the current policy boundary is earlier and stricter than originally hoped.
 
 ## Local execution notes
 
@@ -182,11 +186,9 @@ Ambiguous edit instructions are not acceptable.
 
 ## Immediate next focus
 
-The project has now validated that scarcity policy depends not only on reserve depletion, but also on execution feasibility.
+The project has now validated that the current scarcity policy boundary is conservative once hydraulic execution stops being clearly stable.
 
-The next work should build from that result by exploring the transition zone between:
-- manageable scarcity with stable execution
-- and unsafe scarcity with degraded execution
+The next work should build from that result by exploring an even softer transition case, so that the project can test whether any narrower middle-band behavior exists before hydraulic degradation becomes sufficient to trigger `stop_and_review`.
 
 In practical terms, the repository is now in a stronger position to continue expanding realistic case coverage and policy precision inside the same governed product direction.
 
