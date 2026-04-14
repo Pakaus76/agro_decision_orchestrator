@@ -283,3 +283,14 @@ A decision-support service may appear overly conservative after a borderline tra
 - Do not conclude too early that any visible degradation automatically triggers interruption-oriented logic.
 - Separate borderline degradation from genuinely mild early-warning softening when designing scarcity cases.
 - Use additional threshold-probing cases to locate the exact switching point between `adjust_operation` and `stop_and_review`.
+
+### [LESSON-020]
+**Title:** The scarcity-family switching threshold is narrow and flips quickly after the early-warning pattern
+
+A decision-support service can have a real permissive band without that band being broad. In Agro-DO, once hydraulic degradation becomes slightly stronger than the very mild early-warning condition, the policy already flips to `stop_and_review`. This means the threshold exists, but it lies very close to the soft edge of degradation.
+
+**Operational consequence**
+- Do not describe the scarcity policy as broadly tolerant just because Case 10 remained in `adjust_operation`.
+- Treat the current mitigation band as narrow and close to the stable/softening edge.
+- Use one final confirmatory threshold case before declaring the boundary fully characterized.
+

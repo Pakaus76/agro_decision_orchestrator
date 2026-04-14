@@ -1071,3 +1071,56 @@ This is a valuable maturity signal because Agro-DO does tolerate a very mild deg
 
 **Project manager comment / voice note**
 - The tenth governed generative validation is very useful because it shows that the policy is not simply "stable means adjust and any degradation means stop." Agro-DO still selected adjust_operation with high priority, high confidence, and human review when the hydraulic softening remained very mild. That means a narrow permissive band does exist, even if it is tighter than originally expected.
+
+### [LOG-039]
+**Date:** 2026-04-13  
+**Type:** milestone  
+**Title:** Eleventh realistic sample case created and validated through the bridge for slight hydraulic degradation near the threshold
+
+**What happened**  
+An eleventh realistic operational case was added to the project: slight hydraulic degradation near the decision threshold under low-water conditions. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload without structural inconsistencies.
+
+**Why this was needed**  
+Case 10 had already shown that very mild early-warning hydraulic softening still allowed `adjust_operation`, while Case 9 had shown that borderline hydraulic degradation already triggered `stop_and_review`. The project therefore needed a threshold-probing case positioned between those two scenarios to determine where the policy actually flips.
+
+**Why it happened at this moment**  
+This was the correct next step after validating the early-warning softening case, because the most useful immediate question was no longer whether a permissive band existed, but where that band ended.
+
+**What this enables next**  
+It narrows the location of the switching boundary inside the scarcity family. The project can now reason much more precisely about the transition from controlled mitigation to stop-oriented logic, and it is in a strong position to perform one final confirmatory threshold test if needed.
+
+**Files affected**
+- `inputs/sample_cases/case_slight_hydraulic_degradation_threshold.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-040]
+**Date:** 2026-04-13  
+**Type:** test-result  
+**Title:** Eleventh governed generative run located the switching threshold very close to the early-warning side
+
+**What happened**  
+The eleventh case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, kept confidence high, and selected `stop_and_review` with an action summary focused on stopping irrigation because hydraulic reliability had degraded beyond the early-warning pattern.
+
+**Why this was needed**  
+The project needed evidence about whether a slight increase in hydraulic degradation beyond Case 10 was still tolerated or whether the policy would already flip to interruption-oriented logic before reaching the stronger Case 9 pattern.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the eleventh case and was necessary before concluding where the current switching threshold lies inside the scarcity family.
+
+**What this enables next**  
+It confirms that the threshold is very close to the permissive side. The emerging map is now:
+- Case 7 -> `adjust_operation`
+- Case 8 -> `stop_and_review`
+- Case 9 -> `stop_and_review`
+- Case 10 -> `adjust_operation`
+- Case 11 -> `stop_and_review`
+
+This is a valuable maturity signal because it shows that the service is not random or binary, but that the permissive band is extremely narrow. A final confirmatory case can now test whether this threshold is stable or prompt-sensitive.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The eleventh governed generative validation is very useful because it shows that the switching point is already crossed with only a slight strengthening beyond the Case 10 pattern. Agro-DO selected stop_and_review with high priority, high confidence, and human review. That means the permissive band exists, but it is very narrow and probably close to the earliest visible boundary of hydraulic degradation.
