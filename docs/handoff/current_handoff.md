@@ -149,6 +149,7 @@ Validated case files:
 - `inputs/sample_cases/case_tighter_sector_prioritization_under_water_constraint.json`
 - `inputs/sample_cases/case_collapse_boundary_sector_prioritization.json`
 - `inputs/sample_cases/case_emergency_alternative_water_supply.json`
+- `inputs/sample_cases/case_uncertain_emergency_alternative_water_supply.json`
 
 ### 4.4 Local OpenAI integration
 Already working locally through:
@@ -336,15 +337,25 @@ Observed output:
 Meaning:
 The system changes its recommendation when a credible emergency external water supply exists. It no longer treats the scenario as a pure collapse-to-stop case and instead recommends backup-oriented recovery focused on the highest-priority sector.
 
+#### Case 17 — Uncertain or delayed emergency alternative water supply
+Observed output:
+- priority: `high`
+- action: `stop_and_review`
+- human review: `true`
+- confidence: `high`
+
+Meaning:
+The system does not treat a weak or delayed backup path as sufficient reason to switch recovery mode. This confirms that backup credibility matters, not just backup availability.
+
 Important conclusion:
-Case 16 is the most important recent result because it proves Agro-DO can now reason not only about degradation and internal allocation, but also about external recovery paths.
+Case 16 and Case 17 together show that Agro-DO now calibrates recovery recommendations according to the credibility of the external supply path.
 
 ---
 
 ## 6. Current project maturity
 
 Agro-DO is no longer just a structured prototype.  
-It already behaves as a governed service that distinguishes at least sixteen operational patterns:
+It already behaves as a governed service that distinguishes at least seventeen operational patterns:
 
 - severe failure with backup → continuity response
 - severe climate issue without backup → operational adjustment
@@ -362,45 +373,46 @@ It already behaves as a governed service that distinguishes at least sixteen ope
 - tighter constrained continuity with one-sector protection → stricter selective continuity through operational adjustment
 - collapse-boundary prioritization under extreme water constraint → full interruption with human review
 - internal collapse with confirmed emergency external water supply → backup-oriented recovery through `switch_to_backup`
+- internal collapse with delayed or weakly confirmed emergency external water supply -> interruption-oriented response through `stop_and_review`
 
 This means the project already has:
 - differentiated behavior,
 - meaningful policy structure,
 - a stable scarcity-family threshold,
-- a complete prioritization family,
-- and a first external recovery family.
+- a complete internal prioritization family,
+- and a calibrated external recovery family.
 
 ---
 
 ## 7. Current weakness / refinement area
 
-The most useful current refinement area is no longer whether Agro-DO can reason about external recovery at all.
+The most useful current refinement area is no longer whether Agro-DO distinguishes strong and weak backup paths.
 
 That question has already been answered positively.
 
 The current frontier is now this:
 
-How credible must an external recovery path be before Agro-DO changes its recommendation away from interruption?
+What happens when external recovery is credible enough to be usable, but not clean enough to justify a pure backup switch without meaningful operational compromise?
 
 ### Current interpretation
-Case 16 shows:
-- internal continuity may already be collapsed,
-- but a credible confirmed emergency tanker arrival can shift the decision to `switch_to_backup`.
+Case 16 and Case 17 together show:
+- strong confirmed backup -> `switch_to_backup`
+- weak or delayed backup -> `stop_and_review`
 
 ### The remaining issue
-What has not yet been explored is a harder recovery case where:
-- external supply exists,
-- but it is delayed, uncertain, partially confirmed, or operationally weak,
-- and Agro-DO must decide whether that backup path is still strong enough to justify recovery-oriented action.
+What has not yet been explored is a middle recovery case where:
+- external supply is credible enough to be usable,
+- but it is costly, volume-limited, connection-constrained, or operationally burdensome,
+- and Agro-DO must decide whether the recommendation is still `switch_to_backup` or some other constrained recovery mode.
 
 ### Why this matters
-The next level of product maturity is not only recognizing that backup exists. It is calibrating how backup credibility changes the recommendation.
+The next level of product maturity is not only backup credibility. It is recovery quality under operational burden.
 
 In other words, the next refinement should help the service distinguish between:
-- “confirmed recovery path strong enough to switch”
-- “recovery path exists but is weak or uncertain”
+- “strong clean recovery path”
+- “usable but constrained recovery path”
 - and
-- “recovery path too weak to change the collapse recommendation”
+- “weak recovery path that does not change the interruption recommendation”
 
 This is the current best refinement frontier.
 
@@ -409,25 +421,29 @@ This is the current best refinement frontier.
 ## 8. The single correct next objective
 
 ## Next correct objective
-Create and validate Case 17 focused on uncertain or delayed emergency alternative water supply, so that Agro-DO must decide whether a weaker recovery path still justifies backup-oriented action.
+Create and validate Case 18 focused on viable but operationally constrained emergency alternative water supply, so that Agro-DO must reason about a usable recovery path that still carries meaningful operational burden.
 
 ### Why this is the correct next step
-Case 16 already showed that a strong confirmed emergency supply can change the recommendation. The next meaningful question is therefore not whether recovery exists, but whether the recovery path is credible enough.
+Case 16 already showed a strong confirmed backup path.
+Case 17 already showed a weak or delayed backup path that was not enough.
 
-Case 17 should test whether Agro-DO:
+The next meaningful question is therefore:
+What does Agro-DO do when the backup path is usable, but imperfect?
+
+Case 18 should test whether the service:
 - still recommends `switch_to_backup`,
-- downgrades to `adjust_operation`,
-- or returns to `stop_and_review`
-when the emergency external supply is less certain or more delayed than in Case 16.
+- shifts toward a constrained `adjust_operation`,
+- or remains in `stop_and_review`
+when emergency supply is viable but operationally costly or restricted.
 
 ### What must not happen before this
 Do not:
 - redesign the architecture,
 - open API/UI work,
 - reopen product identity questions,
-- return to more prioritization micro-cases in the already-closed internal allocation family.
+- return to more internal allocation micro-cases in already-closed families.
 
-The next LLM must do Case 17 first.
+The next LLM must do Case 18 first.
 
 ---
 
@@ -436,20 +452,20 @@ The next LLM must do Case 17 first.
 This is the section the next LLM must follow first, without asking what to do.
 
 ### 9.1 First file to create
-`inputs/sample_cases/case_uncertain_emergency_alternative_water_supply.json`
+`inputs/sample_cases/case_constrained_emergency_alternative_water_supply.json`
 
-### 9.2 Intent of Case 17
+### 9.2 Intent of Case 18
 This case should represent a situation where:
 - internal continuity has collapsed,
-- an external emergency recovery path exists,
-- but it is delayed, uncertain, partially confirmed, or otherwise weaker than the tanker case in Case 16.
+- an emergency external water source is usable,
+- but it has meaningful constraints such as limited tanker volume, difficult connection, partial refill capability, or high operational burden.
 
 Possible signals should suggest:
-- internal reserves remain critically low,
-- direct continuity is still not viable internally,
-- but a possible external recovery path may arrive too late or with too much uncertainty to fully justify confidence.
+- backup is more credible than in Case 17,
+- but less clean or less powerful than in Case 16,
+- so the recommendation should reveal whether Agro-DO can handle an in-between recovery mode.
 
-The purpose is to test whether Agro-DO calibrates recovery recommendations according to backup credibility rather than treating all external supply cases equally.
+The purpose is to test whether the service calibrates not only backup credibility, but also backup quality and operational burden.
 
 ### 9.3 Validation sequence to follow
 The next LLM must use exactly this sequence:
@@ -458,14 +474,14 @@ The next LLM must use exactly this sequence:
 2. Validate JSON
 3. Validate through the bridge
 4. Execute the governed LLM run
-5. Compare the result against Case 16 and Case 15
+5. Compare the result against Case 16 and Case 17
 6. Document the milestone
 7. Commit and push
 
 ### 9.4 Expected evaluation question
 The next LLM must explicitly ask itself:
-- Does Agro-DO still choose `switch_to_backup` when emergency supply is weaker or delayed?
-- Or does it return toward a stricter interruption-oriented response when backup credibility drops?
+- Does Agro-DO still choose `switch_to_backup` when backup is viable but operationally constrained?
+- Or does it use a more cautious or interruption-oriented mode?
 
 That is the key question.
 
@@ -519,7 +535,7 @@ The next LLM should keep these files in focus:
 
 ## 12. Documentation rule for the next LLM
 
-When Case 17 is completed, the next LLM must update documentation using this safe pattern:
+When Case 18 is completed, the next LLM must update documentation using this safe pattern:
 
 ### Replace full file content
 - `README.md`
@@ -539,19 +555,19 @@ And it must explicitly say which mode is being used.
 
 ## 13. What success looks like for the next step
 
-Case 17 will be successful if it helps answer this:
+Case 18 will be successful if it helps answer this:
 
 Can Agro-DO distinguish between:
-- “confirmed recovery path strong enough to switch”
-- “weaker or delayed recovery path”
+- “strong clean recovery path”
+- “usable but constrained recovery path”
 - and
-- “recovery path too weak to change the collapse recommendation”
+- “weak recovery path that does not change the interruption recommendation”
 
-If the service still chooses `switch_to_backup`, that is useful because it means backup tolerance is wider than expected.
-If it chooses `stop_and_review`, that is still useful because it reveals that current recovery logic is conservative with weak backup paths.
-If it chooses another intermediate response, that is also valuable because it suggests a more nuanced recovery calibration.
+If the service still chooses `switch_to_backup`, that is useful because it means recovery tolerance remains broad.
+If it chooses a different constrained mode, that is also useful because it suggests a more nuanced recovery calibration.
+If it remains in `stop_and_review`, that reveals the system is conservative even with constrained but viable backup.
 
-Either result is useful, but the value comes from testing backup credibility rather than simply backup existence.
+Either result is useful, but the value comes from testing backup quality rather than just backup presence.
 
 ---
 
@@ -560,6 +576,6 @@ Either result is useful, but the value comes from testing backup credibility rat
 Do not ask what the next step is.  
 It is already defined:
 
-> Create and validate Case 17 focused on uncertain or delayed emergency alternative water supply, then compare its governed behavior with Case 16 and Case 15.
+> Create and validate Case 18 focused on viable but operationally constrained emergency alternative water supply, then compare its governed behavior with Case 16 and Case 17.
 
 That is the correct immediate next action.
