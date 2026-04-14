@@ -1380,3 +1380,54 @@ This is a strong maturity signal because the service is no longer only deciding 
 
 **Project manager comment / voice note**
 - The sixteenth governed generative validation is a very strong result. Agro-DO did not treat this case as another collapse-to-stop scenario. Instead, it selected `switch_to_backup` and explicitly tied the recommendation to emergency tanker activation and staged recovery for Sector A. That means the system is beginning to reason about operational recovery paths, not only internal deterioration.
+
+### [LOG-051]
+**Date:** 2026-04-13  
+**Type:** milestone  
+**Title:** Seventeenth realistic sample case created and validated through the bridge for uncertain emergency alternative water supply
+
+**What happened**  
+A seventeenth realistic operational case was added to the project: uncertain or delayed emergency alternative water supply after internal continuity collapse. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload without structural inconsistencies.
+
+**Why this was needed**  
+Case 16 had already shown that a strongly confirmed emergency tanker could change the recommendation from interruption to backup-oriented recovery. The project therefore needed a harder recovery case where external supply existed, but was delayed and only partially confirmed, to determine whether Agro-DO calibrates its recommendation according to backup credibility.
+
+**Why it happened at this moment**  
+This was the correct next step after the first backup-oriented recovery case, because the most useful open question was no longer whether external recovery matters at all, but whether Agro-DO distinguishes between strong and weak recovery paths.
+
+**What this enables next**  
+It deepens the external recovery family by showing that backup existence alone is not enough. The project can now reason about a credibility threshold inside recovery-oriented decision making.
+
+**Files affected**
+- `inputs/sample_cases/case_uncertain_emergency_alternative_water_supply.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-052]
+**Date:** 2026-04-13  
+**Type:** test-result  
+**Title:** Seventeenth governed generative run confirmed that weak backup credibility is not enough to switch recovery mode
+
+**What happened**  
+The seventeenth case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, kept confidence high, and selected `stop_and_review` with an action summary focused on suspending irrigation because the external water supply was delayed and only partially confirmed.
+
+**Why this was needed**  
+The project needed evidence that Agro-DO would not treat all external supply scenarios as equivalent. It also needed to know whether a weaker or delayed recovery path was still enough to justify `switch_to_backup` or whether the recommendation would return to interruption-oriented logic.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the seventeenth case and was necessary before concluding whether the backup family already had a meaningful credibility threshold.
+
+**What this enables next**  
+It confirms that the external recovery family now has at least two differentiated modes:
+- confirmed emergency supply -> `switch_to_backup`
+- delayed or weakly confirmed emergency supply -> `stop_and_review`
+
+This is a strong maturity signal because Agro-DO is not reacting only to the existence of a backup path, but also to its operational credibility. The next useful step is to test whether a viable but costly or operationally constrained recovery path produces a different mode again.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The seventeenth governed generative validation is very useful because it shows that Agro-DO does not switch to backup just because some external supply option exists on paper. It only does so when that path is credible enough. With delayed and partially confirmed recovery, the service returned to `stop_and_review`, which is exactly the kind of prudence we needed to test.
+

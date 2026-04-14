@@ -381,3 +381,13 @@ Intermediate JSON outputs, validation dumps, and execution result files are usef
 - After the result has been documented in `README.md`, `docs/project_log.md`, `docs/lessons_learned.md`, or `docs/handoff/current_handoff.md`, delete the temporary file unless the project manager explicitly requests that it be retained.
 - Do not invent a new storage location from one case to the next; keep the same repository rule consistently.
 
+### [LESSON-029]
+**Title:** Recovery-path credibility matters as much as recovery-path existence
+
+A decision-support service shows stronger operational intelligence when it distinguishes between a clearly usable backup path and a weak or delayed one. In Agro-DO, the recommendation changed to `switch_to_backup` only when emergency external supply was strongly confirmed; once that supply became delayed and only partially confirmed, the service returned to `stop_and_review`.
+
+**Operational consequence**
+- Do not treat all backup or recovery paths as equivalent.
+- Test recovery families using both strong and weak backup-credibility cases.
+- Treat recovery-path credibility as a first-class decision factor, not as a minor detail.
+

@@ -19,30 +19,30 @@ The following capabilities have already been validated:
 - local OpenAI integration
 - governed generative recommendation execution
 
-The project has already validated sixteen realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
+The project has already validated seventeen realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
 
 ### Latest validated result
 
 The latest validated scenario is:
 
-- `inputs/sample_cases/case_emergency_alternative_water_supply.json`
+- `inputs/sample_cases/case_uncertain_emergency_alternative_water_supply.json`
 
-This case was created to test whether Agro-DO would change its recommendation when internal continuity had already collapsed but a credible external emergency water supply was confirmed.
+This case was created to test whether Agro-DO would still switch to backup when external emergency water supply existed but was delayed and only partially confirmed.
 
 The governed recommendation for this case produced:
 
 - priority: `high`
-- action type: `switch_to_backup`
+- action type: `stop_and_review`
 - human review required: `true`
 - confidence: `high`
 
-This is important because Agro-DO did not treat the scenario as another simple collapse-to-stop case. Instead, it recommended:
+This is important because Agro-DO did not treat the scenario as equivalent to the strongly confirmed tanker case. Instead, it recommended:
 
-- activating emergency external water supply
-- restoring continuity through the backup path
-- prioritizing recovery irrigation for Sector A
+- suspending irrigation
+- awaiting human review
+- treating the weak backup path as insufficiently credible
 
-The new comparison confirms that Agro-DO can now reason about external recovery paths after internal continuity collapse.
+The new comparison confirms that Agro-DO calibrates its recovery recommendation according to backup credibility, not merely backup existence.
 
 <!-- PROJECT_TREE_START -->
 ## Project tree
@@ -141,6 +141,7 @@ Main implemented modules:
 - `inputs/sample_cases/case_tighter_sector_prioritization_under_water_constraint.json`
 - `inputs/sample_cases/case_collapse_boundary_sector_prioritization.json`
 - `inputs/sample_cases/case_emergency_alternative_water_supply.json`
+- `inputs/sample_cases/case_uncertain_emergency_alternative_water_supply.json`
 
 ## Validated behavioral coverage
 
@@ -162,8 +163,9 @@ The project has already demonstrated coherent governed behavior for at least the
 - tighter constrained continuity with one-sector protection -> stricter selective continuity through operational adjustment
 - collapse-boundary prioritization under extreme water constraint -> full interruption with human review
 - internal collapse with confirmed emergency external water supply -> backup-oriented recovery through `switch_to_backup`
+- internal collapse with delayed or weakly confirmed emergency external water supply -> interruption-oriented response through `stop_and_review`
 
-This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator, and it now reveals a stable scarcity-family threshold, a complete prioritization family, and a first recovery-oriented backup family.
+This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator, and it now reveals a stable scarcity-family threshold, a complete prioritization family, and a calibrated external recovery family.
 
 ## Decision policy signal exposed by recent case families
 
@@ -200,14 +202,14 @@ The important signal is that the service can now:
 
 ### External recovery after internal collapse
 
-Case 16 opens a new family. It shows that Agro-DO can distinguish between:
-- internal collapse with no credible recovery path,
-- and internal collapse with a confirmed emergency external water source.
+Case 16 showed that Agro-DO can distinguish between internal collapse with no credible recovery path and internal collapse with a strongly confirmed emergency external water source, switching to `switch_to_backup` in the second case.
+
+Case 17 now shows that recovery existence alone is not enough. When the backup path is delayed and only partially confirmed, Agro-DO returns to `stop_and_review`.
 
 The important signal is that the service can now:
 - recognize that internal continuity has collapsed,
-- avoid treating all collapse cases as identical,
-- and recommend `switch_to_backup` when a credible external recovery path exists.
+- distinguish strong and weak recovery paths,
+- and calibrate its recommendation according to backup credibility.
 
 That is a broader form of decision intelligence than simple internal degradation or allocation logic.
 
@@ -280,16 +282,16 @@ This includes:
 The project now has:
 - a closed scarcity-plus-hydraulics threshold family,
 - a closed internal prioritization family,
-- and a first recovery-oriented backup case.
+- and two differentiated external recovery cases.
 
-The next work should deepen the external recovery family by testing a case where emergency recovery exists but is less certain, later, or operationally weaker than in the confirmed-tanker scenario.
+The next work should close this recovery family with a third case where external recovery is credible enough to exist, but imposes strong operational constraints or costs. That will help determine whether Agro-DO treats costly but viable recovery differently from both strongly confirmed backup and weak delayed backup.
 
 A strong next candidate is a case where:
 - internal continuity has collapsed,
-- external recovery is possible but delayed or uncertain,
-- and Agro-DO must decide whether the backup path is still strong enough to justify `switch_to_backup` or whether the situation should remain in `stop_and_review`.
+- external recovery is available within a usable window,
+- but tanker supply volume, connection effort, or operational cost creates a constrained recovery mode rather than a clean backup switch.
 
-In practical terms, the repository is now in a good position to test not only whether recovery exists, but whether recovery credibility changes the recommendation.
+In practical terms, the repository is now in a good position to test not only whether recovery exists, but whether recovery quality and operational burden change the recommendation.
 
 ## Repository language rules
 

@@ -1,0 +1,111 @@
+{
+  "case_id": "case_uncertain_emergency_alternative_water_supply_001",
+  "title": "Uncertain emergency alternative water supply after internal continuity collapse",
+  "summary": "Internal water continuity has collapsed under extreme reserve pressure, and an external emergency water supply may exist, but its arrival is delayed and not fully confirmed.",
+  "greenhouse_id": "gh_tomato_01",
+  "sector_id": null,
+  "crop_phase": "production",
+  "source": "manual",
+  "suspected_issue": "The greenhouse has already reached internal continuity collapse conditions. Unlike the previous confirmed tanker case, the external emergency water path is now weaker: supply is possible but delayed, only partially confirmed, and operationally uncertain. The service must decide whether this weaker recovery path still justifies backup-oriented action or whether the recommendation should remain interruption-oriented.",
+  "severity_hint": "high",
+  "visibility_level": "full",
+  "affected_asset_ids": [
+    "asset_main_tank",
+    "asset_main_pump",
+    "asset_controller"
+  ],
+  "related_sensor_ids": [
+    "sensor_tank_level",
+    "sensor_main_flow",
+    "sensor_main_pressure"
+  ],
+  "related_actuator_ids": [
+    "actuator_main_pump",
+    "actuator_sector_a_valve",
+    "actuator_sector_b_valve",
+    "actuator_sector_c_valve"
+  ],
+  "symptoms": [
+    "The main tank level is critically low and internal continuity is not credible without external help.",
+    "Hydraulic execution remains technically available, but internal reserves alone no longer justify continued irrigation.",
+    "An external emergency tanker option exists, but arrival is delayed and confirmation is incomplete.",
+    "Sector A remains the highest-priority sector if any recovery becomes viable.",
+    "Sector B and Sector C remain lower priority under emergency allocation conditions.",
+    "The service must decide whether a weak or delayed recovery path is still strong enough to change the recommendation relative to a pure collapse case."
+  ],
+  "observed_signals": [
+    {
+      "signal_id": "signal_001",
+      "metric_name": "Main tank level",
+      "sensor_id": "sensor_tank_level",
+      "value": "9",
+      "unit": "pct",
+      "interpretation": "Tank level is critically low and does not support credible internal continuity without external replenishment.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_002",
+      "metric_name": "Main line flow",
+      "sensor_id": "sensor_flow_main",
+      "value": "technically_available_but_not_viable_without_replenishment",
+      "unit": null,
+      "interpretation": "Flow remains technically available, but internal reserves alone do not justify continued operation.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_003",
+      "metric_name": "Main line pressure",
+      "sensor_id": "sensor_pressure_main",
+      "value": "barely_adequate_pending_possible_replenishment",
+      "unit": null,
+      "interpretation": "Pressure remains barely adequate, but only a credible external recovery could change the continuity decision.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_004",
+      "metric_name": "Emergency tanker supply status",
+      "sensor_id": null,
+      "value": "partially_confirmed_arrival_in_10_to_12_hours",
+      "unit": null,
+      "interpretation": "An external water supply may arrive, but timing is delayed and the commitment is not strong enough to be treated as fully reliable.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    }
+  ],
+  "operational_context": [
+    {
+      "category": "operational",
+      "note": "Internal reserve-based continuity has already collapsed, and any recovery now depends on an external supply path with weak credibility.",
+      "impact": "The service should test whether uncertain recovery still changes the recommendation compared with a no-recovery collapse case."
+    },
+    {
+      "category": "operational",
+      "note": "Hydraulic execution is still technically available, but only if a credible replenishment path materializes in time.",
+      "impact": "The service should not treat this case as equivalent to a confirmed backup case unless recovery credibility is judged sufficient."
+    },
+    {
+      "category": "operational",
+      "note": "Sector A should remain the first recovery priority if external supply becomes real, but current backup confidence is weaker than in the confirmed tanker case.",
+      "impact": "The service should reveal whether it calibrates backup recommendations according to supply credibility."
+    }
+  ],
+  "agronomic_context": [
+    {
+      "category": "agronomic",
+      "note": "Sector A remains the most sensitive sector and would be the first recovery target if replenishment actually arrives in time.",
+      "impact": "The service should weigh whether waiting for uncertain recovery is still preferable to treating the case as immediate interruption."
+    }
+  ],
+  "business_context": [
+    {
+      "category": "business",
+      "note": "A delayed or weakly confirmed tanker option may still preserve residual value, but relying on it may also waste the last operational window if the supply does not arrive as expected.",
+      "impact": "The service should weigh recovery upside against the risk of acting on a backup path with insufficient credibility."
+    }
+  ],
+  "recommended_review_by_human": true,
+  "notes": "This case is designed to test whether Agro-DO distinguishes between a strongly confirmed emergency backup path and a weaker or delayed external recovery option after internal continuity collapse."
+}
