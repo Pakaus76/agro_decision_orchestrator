@@ -1176,3 +1176,53 @@ This means the family is now sufficiently characterized for the current stage of
 **Project manager comment / voice note**
 - The twelfth governed generative validation is the confirmation we needed. Agro-DO again selected stop_and_review with high priority, high confidence, and human review. At this point the threshold no longer looks accidental. The conservative side of the boundary is stable, so it makes sense to stop iterating this micro-family and move on to a different policy question.
 
+### [LOG-043]
+**Date:** 2026-04-13  
+**Type:** milestone  
+**Title:** Thirteenth realistic sample case created and validated through the bridge for sector prioritization under water constraint
+
+**What happened**  
+A thirteenth realistic operational case was added to the project: sector prioritization under constrained water continuity. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload without structural inconsistencies.
+
+**Why this was needed**  
+The scarcity-plus-hydraulics threshold family had already been sufficiently characterized. The project therefore needed to move to a broader decision family where the main question was no longer whether the system should continue or stop globally, but whether it could reason about differentiated continuity across sectors with unequal agronomic and business importance.
+
+**Why it happened at this moment**  
+This was the correct next step after closing the hydraulic threshold family, because the next maturity leap for Agro-DO was to demonstrate trade-off reasoning under constrained continuity conditions rather than more micro-variation around a threshold already confirmed.
+
+**What this enables next**  
+It opens a new policy family centered on allocation and prioritization. The project can now test whether Agro-DO behaves like a genuinely governed decision-support service that understands selective continuity, not just binary stop-versus-continue logic.
+
+**Files affected**
+- `inputs/sample_cases/case_sector_prioritization_under_water_constraint.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-044]
+**Date:** 2026-04-13  
+**Type:** test-result  
+**Title:** Thirteenth governed generative run confirmed prioritization-oriented continuity management under constrained water
+
+**What happened**  
+The thirteenth case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, kept confidence high, and selected `adjust_operation` with an action summary explicitly prioritizing full irrigation for Sector A, reduced irrigation for Sector B, and suspended irrigation for Sector C.
+
+**Why this was needed**  
+The project needed evidence that Agro-DO could move beyond global interruption logic and recommend differentiated continuity allocation when water constraints prevent the standard irrigation plan but selective continuity is still feasible.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the thirteenth case and was necessary before documenting whether Agro-DO could reason about sector trade-offs rather than only about hydraulic condition thresholds.
+
+**What this enables next**  
+It confirms a broader form of decision intelligence than the previous threshold family. Agro-DO did not collapse to `stop_and_review`. Instead, it recommended a prioritization-oriented `adjust_operation` strategy that protects the highest-value and most sensitive sector while degrading lower-priority continuity first.
+
+This is a strong product signal because it shows that Agro-DO can:
+- preserve continuity selectively,
+- reason about differentiated agronomic and business importance,
+- and recommend an operational allocation strategy under constrained resources.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The thirteenth governed generative validation is a major positive result. Agro-DO selected adjust_operation with high priority, high confidence, and human review, and the recommendation explicitly prioritized Sector A, reduced Sector B, and suspended Sector C. This shows that the service is beginning to reason like an operational allocator, not only like a stop-or-continue alarm layer.

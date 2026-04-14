@@ -1,0 +1,116 @@
+{
+  "case_id": "case_sector_prioritization_under_water_constraint_001",
+  "title": "Sector prioritization under constrained water continuity",
+  "summary": "Water reserves are too limited to sustain the normal irrigation plan for all sectors, but hydraulic execution remains functional enough to preserve selective continuity if sectors are prioritized.",
+  "greenhouse_id": "gh_tomato_01",
+  "sector_id": null,
+  "crop_phase": "production",
+  "source": "manual",
+  "suspected_issue": "The greenhouse cannot maintain the standard irrigation plan across all sectors because reserves are constrained, but the system may still support selective continuity. The case is intended to test whether Agro-DO can recommend prioritizing higher-value or more sensitive sectors rather than collapsing immediately into a global stop decision.",
+  "severity_hint": "high",
+  "visibility_level": "full",
+  "affected_asset_ids": [
+    "asset_main_tank",
+    "asset_main_pump",
+    "asset_controller"
+  ],
+  "related_sensor_ids": [
+    "sensor_tank_level",
+    "sensor_main_flow",
+    "sensor_main_pressure"
+  ],
+  "related_actuator_ids": [
+    "actuator_main_pump",
+    "actuator_sector_a_valve",
+    "actuator_sector_b_valve",
+    "actuator_sector_c_valve"
+  ],
+  "symptoms": [
+    "The main tank level is low enough that the normal irrigation plan cannot be completed safely for all sectors.",
+    "Hydraulic flow and pressure remain functional enough to execute a reduced or prioritized irrigation strategy.",
+    "Sector A contains the most sensitive and highest-value crop load and should be treated as the first continuity priority.",
+    "Sector B can tolerate a modest reduction or delay, but still carries relevant production value.",
+    "Sector C is currently the least sensitive sector and can tolerate the greatest restriction if water must be allocated selectively.",
+    "A global stop may be unnecessarily strict if the service can reason about selective continuity under monitored conditions."
+  ],
+  "observed_signals": [
+    {
+      "signal_id": "signal_001",
+      "metric_name": "Main tank level",
+      "sensor_id": "sensor_tank_level",
+      "value": "19",
+      "unit": "pct",
+      "interpretation": "Tank level is low enough that full-plan irrigation for all sectors is not sustainable under current reserve conditions.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_002",
+      "metric_name": "Main line flow",
+      "sensor_id": "sensor_flow_main",
+      "value": "stable_but_limited_for_full_plan",
+      "unit": null,
+      "interpretation": "Flow remains stable enough to support selective continuity, but not comfortably enough for the full normal irrigation plan across all sectors.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_003",
+      "metric_name": "Main line pressure",
+      "sensor_id": "sensor_pressure_main",
+      "value": "nominal_for_reduced_operation",
+      "unit": null,
+      "interpretation": "Pressure remains adequate for reduced or prioritized irrigation execution.",
+      "is_out_of_expected_range": false,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_004",
+      "metric_name": "Supply replenishment status",
+      "sensor_id": null,
+      "value": "delayed",
+      "unit": null,
+      "interpretation": "Replenishment is delayed and cannot restore full continuity confidence in the short term.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    }
+  ],
+  "operational_context": [
+    {
+      "category": "operational",
+      "note": "The greenhouse remains in active production and irrigation continuity is still operationally important across all sectors.",
+      "impact": "The service should avoid simplistic stop/continue logic if selective continuity is still feasible."
+    },
+    {
+      "category": "operational",
+      "note": "Hydraulic execution is still good enough to sustain a reduced irrigation plan under active supervision.",
+      "impact": "The service should test whether prioritization logic is more appropriate than a global interruption response."
+    },
+    {
+      "category": "operational",
+      "note": "Sector A should be treated as highest priority, Sector B as medium priority, and Sector C as lowest priority under current constraints.",
+      "impact": "The service should reveal whether it can reason explicitly about differentiated continuity allocation."
+    }
+  ],
+  "agronomic_context": [
+    {
+      "category": "agronomic",
+      "note": "Sector A contains the most sensitive crop stage and has the highest expected agronomic loss if irrigation is reduced too early.",
+      "impact": "The service should strongly protect continuity in Sector A if selective irrigation remains possible."
+    },
+    {
+      "category": "agronomic",
+      "note": "Sector C can tolerate delayed or reduced irrigation better than the other sectors for a short controlled window.",
+      "impact": "The service should consider whether restriction can be absorbed there first."
+    }
+  ],
+  "business_context": [
+    {
+      "category": "business",
+      "note": "Not all sectors have equal business value under current production conditions, so the decision should consider differentiated allocation rather than equal treatment.",
+      "impact": "The service should test whether selective continuity can reduce overall business loss better than a uniform stop."
+    }
+  ],
+  "recommended_review_by_human": true,
+  "notes": "This case is designed to test whether Agro-DO can move beyond global stop-versus-continue logic and recommend prioritized irrigation continuity across sectors when water is insufficient for the normal plan but hydraulic execution remains viable."
+}

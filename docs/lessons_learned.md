@@ -315,3 +315,24 @@ A decision-support service does not need endless micro-variations once a thresho
 - Always keep the project tree section present and updated when folders or major structural elements change.
 - Treat removal of the tree or loss of README structure as a documentation regression, not as a harmless edit.
 
+### [LESSON-023]
+**Title:** Constrained continuity should be tested as an allocation problem, not only as a stop-versus-continue problem
+
+A decision-support service shows broader operational value when it can reason about how to preserve partial continuity under constrained resources instead of collapsing immediately into global interruption logic. In Agro-DO, sector prioritization under water constraint revealed that selective continuity can be both operationally and economically preferable when hydraulic execution remains viable.
+
+**Operational consequence**
+- Add case families where not all sectors have equal priority or equal tolerance to restriction.
+- Test whether the service can recommend differentiated allocation under constraint instead of defaulting too quickly to global stop logic.
+- Treat prioritization-oriented `adjust_operation` outcomes as a key maturity signal for the product.
+
+### [LESSON-024]
+**Title:** Never degrade a previously validated deliverable when preparing an update
+
+When a file already contains a stronger, richer, or more useful version of a section, any later update must start from that validated baseline and preserve or improve it. It is not acceptable to replace a richer result with a reduced shortcut version just because it is faster to generate.
+
+**Operational consequence**
+- Always compare the new proposed output with the strongest prior validated version of the same deliverable.
+- Never replace a richer section, structure, tree, summary, or specification with a poorer version.
+- Updates must preserve quality floor and preferably improve it; they must not degrade it.
+- If a full-file replacement is requested, the replacement must carry forward everything that remains valuable from the previous version unless the project manager explicitly requests removal.
+

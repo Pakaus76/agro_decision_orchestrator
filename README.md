@@ -2,9 +2,9 @@
 
 Agro Decision Orchestrator (Agro-DO) is a product-oriented, governed decision-support service for greenhouse operations.
 
-The project is designed as a real service concept for protected horticulture environments. It combines structured greenhouse context, normalized operational cases, a validated bridge payload, a deterministic fallback path, a generative orchestration layer using OpenAI, and explicit policy guardrails.
+The project is being developed as a real service concept for protected horticulture environments. It combines structured greenhouse context, normalized operational cases, a validated bridge payload, a deterministic fallback path, a generative orchestration layer using OpenAI, and explicit policy guardrails.
 
-The current goal is not to build a scientific benchmark product made of competing versions. The goal is to build one credible governed service that can support operational decisions related to irrigation continuity, climate correction, equipment health, sensor trust, degraded visibility, and digital-physical state mismatch.
+The goal is not to build a scientific benchmark product made of competing versions. The goal is to build one credible governed service that can support operational decisions related to irrigation continuity, climate correction, equipment health, sensor trust, degraded visibility, and digital-physical state mismatch.
 
 ## Current status
 
@@ -19,32 +19,30 @@ The following capabilities have already been validated:
 - local OpenAI integration
 - governed generative recommendation execution
 
-The project has already validated twelve realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
+The project has already validated thirteen realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
 
 ### Latest validated result
 
 The latest validated scenario is:
 
-- `inputs/sample_cases/case_confirmatory_near_threshold_hydraulics.json`
+- `inputs/sample_cases/case_sector_prioritization_under_water_constraint.json`
 
-This case was created to confirm whether the observed switching point inside the low-water scarcity family was stable.
+This case was created to test whether Agro-DO can reason about selective continuity across sectors when water reserves are too limited for the standard irrigation plan but hydraulic execution remains functional enough to support prioritization.
 
 The governed recommendation for this case produced:
 
 - priority: `high`
-- action type: `stop_and_review`
+- action type: `adjust_operation`
 - human review required: `true`
 - confidence: `high`
 
-This is important because the closely related threshold cases produced:
+This is important because Agro-DO did not collapse into a global stop response. Instead, it recommended:
 
-- `case_early_warning_hydraulic_softening.json` -> `adjust_operation`
-- `case_slight_hydraulic_degradation_threshold.json` -> `stop_and_review`
-- `case_confirmatory_near_threshold_hydraulics.json` -> `stop_and_review`
+- full irrigation for Sector A
+- reduced irrigation for Sector B
+- suspended irrigation for Sector C
 
-The new comparison confirms that Agro-DO does have a narrow permissive band, but the switching threshold is stable enough to treat as a real boundary for the current stage of the project.
-
-## Core architecture
+The new comparison confirms that Agro-DO can now reason about differentiated continuity allocation under constrained water conditions, not only about hydraulic thresholds.
 
 <!-- PROJECT_TREE_START -->
 ## Project tree
@@ -93,8 +91,10 @@ C:.
     +---fixtures
     +---integration
     \---unit
-
+```
 <!-- PROJECT_TREE_END -->
+
+## Core architecture
 
 Agro-DO currently relies on the following structural layers:
 
@@ -137,6 +137,7 @@ Main implemented modules:
 - `inputs/sample_cases/case_early_warning_hydraulic_softening.json`
 - `inputs/sample_cases/case_slight_hydraulic_degradation_threshold.json`
 - `inputs/sample_cases/case_confirmatory_near_threshold_hydraulics.json`
+- `inputs/sample_cases/case_sector_prioritization_under_water_constraint.json`
 
 ## Validated behavioral coverage
 
@@ -154,10 +155,13 @@ The project has already demonstrated coherent governed behavior for at least the
 - low reserve with very mild early-warning hydraulic softening -> controlled mitigation remains viable
 - low reserve with slight threshold-near degradation -> stop-oriented logic resumes
 - low reserve with confirmatory near-threshold hydraulics -> stop-oriented logic confirmed
+- constrained water continuity with sector prioritization -> prioritized selective continuity through operational adjustment
 
-This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator, and it now reveals that the mitigation band inside the scarcity family is real but extremely narrow and sufficiently confirmed.
+This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator, and it now reveals both a stable scarcity-family threshold and a first validated example of selective continuity allocation under constrained resources.
 
-## Decision policy signal exposed by Case 10, Case 11, and Case 12
+## Decision policy signal exposed by recent case families
+
+### Scarcity plus hydraulics threshold family
 
 A major recent refinement question was whether the switching point inside the scarcity-plus-hydraulics family was real or just fragile.
 
@@ -174,6 +178,17 @@ This is a useful maturity signal because the service remains:
 - operationally conservative
 
 while also revealing that the current switching threshold is narrow, coherent, and stable enough for the present stage of development.
+
+### Sector prioritization under constrained continuity
+
+Case 13 extends Agro-DO beyond threshold calibration.
+
+The important signal is that the service can now:
+- preserve continuity selectively,
+- reason about differentiated agronomic and business importance,
+- and recommend an operational allocation strategy under constrained water availability.
+
+That is a broader form of decision intelligence than simple global stop-versus-continue logic.
 
 ## Local execution notes
 
@@ -194,7 +209,7 @@ A safe local validation flow for a new case is:
 2. Validate JSON syntax
 3. Validate the case through the bridge
 4. Execute the governed LLM recommendation
-5. Compare the result against the closest existing case
+5. Compare the result against the closest existing case or case family
 6. Update documentation in the required order
 7. Commit and push
 
@@ -228,23 +243,29 @@ Before editing either file:
 - verify that previous entries still exist
 - assume that any much shorter replacement is wrong unless explicitly requested
 
-### File-edit instruction rule
+### README preservation rule
 
-Whenever content is prepared for a repository file, the instruction must explicitly say one of these:
+`README.md` is not only a presentation file. In this project it acts as a live operational entry point and must preserve its full structural role.
 
-- replace the full file content
-- append this block to the current file
-- insert this block in a specific section
+This includes:
 
-Ambiguous edit instructions are not acceptable.
+- preserving the current README structure unless the project manager explicitly requests a redesign
+- preserving the project tree section
+- avoiding shortened replacements that remove structural sections
+- treating degradation of the README structure as a documentation regression
 
 ## Immediate next focus
 
-The scarcity-plus-hydraulics threshold family is now sufficiently characterized for the current stage of the project.
+The scarcity-plus-hydraulics threshold family is now closed for the current stage, and Agro-DO has also shown that it can reason about selective continuity through sector prioritization under constrained water conditions.
 
-The next work should move to a new decision family where Agro-DO must reason about prioritization and trade-offs rather than only about hydraulic execution quality. A strong next candidate is a case family on sector prioritization under constrained continuity conditions.
+The next work should build on that result by probing a harder allocation case where prioritization may still be possible, but the constraints are tighter and the service must decide whether selective continuity remains viable or whether the situation should escalate toward a stricter response.
 
-In practical terms, the repository is now in a good position to stop iterating the same narrow threshold and start demonstrating broader operational decision value.
+A strong next candidate is a case family where:
+- Sector A must still be protected,
+- Sector B becomes borderline,
+- and the remaining reserves may or may not justify keeping selective continuity active.
+
+In practical terms, the repository is now in a good position to keep expanding broader decision intelligence instead of returning to threshold micro-variation.
 
 ## Repository language rules
 
