@@ -19,15 +19,15 @@ The following capabilities have already been validated:
 - local OpenAI integration
 - governed generative recommendation execution
 
-The project has already validated eleven realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
+The project has already validated twelve realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
 
 ### Latest validated result
 
 The latest validated scenario is:
 
-- `inputs/sample_cases/case_slight_hydraulic_degradation_threshold.json`
+- `inputs/sample_cases/case_confirmatory_near_threshold_hydraulics.json`
 
-This case was created to probe the switching point between the very mild permissive pattern and the more conservative stop-oriented pattern inside the low-water scarcity family.
+This case was created to confirm whether the observed switching point inside the low-water scarcity family was stable.
 
 The governed recommendation for this case produced:
 
@@ -36,13 +36,13 @@ The governed recommendation for this case produced:
 - human review required: `true`
 - confidence: `high`
 
-This is important because the closely related previous scarcity cases produced:
+This is important because the closely related threshold cases produced:
 
-- `case_controlled_irrigation_rationing.json` -> `adjust_operation`
-- `case_borderline_hydraulic_degradation.json` -> `stop_and_review`
 - `case_early_warning_hydraulic_softening.json` -> `adjust_operation`
+- `case_slight_hydraulic_degradation_threshold.json` -> `stop_and_review`
+- `case_confirmatory_near_threshold_hydraulics.json` -> `stop_and_review`
 
-The new comparison confirms that Agro-DO does have a narrow permissive band, but the switching threshold lies very close to the early-warning side. A slight increase in degradation beyond Case 10 is already enough to trigger `stop_and_review`.
+The new comparison confirms that Agro-DO does have a narrow permissive band, but the switching threshold is stable enough to treat as a real boundary for the current stage of the project.
 
 ## Core architecture
 
@@ -86,6 +86,7 @@ Main implemented modules:
 - `inputs/sample_cases/case_borderline_hydraulic_degradation.json`
 - `inputs/sample_cases/case_early_warning_hydraulic_softening.json`
 - `inputs/sample_cases/case_slight_hydraulic_degradation_threshold.json`
+- `inputs/sample_cases/case_confirmatory_near_threshold_hydraulics.json`
 
 ## Validated behavioral coverage
 
@@ -102,20 +103,19 @@ The project has already demonstrated coherent governed behavior for at least the
 - low reserve with borderline hydraulic degradation -> stop-oriented logic remains active
 - low reserve with very mild early-warning hydraulic softening -> controlled mitigation remains viable
 - low reserve with slight threshold-near degradation -> stop-oriented logic resumes
+- low reserve with confirmatory near-threshold hydraulics -> stop-oriented logic confirmed
 
-This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator, and it now reveals that the mitigation band inside the scarcity family is real but extremely narrow.
+This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator, and it now reveals that the mitigation band inside the scarcity family is real but extremely narrow and sufficiently confirmed.
 
-## Decision policy signal exposed by Case 7, Case 8, Case 9, Case 10, and Case 11
+## Decision policy signal exposed by Case 10, Case 11, and Case 12
 
-A major recent refinement question was where the switching point actually lies in low-water continuity-risk scenarios.
+A major recent refinement question was whether the switching point inside the scarcity-plus-hydraulics family was real or just fragile.
 
-That question is now much clearer:
+That question is now sufficiently answered:
 
-- Case 7 confirmed that Agro-DO does not collapse all scarcity situations into the same stop-oriented policy when hydraulic execution remains stable.
-- Case 8 confirmed that Agro-DO can move back toward `stop_and_review` once scarcity is combined with unstable flow and worsening pressure behavior.
-- Case 9 confirmed that borderline hydraulic degradation is already sufficient to keep the service on the `stop_and_review` side.
 - Case 10 confirmed that very mild early-warning hydraulic softening can still remain inside the `adjust_operation` zone.
-- Case 11 confirmed that only a slight strengthening beyond Case 10 is already enough to move back to `stop_and_review`.
+- Case 11 confirmed that a slightly stronger degradation pattern already moves to `stop_and_review`.
+- Case 12 confirmed that the conservative side of that flip reproduces under a near-threshold confirmatory case.
 
 This is a useful maturity signal because the service remains:
 
@@ -123,7 +123,7 @@ This is a useful maturity signal because the service remains:
 - human reviewed
 - operationally conservative
 
-while also revealing that the current switching threshold is narrow rather than broad or binary.
+while also revealing that the current switching threshold is narrow, coherent, and stable enough for the present stage of development.
 
 ## Local execution notes
 
@@ -190,11 +190,11 @@ Ambiguous edit instructions are not acceptable.
 
 ## Immediate next focus
 
-The project has now validated that the scarcity-family switching threshold is very close to the early-warning side.
+The scarcity-plus-hydraulics threshold family is now sufficiently characterized for the current stage of the project.
 
-The next work should build from that result with one final confirmatory threshold case, slightly softer than Case 11 and slightly stronger than Case 10, to verify whether the observed flip is stable and not merely prompt-sensitive.
+The next work should move to a new decision family where Agro-DO must reason about prioritization and trade-offs rather than only about hydraulic execution quality. A strong next candidate is a case family on sector prioritization under constrained continuity conditions.
 
-In practical terms, the repository is now in a strong position to close this family soon and move on once the threshold has been confirmed.
+In practical terms, the repository is now in a good position to stop iterating the same narrow threshold and start demonstrating broader operational decision value.
 
 ## Repository language rules
 

@@ -294,3 +294,12 @@ A decision-support service can have a real permissive band without that band bei
 - Treat the current mitigation band as narrow and close to the stable/softening edge.
 - Use one final confirmatory threshold case before declaring the boundary fully characterized.
 
+### [LESSON-021]
+**Title:** A policy threshold can be considered sufficiently characterized once a confirmatory near-threshold case reproduces the same side of the flip
+
+A decision-support service does not need endless micro-variations once a threshold has been probed from both sides and then confirmed by an intermediate or near-threshold case. In Agro-DO, Case 10, Case 11, and Case 12 together show that the scarcity-family switching point is narrow and stable enough for the current stage of development.
+
+**Operational consequence**
+- Stop iterating a micro-family once the threshold has been probed from both sides and confirmed.
+- Treat the current scarcity-plus-hydraulics threshold as sufficiently characterized for now.
+- Move effort to a new policy family where the service can demonstrate broader decision value instead of diminishing returns from further threshold sampling.

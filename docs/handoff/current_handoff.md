@@ -134,6 +134,7 @@ Validated case files:
 - `inputs/sample_cases/case_borderline_hydraulic_degradation.json`
 - `inputs/sample_cases/case_early_warning_hydraulic_softening.json`
 - `inputs/sample_cases/case_slight_hydraulic_degradation_threshold.json`
+- `inputs/sample_cases/case_confirmatory_near_threshold_hydraulics.json`
 
 ### 4.4 Local OpenAI integration
 Already working locally through:
@@ -271,15 +272,25 @@ Observed output:
 Meaning:
 The system already flips back to interruption-oriented logic once degradation becomes slightly stronger than the Case 10 pattern. This places the switching threshold very close to the early-warning side.
 
+#### Case 12 — Confirmatory near-threshold hydraulics
+Observed output:
+- priority: `high`
+- action: `stop_and_review`
+- human review: `true`
+- confidence: `high`
+
+Meaning:
+The conservative side of the threshold reproduces under a confirmatory near-threshold case. This confirms that the flip observed between Case 10 and Case 11 is stable enough for the current stage of the project.
+
 Important conclusion:
-Case 7 through Case 11 together are the most important recent result because they show that Agro-DO does have a differentiated scarcity policy with a very narrow switching band: stable or very mildly softened execution can still support `adjust_operation`, while slightly stronger degradation already tends to trigger `stop_and_review`.
+Case 10, Case 11, and Case 12 together are the most important recent result because they confirm that Agro-DO has a narrow but stable scarcity-family switching threshold: very mild softening still supports `adjust_operation`, while slightly stronger near-threshold degradation reliably flips to `stop_and_review`.
 
 ---
 
 ## 6. Current project maturity
 
 Agro-DO is no longer just a structured prototype.  
-It already behaves as a governed service that distinguishes at least eleven operational patterns:
+It already behaves as a governed service that distinguishes at least twelve operational patterns:
 
 - severe failure with backup → continuity response
 - severe climate issue without backup → operational adjustment
@@ -292,40 +303,42 @@ It already behaves as a governed service that distinguishes at least eleven oper
 - low reserve with borderline hydraulic degradation → stop-oriented logic remains active
 - low reserve with very mild early-warning hydraulic softening → controlled mitigation remains viable
 - low reserve with slight threshold-near degradation → stop-oriented logic resumes
+- low reserve with confirmatory near-threshold hydraulics → stop-oriented logic confirmed
 
 This means the project already has:
 - differentiated behavior,
 - meaningful policy structure,
-- and enough validated diversity to reveal a precise switching boundary inside the scarcity family.
+- and enough validated diversity to reveal a stable switching boundary inside the scarcity family.
 
 ---
 
 ## 7. Current weakness / refinement area
 
-The most useful current refinement area is no longer whether Agro-DO has a switching band at all.
+The most useful current refinement area is no longer the scarcity-plus-hydraulics threshold itself.
 
-That question has already been answered.
+That question is now sufficiently characterized for the current stage.
 
 The current frontier is now this:
 
-Is the threshold observed between Case 10 and Case 11 genuinely stable, or is it still sensitive to slight phrasing and scenario tuning?
+What does Agro-DO do when low-water continuity pressure is no longer only a hydraulic-quality problem, but a prioritization problem between sectors with unequal agronomic or business importance?
 
 ### Current interpretation
-Case 10 and Case 11 together show:
-- very mild early-warning softening → `adjust_operation`
-- slightly stronger degradation near the threshold → `stop_and_review`
+The scarcity-plus-hydraulics family is now well mapped:
+- stable or very mild softening → `adjust_operation`
+- slightly stronger or confirmatory near-threshold degradation → `stop_and_review`
+- borderline or clearly unstable hydraulics → `stop_and_review`
 
 ### The remaining issue
-What is not yet known is whether this flip is robust enough to be treated as a reliable policy threshold, or whether one more confirmatory case would still produce different behavior with only minimal wording or signal variation.
+What has not yet been explored is a decision family where continuity cannot be maintained equally for all sectors and the service must reason about prioritization, not only about stopping or continuing globally.
 
 ### Why this matters
-The next level of product maturity is not only locating the threshold. It is confirming that the threshold is stable enough to trust.
+The next level of product maturity is broader decision intelligence, not more micro-variation around a threshold that is already sufficiently characterized.
 
 In other words, the next refinement should help the service distinguish between:
-- “still inside the permissive band”
-- “just beyond the threshold”
+- “keep all sectors running”
+- “prioritize some sectors under constrained continuity”
 - and
-- “clearly on the conservative side”
+- “stop because continuity can no longer be managed safely at all”
 
 This is the current best refinement frontier.
 
@@ -334,16 +347,15 @@ This is the current best refinement frontier.
 ## 8. The single correct next objective
 
 ## Next correct objective
-Create and validate Case 12 as a confirmatory near-threshold case positioned between Case 10 and Case 11, so that the project can verify whether the observed policy flip is stable.
+Create and validate Case 13 focused on sector prioritization under constrained water continuity, so that Agro-DO must reason about trade-offs between sectors rather than only about hydraulic execution quality.
 
 ### Why this is the correct next step
-Case 10 showed that very mild softening still supports `adjust_operation`.
-Case 11 showed that a slightly stronger pattern already flips to `stop_and_review`.
+The scarcity-plus-hydraulics threshold has now been probed from both sides and confirmed. Continuing to sample micro-variations in the same family would produce diminishing returns.
 
 The next meaningful question is therefore:
-Is that observed threshold robust, or does it still depend too much on scenario phrasing and fine-grained signal tuning?
+Can Agro-DO move from simple continue/stop logic toward prioritization logic when continuity is constrained but not uniformly impossible?
 
-Case 12 must test a near-threshold confirmatory pattern slightly softer than Case 11 and slightly stronger than Case 10.
+Case 13 should test whether the service can reason about keeping the most critical sectors irrigated while reducing or delaying lower-priority sectors.
 
 ### What must not happen before this
 Do not:
@@ -351,9 +363,9 @@ Do not:
 - open API/UI work,
 - reopen product identity questions,
 - rewrite guardrails broadly,
-- write the global external-facing validation report yet.
+- return to more threshold micro-cases in the same family for now.
 
-The next LLM must do Case 12 first.
+The next LLM must do Case 13 first.
 
 ---
 
@@ -362,21 +374,21 @@ The next LLM must do Case 12 first.
 This is the section the next LLM must follow first, without asking what to do.
 
 ### 9.1 First file to create
-`inputs/sample_cases/case_confirmatory_near_threshold_hydraulics.json`
+`inputs/sample_cases/case_sector_prioritization_under_water_constraint.json`
 
-### 9.2 Intent of Case 12
+### 9.2 Intent of Case 13
 This case should represent a situation where:
-- water reserves are low,
+- water reserves are constrained,
 - continuity is threatened,
-- hydraulic execution is still functional,
-- degradation is slightly stronger than Case 10 but slightly softer than Case 11.
+- hydraulic execution is still functional enough to allow selective continuity,
+- and the sectors do not all have the same agronomic or business importance.
 
 Possible signals should suggest:
-- flow modestly below ideal but still fairly consistent,
-- pressure mildly weak with very limited fluctuation,
-- controlled rationing still plausible but with less reassurance than Case 10.
+- enough functionality to irrigate some sectors but not all under the normal plan,
+- a need to prioritize higher-value or more sensitive sectors,
+- a policy question centered on allocation and prioritization rather than only on stop/continue.
 
-The purpose is to confirm whether the observed switching point between Case 10 and Case 11 is stable.
+The purpose is to make Agro-DO reason about trade-offs inside constrained continuity.
 
 ### 9.3 Validation sequence to follow
 The next LLM must use exactly this sequence:
@@ -385,14 +397,14 @@ The next LLM must use exactly this sequence:
 2. Validate JSON
 3. Validate through the bridge
 4. Execute the governed LLM run
-5. Compare Case 12 behavior against Case 11 and Case 10
+5. Compare the result against the earlier scarcity family logic
 6. Document the milestone
 7. Commit and push
 
 ### 9.4 Expected evaluation question
 The next LLM must explicitly ask itself:
-- Does Agro-DO still choose `adjust_operation` in a confirmatory near-threshold case?
-- Or does it consistently stay with `stop_and_review` once the pattern exceeds Case 10?
+- Does Agro-DO move toward a prioritization-oriented `adjust_operation` response?
+- Or does it still collapse too quickly to global stop-oriented logic when selective continuity may still be possible?
 
 That is the key question.
 
@@ -446,7 +458,7 @@ The next LLM should keep these files in focus:
 
 ## 12. Documentation rule for the next LLM
 
-When Case 12 is completed, the next LLM must update documentation using this safe pattern:
+When Case 13 is completed, the next LLM must update documentation using this safe pattern:
 
 ### Replace full file content
 - `README.md`
@@ -462,18 +474,18 @@ And it must explicitly say which mode is being used.
 
 ## 13. What success looks like for the next step
 
-Case 12 will be successful if it helps answer this:
+Case 13 will be successful if it helps answer this:
 
 Can Agro-DO distinguish between:
-- “very mild softening still inside the mitigation band”
-- “confirmatory near-threshold degradation”
+- “global continuity still possible”
+- “selective continuity with sector prioritization”
 - and
-- “slight degradation already on the stop-oriented side”
+- “global stop because continuity can no longer be managed safely”
 
-If the service chooses `adjust_operation`, that is useful because it means the threshold is slightly wider and Case 11 may sit just beyond it.
-If it chooses `stop_and_review`, that is still useful because it means the threshold observed between Case 10 and Case 11 is likely robust.
+If the service chooses a prioritization-oriented `adjust_operation`, that is useful because it shows broader decision intelligence beyond simple hydraulic-threshold logic.
+If it chooses `stop_and_review`, that is still useful because it reveals that the current policy is not yet reasoning flexibly about selective continuity.
 
-Either result is useful, but the value comes from the comparison with Case 10 and Case 11.
+Either result is useful, but the value comes from moving beyond the already-characterized threshold family.
 
 ---
 
@@ -482,6 +494,6 @@ Either result is useful, but the value comes from the comparison with Case 10 an
 Do not ask what the next step is.  
 It is already defined:
 
-> Create and validate Case 12 as a confirmatory near-threshold hydraulics case, then compare its governed behavior with Case 11 and Case 10.
+> Create and validate Case 13 focused on sector prioritization under constrained water continuity, then compare its governed behavior with the earlier scarcity-family logic.
 
 That is the correct immediate next action.

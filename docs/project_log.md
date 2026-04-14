@@ -1124,3 +1124,55 @@ This is a valuable maturity signal because it shows that the service is not rand
 
 **Project manager comment / voice note**
 - The eleventh governed generative validation is very useful because it shows that the switching point is already crossed with only a slight strengthening beyond the Case 10 pattern. Agro-DO selected stop_and_review with high priority, high confidence, and human review. That means the permissive band exists, but it is very narrow and probably close to the earliest visible boundary of hydraulic degradation.
+
+### [LOG-041]
+**Date:** 2026-04-13  
+**Type:** milestone  
+**Title:** Twelfth realistic sample case created and validated through the bridge as a confirmatory near-threshold hydraulics scenario
+
+**What happened**  
+A twelfth realistic operational case was added to the project: confirmatory near-threshold hydraulics under low-water conditions. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload without structural inconsistencies.
+
+**Why this was needed**  
+Case 10 had shown that very mild early-warning hydraulic softening still allowed `adjust_operation`, while Case 11 had shown that a slightly stronger degradation pattern already triggered `stop_and_review`. The project therefore needed one final confirmatory case between those two points to determine whether the observed policy flip was stable.
+
+**Why it happened at this moment**  
+This was the correct next step after validating the threshold case, because the remaining open question was no longer where the possible threshold might be, but whether that threshold was robust enough to stop iterating within this same family.
+
+**What this enables next**  
+It allows the project to close the scarcity-plus-hydraulics threshold calibration family with stronger confidence. The project can now treat the observed switching behavior as sufficiently characterized and move on to a different policy family instead of continuing to over-sample the same narrow transition zone.
+
+**Files affected**
+- `inputs/sample_cases/case_confirmatory_near_threshold_hydraulics.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-042]
+**Date:** 2026-04-13  
+**Type:** test-result  
+**Title:** Twelfth governed generative run confirmed that the scarcity-family threshold is stable on the conservative side
+
+**What happened**  
+The twelfth case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, kept confidence high, and selected `stop_and_review` with an action summary focused on stopping irrigation because low reserves and near-threshold hydraulic degradation already made continuity too risky.
+
+**Why this was needed**  
+The project needed evidence that the observed shift from `adjust_operation` to `stop_and_review` between Case 10 and Case 11 was not just a fragile one-off caused by phrasing or prompt sensitivity. It also needed a defensible stopping point for this family of calibration cases.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the twelfth case and was necessary before deciding whether to continue probing the same threshold or close the family and move on.
+
+**What this enables next**  
+It confirms that the current switching threshold is stable enough to be treated as a real policy boundary:
+- Case 10 -> `adjust_operation`
+- Case 11 -> `stop_and_review`
+- Case 12 -> `stop_and_review`
+
+This means the family is now sufficiently characterized for the current stage of the project. The next useful step is not another threshold micro-variation, but a shift to a new decision family where Agro-DO must reason about prioritization and trade-offs under constrained continuity conditions.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The twelfth governed generative validation is the confirmation we needed. Agro-DO again selected stop_and_review with high priority, high confidence, and human review. At this point the threshold no longer looks accidental. The conservative side of the boundary is stable, so it makes sense to stop iterating this micro-family and move on to a different policy question.
+
