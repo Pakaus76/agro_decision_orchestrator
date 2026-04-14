@@ -46,6 +46,56 @@ The new comparison confirms that Agro-DO does have a narrow permissive band, but
 
 ## Core architecture
 
+<!-- PROJECT_TREE_START -->
+## Project tree
+
+The following tree shows the current directory structure of the repository.
+
+```text
+Listado de rutas de carpetas para el volumen OS
+El numero de serie del volumen es 2814-033E
+C:.
++---app
+|   +---backend
+|   \---frontend
++---docs
+|   +---architecture
+|   +---experiments
+|   +---handoff
+|   +---interviews
+|   \---product
++---inputs
+|   +---greenhouse_blueprints
+|   +---sample_cases
+|   \---scenarios
++---outputs
+|   +---exports
+|   +---reports
+|   \---runs
++---scripts
++---src
+|   \---agro_do
+|       +---bridge
+|       |   \---__pycache__
+|       +---decision_orchestrator
+|       |   \---__pycache__
+|       +---digital_plantation
+|       +---domain
+|       |   \---__pycache__
+|       +---integrations
+|       |   \---__pycache__
+|       +---persistence
+|       +---reporting
+|       +---ui_contracts
+|       +---utils
+|       \---__pycache__
+\---tests
+    +---fixtures
+    +---integration
+    \---unit
+
+<!-- PROJECT_TREE_END -->
+
 Agro-DO currently relies on the following structural layers:
 
 - domain models

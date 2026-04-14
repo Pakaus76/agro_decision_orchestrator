@@ -303,3 +303,15 @@ A decision-support service does not need endless micro-variations once a thresho
 - Stop iterating a micro-family once the threshold has been probed from both sides and confirmed.
 - Treat the current scarcity-plus-hydraulics threshold as sufficiently characterized for now.
 - Move effort to a new policy family where the service can demonstrate broader decision value instead of diminishing returns from further threshold sampling.
+
+### [LESSON-022]
+**Title:** The README must preserve its full structural role, including the project tree
+
+`README.md` is not only a presentation file. In this project it acts as a live operational entry point and must preserve the structural sections that make the repository understandable at a glance. This includes keeping the current README structure and explicitly maintaining the project tree section whenever the repository structure changes.
+
+**Operational consequence**
+- Do not simplify or overwrite `README.md` with shorter summary versions that remove structural sections.
+- Preserve the current README structure unless the project manager explicitly requests a redesign.
+- Always keep the project tree section present and updated when folders or major structural elements change.
+- Treat removal of the tree or loss of README structure as a documentation regression, not as a harmless edit.
+

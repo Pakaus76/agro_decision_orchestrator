@@ -99,6 +99,16 @@ Whenever text is provided for a file, the instruction must explicitly say one of
 - append this block to the current file,
 - insert this block in a specific section.
 
+### 3.8 Mandatory compliance with lessons learned
+Everything written in `docs/lessons_learned.md` is mandatory for future assistants working on this project.
+
+This means:
+- lessons learned are not optional advice,
+- they must be treated as binding operational rules,
+- and any future assistant must check them before preparing edits, documentation updates, or project actions.
+
+If a future assistant sees a conflict between convenience and a rule captured in `docs/lessons_learned.md`, the lessons learned rule takes precedence unless the project manager explicitly decides otherwise.
+
 This is mandatory.
 
 ---
