@@ -19,15 +19,15 @@ The following capabilities have already been validated:
 - local OpenAI integration
 - governed generative recommendation execution
 
-The project has already validated thirteen realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
+The project has already validated fourteen realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
 
 ### Latest validated result
 
 The latest validated scenario is:
 
-- `inputs/sample_cases/case_sector_prioritization_under_water_constraint.json`
+- `inputs/sample_cases/case_tighter_sector_prioritization_under_water_constraint.json`
 
-This case was created to test whether Agro-DO can reason about selective continuity across sectors when water reserves are too limited for the standard irrigation plan but hydraulic execution remains functional enough to support prioritization.
+This case was created to test whether Agro-DO can sustain a prioritization-oriented continuity strategy when water reserves are tighter than in the previous allocation case and the medium-priority sector becomes borderline.
 
 The governed recommendation for this case produced:
 
@@ -36,13 +36,13 @@ The governed recommendation for this case produced:
 - human review required: `true`
 - confidence: `high`
 
-This is important because Agro-DO did not collapse into a global stop response. Instead, it recommended:
+This is important because Agro-DO again avoided collapsing into a global stop response. Instead, it recommended:
 
-- full irrigation for Sector A
-- reduced irrigation for Sector B
-- suspended irrigation for Sector C
+- irrigation only for Sector A
+- suspension of Sector B
+- suspension of Sector C
 
-The new comparison confirms that Agro-DO can now reason about differentiated continuity allocation under constrained water conditions, not only about hydraulic thresholds.
+The new comparison confirms that Agro-DO can intensify prioritization under severe water constraint and still remain on the selective-continuity side when hydraulic execution remains viable.
 
 <!-- PROJECT_TREE_START -->
 ## Project tree
@@ -138,6 +138,7 @@ Main implemented modules:
 - `inputs/sample_cases/case_slight_hydraulic_degradation_threshold.json`
 - `inputs/sample_cases/case_confirmatory_near_threshold_hydraulics.json`
 - `inputs/sample_cases/case_sector_prioritization_under_water_constraint.json`
+- `inputs/sample_cases/case_tighter_sector_prioritization_under_water_constraint.json`
 
 ## Validated behavioral coverage
 
@@ -156,8 +157,9 @@ The project has already demonstrated coherent governed behavior for at least the
 - low reserve with slight threshold-near degradation -> stop-oriented logic resumes
 - low reserve with confirmatory near-threshold hydraulics -> stop-oriented logic confirmed
 - constrained water continuity with sector prioritization -> prioritized selective continuity through operational adjustment
+- tighter constrained water continuity with one-sector protection -> stricter selective continuity through operational adjustment
 
-This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator, and it now reveals both a stable scarcity-family threshold and a first validated example of selective continuity allocation under constrained resources.
+This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator, and it now reveals both a stable scarcity-family threshold and a growing prioritization family under constrained resources.
 
 ## Decision policy signal exposed by recent case families
 
@@ -181,12 +183,15 @@ while also revealing that the current switching threshold is narrow, coherent, a
 
 ### Sector prioritization under constrained continuity
 
-Case 13 extends Agro-DO beyond threshold calibration.
+Case 13 showed that Agro-DO can reason about selective continuity across sectors when water is insufficient for the standard plan but hydraulic execution remains viable.
+
+Case 14 goes further. It shows that Agro-DO can intensify that prioritization logic when conditions become tighter, narrowing continuity to the top-priority sector only.
 
 The important signal is that the service can now:
 - preserve continuity selectively,
 - reason about differentiated agronomic and business importance,
-- and recommend an operational allocation strategy under constrained water availability.
+- tighten the allocation pattern as reserves worsen,
+- and still remain in an operational adjustment mode instead of collapsing too early into a global stop.
 
 That is a broader form of decision intelligence than simple global stop-versus-continue logic.
 
@@ -256,14 +261,17 @@ This includes:
 
 ## Immediate next focus
 
-The scarcity-plus-hydraulics threshold family is now closed for the current stage, and Agro-DO has also shown that it can reason about selective continuity through sector prioritization under constrained water conditions.
+The prioritization family now has two meaningful points:
+- broader selective continuity across Sectors A and B with Sector C suspended
+- tighter selective continuity with Sector A only protected
 
-The next work should build on that result by probing a harder allocation case where prioritization may still be possible, but the constraints are tighter and the service must decide whether selective continuity remains viable or whether the situation should escalate toward a stricter response.
+The next work should probe the collapse boundary of this family. The key question is whether there is still a viable prioritization-oriented response when the top-priority sector itself becomes borderline under even tighter reserve pressure, or whether the system should then escalate toward a stricter stop-oriented response.
 
-A strong next candidate is a case family where:
-- Sector A must still be protected,
-- Sector B becomes borderline,
-- and the remaining reserves may or may not justify keeping selective continuity active.
+A strong next candidate is a case where:
+- Sector A remains top priority but can only be sustained with minimal margin,
+- Sector B is no longer realistically protectable,
+- Sector C remains fully sacrificed,
+- and the remaining reserves may no longer justify keeping even top-priority continuity active.
 
 In practical terms, the repository is now in a good position to keep expanding broader decision intelligence instead of returning to threshold micro-variation.
 

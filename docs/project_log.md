@@ -1226,3 +1226,53 @@ This is a strong product signal because it shows that Agro-DO can:
 
 **Project manager comment / voice note**
 - The thirteenth governed generative validation is a major positive result. Agro-DO selected adjust_operation with high priority, high confidence, and human review, and the recommendation explicitly prioritized Sector A, reduced Sector B, and suspended Sector C. This shows that the service is beginning to reason like an operational allocator, not only like a stop-or-continue alarm layer.
+
+### [LOG-045]
+**Date:** 2026-04-13  
+**Type:** milestone  
+**Title:** Fourteenth realistic sample case created and validated through the bridge for tighter sector prioritization under water constraint
+
+**What happened**  
+A fourteenth realistic operational case was added to the project: tighter sector prioritization under constrained water continuity. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload without structural inconsistencies.
+
+**Why this was needed**  
+Case 13 had already shown that Agro-DO could recommend selective continuity across sectors when water was insufficient for the standard irrigation plan. The project therefore needed a harder allocation case to determine whether prioritization remained viable once the medium-priority sector became borderline and the continuity window narrowed further.
+
+**Why it happened at this moment**  
+This was the correct next step after validating the first prioritization case, because the next useful question was no longer whether Agro-DO could prioritize at all, but whether it could still reason coherently when prioritization became much more strained.
+
+**What this enables next**  
+It deepens the prioritization family by showing that Agro-DO can operate under a tighter allocation regime. The project can now reason about the boundary between selective continuity that still remains viable and conditions where even the prioritization strategy may collapse into a stricter response.
+
+**Files affected**
+- `inputs/sample_cases/case_tighter_sector_prioritization_under_water_constraint.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-046]
+**Date:** 2026-04-13  
+**Type:** test-result  
+**Title:** Fourteenth governed generative run confirmed stricter but still viable sector prioritization under severe water constraint
+
+**What happened**  
+The fourteenth case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, kept confidence high, and selected `adjust_operation` with an action summary explicitly restricting irrigation to Sector A only while suspending irrigation in Sectors B and C.
+
+**Why this was needed**  
+The project needed evidence about whether Agro-DO would still sustain a prioritization-oriented response when water reserves became more critically constrained than in Case 13, or whether it would already escalate to a stricter interruption-oriented policy.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the fourteenth case and was necessary before concluding whether selective continuity remains viable deeper into the prioritization family.
+
+**What this enables next**  
+It confirms that Agro-DO can still preserve selective continuity under tighter constraint than before:
+- Case 13 -> prioritize A, reduce B, suspend C
+- Case 14 -> protect A only, suspend B and C
+
+This is a strong maturity signal because the service did not collapse immediately into `stop_and_review`. Instead, it tightened the allocation logic and protected only the top-priority sector while accepting stronger degradation in the others. The next useful step is now to test the collapse boundary of this prioritization family.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The fourteenth governed generative validation is a very strong result. Agro-DO kept `adjust_operation`, but under a much more severe allocation pattern: Sector A only, while Sectors B and C are suspended. This shows that the service is not only capable of prioritizing; it can also intensify prioritization coherently when the continuity window becomes narrower.

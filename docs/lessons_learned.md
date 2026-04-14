@@ -336,3 +336,12 @@ When a file already contains a stronger, richer, or more useful version of a sec
 - Updates must preserve quality floor and preferably improve it; they must not degrade it.
 - If a full-file replacement is requested, the replacement must carry forward everything that remains valuable from the previous version unless the project manager explicitly requests removal.
 
+### [LESSON-025]
+**Title:** Prioritization can remain viable even when continuity collapses for medium-priority sectors
+
+A decision-support service can show strong operational maturity when it does not jump too quickly from broad selective continuity to global stop logic. In Agro-DO, tighter water constraints still allowed a prioritization-oriented response, but only by protecting the highest-priority sector and fully sacrificing lower-priority continuity.
+
+**Operational consequence**
+- Test prioritization families beyond the first selective-allocation success case.
+- Distinguish between “broad prioritization still viable” and “only top-priority continuity remains viable.”
+- Treat one-sector protection under severe constraint as a distinct policy mode, not merely as a weaker version of the earlier allocation case.

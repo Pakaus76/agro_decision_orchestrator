@@ -1,0 +1,116 @@
+{
+  "case_id": "case_tighter_sector_prioritization_under_water_constraint_001",
+  "title": "Tighter sector prioritization under constrained water continuity",
+  "summary": "Water reserves are more constrained than in the previous prioritization case. Hydraulic execution remains viable for selective continuity, but only the top-priority sector can be protected confidently and the medium-priority sector becomes borderline.",
+  "greenhouse_id": "gh_tomato_01",
+  "sector_id": null,
+  "crop_phase": "production",
+  "source": "manual",
+  "suspected_issue": "The greenhouse cannot sustain the previous selective irrigation pattern with the same confidence because reserves are tighter. Hydraulic execution is still functional enough to attempt prioritization, but the service must decide whether selective continuity remains viable or whether the situation should escalate to a stricter response.",
+  "severity_hint": "high",
+  "visibility_level": "full",
+  "affected_asset_ids": [
+    "asset_main_tank",
+    "asset_main_pump",
+    "asset_controller"
+  ],
+  "related_sensor_ids": [
+    "sensor_tank_level",
+    "sensor_main_flow",
+    "sensor_main_pressure"
+  ],
+  "related_actuator_ids": [
+    "actuator_main_pump",
+    "actuator_sector_a_valve",
+    "actuator_sector_b_valve",
+    "actuator_sector_c_valve"
+  ],
+  "symptoms": [
+    "The main tank level is too low to sustain even the previous reduced irrigation plan without tighter allocation.",
+    "Hydraulic flow and pressure remain functional enough to execute selective continuity under supervision.",
+    "Sector A remains the highest-priority sector and should still be strongly protected if selective continuity remains viable.",
+    "Sector B is now borderline and may no longer support the previous reduced irrigation pattern safely.",
+    "Sector C remains the lowest-priority sector and is the first candidate for full restriction.",
+    "The service must decide whether selective continuity is still operationally credible or whether risk has become too high."
+  ],
+  "observed_signals": [
+    {
+      "signal_id": "signal_001",
+      "metric_name": "Main tank level",
+      "sensor_id": "sensor_tank_level",
+      "value": "15",
+      "unit": "pct",
+      "interpretation": "Tank level is critically low and tighter than in the previous prioritization case, making broad continuity harder to justify.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_002",
+      "metric_name": "Main line flow",
+      "sensor_id": "sensor_flow_main",
+      "value": "stable_for_selective_but_insufficient_for_broader_plan",
+      "unit": null,
+      "interpretation": "Flow remains stable enough for strongly selective irrigation, but not comfortably enough for a wider reduced plan across higher and medium priority sectors together.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_003",
+      "metric_name": "Main line pressure",
+      "sensor_id": "sensor_pressure_main",
+      "value": "adequate_but_tight_margin",
+      "unit": null,
+      "interpretation": "Pressure remains adequate for selective execution, but the operating margin is tighter than in the previous prioritization case.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_004",
+      "metric_name": "Supply replenishment status",
+      "sensor_id": null,
+      "value": "significantly_delayed",
+      "unit": null,
+      "interpretation": "Replenishment is significantly delayed, so reserve recovery cannot be assumed in the short term.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    }
+  ],
+  "operational_context": [
+    {
+      "category": "operational",
+      "note": "The greenhouse remains in active production and continuity is still operationally important, but reserve conditions are tighter than in the previous prioritization case.",
+      "impact": "The service should test whether selective continuity remains viable under a narrower allocation window."
+    },
+    {
+      "category": "operational",
+      "note": "Hydraulic execution remains functional enough for targeted irrigation if the allocation becomes stricter.",
+      "impact": "The service should avoid simplistic global stop logic if a stronger prioritization regime is still credible."
+    },
+    {
+      "category": "operational",
+      "note": "Sector A remains highest priority, Sector B becomes borderline, and Sector C remains lowest priority.",
+      "impact": "The service should reveal whether it can reason about a more strained prioritization pattern than the previous case."
+    }
+  ],
+  "agronomic_context": [
+    {
+      "category": "agronomic",
+      "note": "Sector A still carries the highest agronomic sensitivity and should be protected first if selective continuity remains possible.",
+      "impact": "The service should strongly preserve Sector A before preserving lower-priority continuity."
+    },
+    {
+      "category": "agronomic",
+      "note": "Sector B may now suffer meaningful stress if reduced too far, making the allocation decision more difficult than before.",
+      "impact": "The service should treat Sector B as a real trade-off rather than an easy secondary allocation."
+    }
+  ],
+  "business_context": [
+    {
+      "category": "business",
+      "note": "The business value of keeping some continuity is still high, but the cost of overextending limited reserves has increased.",
+      "impact": "The service should weigh whether stronger prioritization still reduces total loss better than escalating to a stricter response."
+    }
+  ],
+  "recommended_review_by_human": true,
+  "notes": "This case is designed to test a strained prioritization regime that is tighter than the previous sector allocation case, so that Agro-DO must decide whether selective continuity remains viable or whether constraints have become too severe."
+}
