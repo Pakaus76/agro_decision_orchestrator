@@ -150,6 +150,7 @@ Validated case files:
 - `inputs/sample_cases/case_collapse_boundary_sector_prioritization.json`
 - `inputs/sample_cases/case_emergency_alternative_water_supply.json`
 - `inputs/sample_cases/case_uncertain_emergency_alternative_water_supply.json`
+- `inputs/sample_cases/case_constrained_emergency_alternative_water_supply.json`
 
 ### 4.4 Local OpenAI integration
 Already working locally through:
@@ -347,15 +348,30 @@ Observed output:
 Meaning:
 The system does not treat a weak or delayed backup path as sufficient reason to switch recovery mode. This confirms that backup credibility matters, not just backup availability.
 
+#### Case 18 — Constrained emergency alternative water supply
+Observed output:
+- priority: `high`
+- action: `switch_to_backup`
+- human review: `true`
+- confidence: `high`
+
+Meaning:
+The system can still activate backup-oriented recovery when the external supply path is viable but operationally constrained. It treats constrained recovery as different from both a clean backup and a weak backup.
+
 Important conclusion:
-Case 16 and Case 17 together show that Agro-DO now calibrates recovery recommendations according to the credibility of the external supply path.
+Case 16 through Case 18 now define a three-mode external recovery spectrum:
+- strong clean backup -> `switch_to_backup`
+- weak or delayed backup -> `stop_and_review`
+- constrained but viable backup -> `switch_to_backup`
+
+This gives the project a strong stopping point for the current validation campaign.
 
 ---
 
 ## 6. Current project maturity
 
 Agro-DO is no longer just a structured prototype.  
-It already behaves as a governed service that distinguishes at least seventeen operational patterns:
+It already behaves as a governed service that distinguishes at least eighteen operational patterns:
 
 - severe failure with backup → continuity response
 - severe climate issue without backup → operational adjustment
@@ -373,77 +389,67 @@ It already behaves as a governed service that distinguishes at least seventeen o
 - tighter constrained continuity with one-sector protection → stricter selective continuity through operational adjustment
 - collapse-boundary prioritization under extreme water constraint → full interruption with human review
 - internal collapse with confirmed emergency external water supply → backup-oriented recovery through `switch_to_backup`
-- internal collapse with delayed or weakly confirmed emergency external water supply -> interruption-oriented response through `stop_and_review`
+- internal collapse with delayed or weakly confirmed emergency external water supply → interruption-oriented response through `stop_and_review`
+- internal collapse with constrained but viable emergency external water supply → staged backup-oriented recovery through `switch_to_backup`
 
 This means the project already has:
 - differentiated behavior,
 - meaningful policy structure,
 - a stable scarcity-family threshold,
 - a complete internal prioritization family,
-- and a calibrated external recovery family.
+- and a complete three-mode external recovery family.
 
 ---
 
 ## 7. Current weakness / refinement area
 
-The most useful current refinement area is no longer whether Agro-DO distinguishes strong and weak backup paths.
+The most useful current refinement area is no longer the validation campaign itself.
 
-That question has already been answered positively.
-
-The current frontier is now this:
-
-What happens when external recovery is credible enough to be usable, but not clean enough to justify a pure backup switch without meaningful operational compromise?
+At this point the current campaign has reached a strong stopping point.
 
 ### Current interpretation
-Case 16 and Case 17 together show:
-- strong confirmed backup -> `switch_to_backup`
-- weak or delayed backup -> `stop_and_review`
+The project now has three sufficiently characterized families:
+- scarcity-plus-hydraulics threshold,
+- internal prioritization under constrained continuity,
+- and external recovery after internal collapse.
 
 ### The remaining issue
-What has not yet been explored is a middle recovery case where:
-- external supply is credible enough to be usable,
-- but it is costly, volume-limited, connection-constrained, or operationally burdensome,
-- and Agro-DO must decide whether the recommendation is still `switch_to_backup` or some other constrained recovery mode.
+The next useful work is likely not another adjacent case in the same families, but a higher-level review of:
+- what has already been demonstrated,
+- what product claims are now supportable,
+- and whether any genuinely new family is still worth opening.
 
 ### Why this matters
-The next level of product maturity is not only backup credibility. It is recovery quality under operational burden.
+The current risk is not under-validation. The current risk is entering diminishing returns by opening new cases that no longer change the core product understanding enough.
 
-In other words, the next refinement should help the service distinguish between:
-- “strong clean recovery path”
-- “usable but constrained recovery path”
-- and
-- “weak recovery path that does not change the interruption recommendation”
-
-This is the current best refinement frontier.
+This is the current best stopping and review point.
 
 ---
 
 ## 8. The single correct next objective
 
 ## Next correct objective
-Create and validate Case 18 focused on viable but operationally constrained emergency alternative water supply, so that Agro-DO must reason about a usable recovery path that still carries meaningful operational burden.
+Pause the case-generation campaign and perform a structured review of the whole validated set, so that the project manager can decide whether to stop here or open only one final genuinely new family if it adds clear value.
 
 ### Why this is the correct next step
-Case 16 already showed a strong confirmed backup path.
-Case 17 already showed a weak or delayed backup path that was not enough.
+The current campaign already covers:
+- threshold transition,
+- internal allocation,
+- collapse boundary,
+- strong recovery path,
+- weak recovery path,
+- and constrained recovery path.
 
-The next meaningful question is therefore:
-What does Agro-DO do when the backup path is usable, but imperfect?
-
-Case 18 should test whether the service:
-- still recommends `switch_to_backup`,
-- shifts toward a constrained `adjust_operation`,
-- or remains in `stop_and_review`
-when emergency supply is viable but operationally costly or restricted.
+That is already a very strong evidence base for the current stage. Another immediate case would likely add less value than consolidating the results and assessing what the project now genuinely proves.
 
 ### What must not happen before this
 Do not:
+- open a new adjacent micro-case in an already-closed family,
 - redesign the architecture,
 - open API/UI work,
-- reopen product identity questions,
-- return to more internal allocation micro-cases in already-closed families.
+- or fragment the effort with unnecessary side explorations.
 
-The next LLM must do Case 18 first.
+The next LLM must review the validated set first.
 
 ---
 
@@ -451,37 +457,22 @@ The next LLM must do Case 18 first.
 
 This is the section the next LLM must follow first, without asking what to do.
 
-### 9.1 First file to create
-`inputs/sample_cases/case_constrained_emergency_alternative_water_supply.json`
+### 9.1 First task
+Review the validated families and summarize:
+- what Agro-DO now proves,
+- which policy modes are already covered,
+- which conclusions are robust enough to keep,
+- and whether any further case would truly add a new family or only more micro-variation.
 
-### 9.2 Intent of Case 18
-This case should represent a situation where:
-- internal continuity has collapsed,
-- an emergency external water source is usable,
-- but it has meaningful constraints such as limited tanker volume, difficult connection, partial refill capability, or high operational burden.
+### 9.2 Expected output of that review
+The next LLM should help the project manager decide between:
+- stopping the campaign here,
+- or opening at most one clearly new family if it adds meaningful evidence.
 
-Possible signals should suggest:
-- backup is more credible than in Case 17,
-- but less clean or less powerful than in Case 16,
-- so the recommendation should reveal whether Agro-DO can handle an in-between recovery mode.
-
-The purpose is to test whether the service calibrates not only backup credibility, but also backup quality and operational burden.
-
-### 9.3 Validation sequence to follow
-The next LLM must use exactly this sequence:
-
-1. Create the case JSON
-2. Validate JSON
-3. Validate through the bridge
-4. Execute the governed LLM run
-5. Compare the result against Case 16 and Case 17
-6. Document the milestone
-7. Commit and push
-
-### 9.4 Expected evaluation question
+### 9.3 Evaluation question
 The next LLM must explicitly ask itself:
-- Does Agro-DO still choose `switch_to_backup` when backup is viable but operationally constrained?
-- Or does it use a more cautious or interruption-oriented mode?
+- Are we still learning something structurally new from additional cases?
+- Or are we now mostly repeating the same policy logic under slightly different wording?
 
 That is the key question.
 
@@ -489,21 +480,15 @@ That is the key question.
 
 ## 10. Minimal command pattern the next LLM should follow
 
-The next LLM should continue in the same step-by-step execution style already used in this project:
+The next LLM should continue in the same disciplined style already used in this project:
 
 - one objective at a time,
-- one step at a time,
-- command first,
-- then exact content to paste,
-- expected output explicitly described,
+- command first when execution is needed,
+- exact content to paste when file changes are needed,
+- expected outputs described clearly,
 - no unnecessary questions.
 
-The next LLM should start with:
-- create the new JSON file,
-- clearly stating that the file content must be fully replaced,
-- then run JSON validation,
-- then bridge validation,
-- then governed execution.
+But before any new case is opened, the next LLM must perform the review described above.
 
 ---
 
@@ -535,7 +520,7 @@ The next LLM should keep these files in focus:
 
 ## 12. Documentation rule for the next LLM
 
-When Case 18 is completed, the next LLM must update documentation using this safe pattern:
+If any further work is done after the review, the next LLM must update documentation using this safe pattern:
 
 ### Replace full file content
 - `README.md`
@@ -553,21 +538,14 @@ And it must explicitly say which mode is being used.
 
 ---
 
-## 13. What success looks like for the next step
+## 13. What success looks like now
 
-Case 18 will be successful if it helps answer this:
+Success at this point means:
+- recognizing that the validation campaign is already strong,
+- consolidating what has been proven,
+- and resisting the temptation to keep adding adjacent cases that do not substantially improve product understanding.
 
-Can Agro-DO distinguish between:
-- “strong clean recovery path”
-- “usable but constrained recovery path”
-- and
-- “weak recovery path that does not change the interruption recommendation”
-
-If the service still chooses `switch_to_backup`, that is useful because it means recovery tolerance remains broad.
-If it chooses a different constrained mode, that is also useful because it suggests a more nuanced recovery calibration.
-If it remains in `stop_and_review`, that reveals the system is conservative even with constrained but viable backup.
-
-Either result is useful, but the value comes from testing backup quality rather than just backup presence.
+If another family is opened later, it must be because it changes the product understanding in a clear way, not because it merely extends an already mapped spectrum.
 
 ---
 
@@ -576,6 +554,6 @@ Either result is useful, but the value comes from testing backup quality rather 
 Do not ask what the next step is.  
 It is already defined:
 
-> Create and validate Case 18 focused on viable but operationally constrained emergency alternative water supply, then compare its governed behavior with Case 16 and Case 17.
+> Pause the case-generation campaign and review the validated set before opening any further family.
 
 That is the correct immediate next action.

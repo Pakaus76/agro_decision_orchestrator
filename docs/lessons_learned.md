@@ -391,3 +391,13 @@ A decision-support service shows stronger operational intelligence when it disti
 - Test recovery families using both strong and weak backup-credibility cases.
 - Treat recovery-path credibility as a first-class decision factor, not as a minor detail.
 
+### [LESSON-030]
+**Title:** A recovery family should distinguish clean backup, weak backup, and constrained but viable backup
+
+A decision-support service shows stronger operational intelligence when it can separate three different recovery situations: a strong clean backup path, a weak or delayed backup path, and a usable but operationally constrained backup path. In Agro-DO, the constrained tanker case still justified `switch_to_backup`, but only with staged recovery focused on the highest-priority sector.
+
+**Operational consequence**
+- Do not model recovery only as yes-or-no backup existence.
+- Test backup families using both credibility and operational burden as decision factors.
+- Treat constrained but viable backup as a distinct policy mode, not merely as a weaker version of a clean backup case.
+

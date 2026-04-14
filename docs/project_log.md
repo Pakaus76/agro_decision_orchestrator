@@ -1431,3 +1431,57 @@ This is a strong maturity signal because Agro-DO is not reacting only to the exi
 **Project manager comment / voice note**
 - The seventeenth governed generative validation is very useful because it shows that Agro-DO does not switch to backup just because some external supply option exists on paper. It only does so when that path is credible enough. With delayed and partially confirmed recovery, the service returned to `stop_and_review`, which is exactly the kind of prudence we needed to test.
 
+### [LOG-053]
+**Date:** 2026-04-13  
+**Type:** milestone  
+**Title:** Eighteenth realistic sample case created and validated through the bridge for constrained emergency alternative water supply
+
+**What happened**  
+An eighteenth realistic operational case was added to the project: viable but operationally constrained emergency alternative water supply after internal continuity collapse. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload without structural inconsistencies.
+
+**Why this was needed**  
+Case 16 had already shown that a strong confirmed backup path could trigger `switch_to_backup`, and Case 17 had shown that a weak or delayed path was not enough. The project therefore needed an intermediate recovery case where external supply was usable, but burdened by limited refill volume, manual connection effort, and operational friction.
+
+**Why it happened at this moment**  
+This was the correct next step after the weak-backup case, because the most useful remaining question in the recovery family was whether Agro-DO could handle an in-between backup mode instead of reacting only to clean or weak extremes.
+
+**What this enables next**  
+It closes the external recovery family with a more complete structure. The project can now reason about:
+- strong clean backup,
+- weak or delayed backup,
+- and constrained but still viable backup.
+
+**Files affected**
+- `inputs/sample_cases/case_constrained_emergency_alternative_water_supply.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-054]
+**Date:** 2026-04-13  
+**Type:** test-result  
+**Title:** Eighteenth governed generative run confirmed constrained backup-oriented recovery under operational burden
+
+**What happened**  
+The eighteenth case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, kept confidence high, and selected `switch_to_backup` with an action summary focused on activating emergency tanker supply through staged manual connection while prioritizing Sector A irrigation.
+
+**Why this was needed**  
+The project needed evidence that Agro-DO could distinguish a usable but operationally constrained backup path from both the clean confirmed tanker case and the weak delayed backup case. It also needed to know whether a constrained recovery path would still justify `switch_to_backup`.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the eighteenth case and was necessary before deciding whether the external recovery family was sufficiently characterized for the current stage.
+
+**What this enables next**  
+It confirms that the external recovery family now has a meaningful three-mode structure:
+- strong confirmed backup -> `switch_to_backup`
+- weak or delayed backup -> `stop_and_review`
+- constrained but viable backup -> `switch_to_backup`
+
+This is a strong maturity signal because Agro-DO is not only checking whether recovery exists, but also whether recovery remains operationally worthwhile despite burden, cost, and partial limitations. The service can now reason about recovery quality, not only recovery availability.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The eighteenth governed generative validation is a very good closure for this family. Agro-DO did not collapse to `stop_and_review` just because the tanker path was cumbersome and limited. It still selected `switch_to_backup`, but in a staged and constrained way. That means the service is beginning to reason not just about backup credibility, but about backup quality under operational burden.
+

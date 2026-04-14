@@ -1,0 +1,111 @@
+{
+  "case_id": "case_constrained_emergency_alternative_water_supply_001",
+  "title": "Constrained emergency alternative water supply after internal continuity collapse",
+  "summary": "Internal water continuity has collapsed, but an external emergency water supply is available within a usable window, although it is volume-limited and operationally burdensome.",
+  "greenhouse_id": "gh_tomato_01",
+  "sector_id": null,
+  "crop_phase": "production",
+  "source": "manual",
+  "suspected_issue": "The greenhouse has already reached internal continuity collapse conditions. An emergency external tanker supply is confirmed and can arrive in time, but it will only provide a limited refill volume and requires a slow manual connection process. The service must decide whether this constrained recovery path justifies backup-oriented action or a more cautious recovery response.",
+  "severity_hint": "high",
+  "visibility_level": "full",
+  "affected_asset_ids": [
+    "asset_main_tank",
+    "asset_main_pump",
+    "asset_controller"
+  ],
+  "related_sensor_ids": [
+    "sensor_tank_level",
+    "sensor_main_flow",
+    "sensor_main_pressure"
+  ],
+  "related_actuator_ids": [
+    "actuator_main_pump",
+    "actuator_sector_a_valve",
+    "actuator_sector_b_valve",
+    "actuator_sector_c_valve"
+  ],
+  "symptoms": [
+    "The main tank level is critically low and internal continuity is not credible without external help.",
+    "Hydraulic execution remains technically available, but internal reserves alone no longer justify continued irrigation.",
+    "An emergency tanker supply is confirmed within a usable time window, but available refill volume is limited.",
+    "The tanker connection requires manual setup and staged refill, creating operational burden and slower recovery than in a clean backup case.",
+    "Sector A remains the highest-priority sector if continuity is resumed under constrained recovery.",
+    "The service must decide whether this usable but imperfect external recovery path changes the recommendation relative to both the strong-backup case and the weak-backup case."
+  ],
+  "observed_signals": [
+    {
+      "signal_id": "signal_001",
+      "metric_name": "Main tank level",
+      "sensor_id": "sensor_tank_level",
+      "value": "10",
+      "unit": "pct",
+      "interpretation": "Tank level is critically low and does not support credible internal continuity without external replenishment.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_002",
+      "metric_name": "Main line flow",
+      "sensor_id": "sensor_flow_main",
+      "value": "technically_available_but_requires_staged_recovery",
+      "unit": null,
+      "interpretation": "Flow remains technically available, but recovery would need to be staged carefully because refill and redistribution will not be immediate or abundant.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_003",
+      "metric_name": "Main line pressure",
+      "sensor_id": "sensor_pressure_main",
+      "value": "adequate_for_limited_recovery_window",
+      "unit": null,
+      "interpretation": "Pressure remains adequate enough to support a constrained recovery plan, but not a broad return to normal continuity.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_004",
+      "metric_name": "Emergency tanker supply status",
+      "sensor_id": null,
+      "value": "confirmed_arrival_within_5_hours_limited_refill_volume",
+      "unit": null,
+      "interpretation": "Emergency supply is confirmed and usable, but refill volume is limited and connection effort will delay full recovery.",
+      "is_out_of_expected_range": false,
+      "is_trusted": true
+    }
+  ],
+  "operational_context": [
+    {
+      "category": "operational",
+      "note": "Internal reserve-based continuity has already collapsed, but a usable external recovery path exists within a realistic decision window.",
+      "impact": "The service should distinguish this case from both the no-recovery collapse case and the strong-clean backup case."
+    },
+    {
+      "category": "operational",
+      "note": "The emergency tanker connection is confirmed, but setup is manual and slower than a clean integrated backup path.",
+      "impact": "The service should consider whether constrained recovery supports backup-oriented action or a more cautious staged response."
+    },
+    {
+      "category": "operational",
+      "note": "Available refill volume is not enough for a full return to normal irrigation and may support only limited selective recovery.",
+      "impact": "The service should reveal whether it can reason about recovery quality, not just recovery existence."
+    }
+  ],
+  "agronomic_context": [
+    {
+      "category": "agronomic",
+      "note": "Sector A remains the most sensitive sector and would be the first target for recovery irrigation if tanker supply is used.",
+      "impact": "The service should protect Sector A first if constrained recovery is judged worthwhile."
+    }
+  ],
+  "business_context": [
+    {
+      "category": "business",
+      "note": "The emergency tanker option is expensive and operationally cumbersome, but may still preserve more value than treating the case as unrecoverable.",
+      "impact": "The service should weigh constrained recovery value against the cost and burden of activating the backup path."
+    }
+  ],
+  "recommended_review_by_human": true,
+  "notes": "This case is designed to test whether Agro-DO distinguishes a usable but operationally constrained recovery path from both a strong clean backup path and a weak delayed backup path."
+}
