@@ -147,6 +147,7 @@ Validated case files:
 - `inputs/sample_cases/case_confirmatory_near_threshold_hydraulics.json`
 - `inputs/sample_cases/case_sector_prioritization_under_water_constraint.json`
 - `inputs/sample_cases/case_tighter_sector_prioritization_under_water_constraint.json`
+- `inputs/sample_cases/case_collapse_boundary_sector_prioritization.json`
 
 ### 4.4 Local OpenAI integration
 Already working locally through:
@@ -314,15 +315,30 @@ Observed output:
 Meaning:
 The system can intensify the prioritization regime under tighter reserve pressure. It protected Sector A only and suspended Sectors B and C, showing that selective continuity remains viable deeper into the constrained allocation family than the previous case.
 
+#### Case 15 — Collapse-boundary sector prioritization
+Observed output:
+- priority: `high`
+- action: `stop_and_review`
+- human review: `true`
+- confidence: `high`
+
+Meaning:
+The system finally abandons continuity once even top-priority-only protection becomes too fragile. This confirms the collapse boundary of the prioritization family.
+
 Important conclusion:
-Case 13 and Case 14 together show that Agro-DO is no longer only a threshold-sensitive continuity controller. It is becoming a governed allocation engine that can progressively tighten continuity according to agronomic and business priority under constrained water conditions.
+Case 13 through Case 15 together show a complete prioritization spectrum:
+- broader selective continuity,
+- one-sector-only continuity,
+- and full collapse into interruption.
+
+This is one of the strongest maturity signals in the project so far.
 
 ---
 
 ## 6. Current project maturity
 
 Agro-DO is no longer just a structured prototype.  
-It already behaves as a governed service that distinguishes at least fourteen operational patterns:
+It already behaves as a governed service that distinguishes at least fifteen operational patterns:
 
 - severe failure with backup → continuity response
 - severe climate issue without backup → operational adjustment
@@ -338,45 +354,48 @@ It already behaves as a governed service that distinguishes at least fourteen op
 - low reserve with confirmatory near-threshold hydraulics → stop-oriented logic confirmed
 - constrained water continuity with sector prioritization → prioritized selective continuity through operational adjustment
 - tighter constrained continuity with one-sector protection → stricter selective continuity through operational adjustment
+- collapse-boundary prioritization under extreme water constraint → full interruption with human review
 
 This means the project already has:
 - differentiated behavior,
 - meaningful policy structure,
 - a stable scarcity-family threshold,
-- and now a deeper prioritization family under constrained continuity.
+- and a complete prioritization family under constrained continuity.
 
 ---
 
 ## 7. Current weakness / refinement area
 
-The most useful current refinement area is no longer whether Agro-DO can prioritize at all, nor whether it can tighten prioritization.
+The most useful current refinement area is no longer the internal allocation logic of constrained continuity.
 
-Those questions have already been answered positively.
+That family is now sufficiently characterized for the current stage.
 
 The current frontier is now this:
 
-At what point does the prioritization family itself collapse from “still viable selective continuity” into a stricter stop-oriented response?
+What does Agro-DO do when continuity has collapsed internally, but an alternative recovery path may still exist externally?
 
 ### Current interpretation
-Case 13 and Case 14 together show:
-- selective continuity can remain viable across more than one sector under constrained water,
-- and it can remain viable even when narrowed down to the top-priority sector only,
-- provided hydraulic execution still supports that allocation.
+The prioritization family is now complete:
+- broader selective continuity,
+- one-sector-only continuity,
+- and full interruption once even that last strategy becomes too fragile.
 
 ### The remaining issue
-What has not yet been explored is a harder collapse-boundary case where:
-- Sector A remains top priority,
-- but the reserve margin becomes so narrow that even protecting only Sector A may no longer be credible,
-- and Agro-DO must decide whether selective continuity still makes sense or whether it should finally escalate.
+What has not yet been explored is a new family where the decision depends on the existence of:
+- emergency alternative water supply,
+- temporary backup sourcing,
+- tanker delivery,
+- neighboring reserve sharing,
+- or other recovery paths that may change the recommendation after internal continuity has collapsed.
 
 ### Why this matters
-The next level of product maturity is not only prioritization. It is understanding the collapse boundary of prioritization.
+The next level of product maturity is broader recovery intelligence, not more internal allocation variation in a family that is already well mapped.
 
 In other words, the next refinement should help the service distinguish between:
-- “broad selective continuity still viable”
-- “only top-priority continuity viable”
+- “internal continuity collapsed and nothing else is available”
+- “internal continuity collapsed but emergency recovery path exists”
 - and
-- “even top-priority continuity no longer worth sustaining”
+- “continue only after activating a backup continuity path”
 
 This is the current best refinement frontier.
 
@@ -385,27 +404,24 @@ This is the current best refinement frontier.
 ## 8. The single correct next objective
 
 ## Next correct objective
-Create and validate Case 15 focused on collapse-boundary prioritization under water constraint, so that Agro-DO must decide whether even the top-priority sector should still be sustained or whether the situation now justifies a stricter response.
+Create and validate Case 16 focused on emergency alternative water supply after internal continuity collapse, so that Agro-DO must reason about external recovery options rather than only internal prioritization.
 
 ### Why this is the correct next step
-Case 13 showed that Agro-DO could prioritize across multiple sectors under constrained continuity.
-Case 14 showed that Agro-DO could tighten that logic down to Sector A only.
+Case 15 already showed the collapse boundary of the prioritization family. Continuing to micro-sample that same family would produce diminishing returns.
 
 The next meaningful question is therefore:
-What happens when reserves become so constrained that even one-sector protection may no longer be a credible continuity strategy?
+If internal continuity has collapsed, can Agro-DO change its recommendation when an emergency alternative water path exists?
 
-Case 15 should test whether the service:
-- still recommends a highly restrictive prioritization-oriented `adjust_operation`,
-- or escalates to `stop_and_review` because even the top-priority continuity strategy has collapsed.
+Case 16 should test whether the presence of a credible backup water source, tanker supply, or emergency replenishment path changes the recommendation relative to Case 15.
 
 ### What must not happen before this
 Do not:
 - redesign the architecture,
 - open API/UI work,
 - reopen product identity questions,
-- return to threshold micro-variation in the already-closed hydraulic family.
+- return to more internal prioritization micro-cases in the same family for now.
 
-The next LLM must do Case 15 first.
+The next LLM must do Case 16 first.
 
 ---
 
@@ -414,22 +430,20 @@ The next LLM must do Case 15 first.
 This is the section the next LLM must follow first, without asking what to do.
 
 ### 9.1 First file to create
-`inputs/sample_cases/case_collapse_boundary_sector_prioritization.json`
+`inputs/sample_cases/case_emergency_alternative_water_supply.json`
 
-### 9.2 Intent of Case 15
+### 9.2 Intent of Case 16
 This case should represent a situation where:
-- water reserves are even tighter than in Case 14,
-- hydraulic execution is still technically available but only with minimal credibility,
-- Sector A remains the only possible candidate for protection,
-- Sector B and Sector C are already fully sacrificed,
-- and the real question is whether protecting even Sector A still makes sense.
+- internal continuity has effectively collapsed under extreme reserve pressure,
+- but a credible external recovery path exists,
+- such as tanker supply, emergency backup source, or rapid external replenishment.
 
 Possible signals should suggest:
-- extremely low reserve margin,
-- hydraulic execution still technically possible but with poor continuity confidence,
-- a real strategic dilemma between one-sector survival and a stricter stop-oriented response.
+- internal reserves are critically low,
+- direct internal continuity is no longer credible on its own,
+- but there is a near-term emergency supply option that could justify a different operational recommendation.
 
-The purpose is to identify the collapse boundary of the prioritization family.
+The purpose is to test whether Agro-DO can reason about backup continuity through external recovery instead of treating all collapse cases as identical.
 
 ### 9.3 Validation sequence to follow
 The next LLM must use exactly this sequence:
@@ -438,14 +452,14 @@ The next LLM must use exactly this sequence:
 2. Validate JSON
 3. Validate through the bridge
 4. Execute the governed LLM run
-5. Compare the result against Case 14 and Case 13
+5. Compare the result against Case 15
 6. Document the milestone
 7. Commit and push
 
 ### 9.4 Expected evaluation question
 The next LLM must explicitly ask itself:
-- Does Agro-DO still keep `adjust_operation` when only one-sector protection remains barely credible?
-- Or does it finally escalate once even top-priority continuity becomes too fragile?
+- Does Agro-DO still choose `stop_and_review` even when a credible emergency water path exists?
+- Or does it move toward an operationally adjusted recovery-oriented recommendation?
 
 That is the key question.
 
@@ -499,7 +513,7 @@ The next LLM should keep these files in focus:
 
 ## 12. Documentation rule for the next LLM
 
-When Case 15 is completed, the next LLM must update documentation using this safe pattern:
+When Case 16 is completed, the next LLM must update documentation using this safe pattern:
 
 ### Replace full file content
 - `README.md`
@@ -519,18 +533,18 @@ And it must explicitly say which mode is being used.
 
 ## 13. What success looks like for the next step
 
-Case 15 will be successful if it helps answer this:
+Case 16 will be successful if it helps answer this:
 
 Can Agro-DO distinguish between:
-- “broad selective continuity still viable”
-- “only top-priority continuity viable”
+- “internal continuity collapsed with no recovery path”
+- “internal continuity collapsed but external emergency recovery is available”
 - and
-- “even top-priority continuity no longer worth sustaining”
+- “operational adjustment is justified only because the backup path exists”
 
-If the service still chooses a highly restrictive `adjust_operation`, that is useful because it means the prioritization band is wider than expected.
-If it chooses `stop_and_review`, that is still useful because it reveals the collapse boundary of the prioritization family.
+If the service changes the recommendation relative to Case 15, that is useful because it shows broader recovery-path intelligence.
+If it remains in `stop_and_review`, that is still useful because it reveals that current policy treats external supply recovery conservatively.
 
-Either result is useful, but the value comes from locating the point where selective continuity finally stops being credible.
+Either result is useful, but the value comes from moving into a genuinely new family rather than overworking an already-closed one.
 
 ---
 
@@ -539,6 +553,6 @@ Either result is useful, but the value comes from locating the point where selec
 Do not ask what the next step is.  
 It is already defined:
 
-> Create and validate Case 15 focused on collapse-boundary sector prioritization under water constraint, then compare its governed behavior with Case 14 and Case 13.
+> Create and validate Case 16 focused on emergency alternative water supply after internal continuity collapse, then compare its governed behavior with Case 15.
 
 That is the correct immediate next action.

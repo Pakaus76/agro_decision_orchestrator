@@ -345,3 +345,17 @@ A decision-support service can show strong operational maturity when it does not
 - Test prioritization families beyond the first selective-allocation success case.
 - Distinguish between “broad prioritization still viable” and “only top-priority continuity remains viable.”
 - Treat one-sector protection under severe constraint as a distinct policy mode, not merely as a weaker version of the earlier allocation case.
+
+### [LESSON-026]
+**Title:** A prioritization family is sufficiently characterized once it covers broad allocation, top-priority-only allocation, and full collapse
+
+A decision-support service does not need endless variations once a constrained-allocation family has been mapped across its main policy modes. In Agro-DO, the prioritization family now covers:
+- broader selective continuity,
+- top-priority-sector-only continuity,
+- and full interruption when even that last continuity option becomes too fragile.
+
+**Operational consequence**
+- Treat the current prioritization family as sufficiently characterized for the current stage.
+- Stop sampling more micro-variations inside the same allocation pattern once the collapse boundary has been observed.
+- Move to a new family where Agro-DO must reason about recovery alternatives, backup paths, or post-collapse continuity options.
+

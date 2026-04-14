@@ -19,30 +19,31 @@ The following capabilities have already been validated:
 - local OpenAI integration
 - governed generative recommendation execution
 
-The project has already validated fourteen realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
+The project has already validated fifteen realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
 
 ### Latest validated result
 
 The latest validated scenario is:
 
-- `inputs/sample_cases/case_tighter_sector_prioritization_under_water_constraint.json`
+- `inputs/sample_cases/case_collapse_boundary_sector_prioritization.json`
 
-This case was created to test whether Agro-DO can sustain a prioritization-oriented continuity strategy when water reserves are tighter than in the previous allocation case and the medium-priority sector becomes borderline.
+This case was created to test whether Agro-DO would finally abandon selective continuity once even the top-priority sector could no longer be protected with a credible reserve margin.
 
 The governed recommendation for this case produced:
 
 - priority: `high`
-- action type: `adjust_operation`
+- action type: `stop_and_review`
 - human review required: `true`
 - confidence: `high`
 
-This is important because Agro-DO again avoided collapsing into a global stop response. Instead, it recommended:
+This is important because it confirms the collapse boundary of the prioritization family. Agro-DO did not keep forcing one-sector continuity indefinitely. Instead, it recommended:
 
-- irrigation only for Sector A
+- suspension of Sector A
 - suspension of Sector B
 - suspension of Sector C
+- escalation for human review
 
-The new comparison confirms that Agro-DO can intensify prioritization under severe water constraint and still remain on the selective-continuity side when hydraulic execution remains viable.
+The new comparison confirms that Agro-DO can now reason across the full prioritization spectrum, from selective continuity to final interruption.
 
 <!-- PROJECT_TREE_START -->
 ## Project tree
@@ -139,6 +140,7 @@ Main implemented modules:
 - `inputs/sample_cases/case_confirmatory_near_threshold_hydraulics.json`
 - `inputs/sample_cases/case_sector_prioritization_under_water_constraint.json`
 - `inputs/sample_cases/case_tighter_sector_prioritization_under_water_constraint.json`
+- `inputs/sample_cases/case_collapse_boundary_sector_prioritization.json`
 
 ## Validated behavioral coverage
 
@@ -157,9 +159,10 @@ The project has already demonstrated coherent governed behavior for at least the
 - low reserve with slight threshold-near degradation -> stop-oriented logic resumes
 - low reserve with confirmatory near-threshold hydraulics -> stop-oriented logic confirmed
 - constrained water continuity with sector prioritization -> prioritized selective continuity through operational adjustment
-- tighter constrained water continuity with one-sector protection -> stricter selective continuity through operational adjustment
+- tighter constrained continuity with one-sector protection -> stricter selective continuity through operational adjustment
+- collapse-boundary prioritization under extreme water constraint -> full interruption with human review
 
-This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator, and it now reveals both a stable scarcity-family threshold and a growing prioritization family under constrained resources.
+This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator, and it now reveals both a stable scarcity-family threshold and a complete prioritization family under constrained resources.
 
 ## Decision policy signal exposed by recent case families
 
@@ -185,13 +188,14 @@ while also revealing that the current switching threshold is narrow, coherent, a
 
 Case 13 showed that Agro-DO can reason about selective continuity across sectors when water is insufficient for the standard plan but hydraulic execution remains viable.
 
-Case 14 goes further. It shows that Agro-DO can intensify that prioritization logic when conditions become tighter, narrowing continuity to the top-priority sector only.
+Case 14 showed that Agro-DO can intensify that logic when conditions become tighter, narrowing continuity to the top-priority sector only.
+
+Case 15 closes the family by showing that Agro-DO will finally abandon continuity once even that top-priority-only strategy becomes too fragile.
 
 The important signal is that the service can now:
 - preserve continuity selectively,
-- reason about differentiated agronomic and business importance,
 - tighten the allocation pattern as reserves worsen,
-- and still remain in an operational adjustment mode instead of collapsing too early into a global stop.
+- and still recognize the point where prioritization itself has collapsed.
 
 That is a broader form of decision intelligence than simple global stop-versus-continue logic.
 
@@ -261,19 +265,15 @@ This includes:
 
 ## Immediate next focus
 
-The prioritization family now has two meaningful points:
-- broader selective continuity across Sectors A and B with Sector C suspended
-- tighter selective continuity with Sector A only protected
+The prioritization family is now sufficiently characterized for the current stage:
 
-The next work should probe the collapse boundary of this family. The key question is whether there is still a viable prioritization-oriented response when the top-priority sector itself becomes borderline under even tighter reserve pressure, or whether the system should then escalate toward a stricter stop-oriented response.
+- broader selective continuity
+- top-priority-only continuity
+- and final collapse into interruption
 
-A strong next candidate is a case where:
-- Sector A remains top priority but can only be sustained with minimal margin,
-- Sector B is no longer realistically protectable,
-- Sector C remains fully sacrificed,
-- and the remaining reserves may no longer justify keeping even top-priority continuity active.
+The next work should move to a different family centered on recovery alternatives rather than more internal allocation variation. A strong next candidate is a case family where emergency alternative water supply, temporary backup sourcing, or rapid replenishment possibility changes the decision compared with the collapse-boundary case.
 
-In practical terms, the repository is now in a good position to keep expanding broader decision intelligence instead of returning to threshold micro-variation.
+In practical terms, the repository is now in a good position to test whether Agro-DO can reason not only about internal allocation, but also about external recovery paths after continuity collapse.
 
 ## Repository language rules
 

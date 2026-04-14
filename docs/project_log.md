@@ -1276,3 +1276,58 @@ This is a strong maturity signal because the service did not collapse immediatel
 
 **Project manager comment / voice note**
 - The fourteenth governed generative validation is a very strong result. Agro-DO kept `adjust_operation`, but under a much more severe allocation pattern: Sector A only, while Sectors B and C are suspended. This shows that the service is not only capable of prioritizing; it can also intensify prioritization coherently when the continuity window becomes narrower.
+
+### [LOG-047]
+**Date:** 2026-04-13  
+**Type:** milestone  
+**Title:** Fifteenth realistic sample case created and validated through the bridge for collapse-boundary sector prioritization
+
+**What happened**  
+A fifteenth realistic operational case was added to the project: collapse-boundary sector prioritization under extreme water constraint. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload without structural inconsistencies.
+
+**Why this was needed**  
+Case 13 had shown that Agro-DO could preserve continuity across a prioritized subset of sectors, and Case 14 had shown that it could tighten that strategy down to top-priority-sector protection only. The project therefore needed the next case to determine whether there is a clear collapse boundary where even one-sector protection is no longer credible.
+
+**Why it happened at this moment**  
+This was the correct next step after validating tighter prioritization, because the remaining open question inside this family was no longer whether prioritization could be tightened further, but whether Agro-DO would eventually stop sustaining continuity when the remaining margin became too fragile.
+
+**What this enables next**  
+It closes the prioritization family with a clearer collapse point. The project can now reason about three distinct modes under constrained continuity:
+- broader selective continuity,
+- one-sector protection,
+- and full interruption when even that last continuity option becomes too risky.
+
+**Files affected**
+- `inputs/sample_cases/case_collapse_boundary_sector_prioritization.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-048]
+**Date:** 2026-04-13  
+**Type:** test-result  
+**Title:** Fifteenth governed generative run confirmed the collapse boundary of the prioritization family
+
+**What happened**  
+The fifteenth case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, kept confidence high, and selected `stop_and_review` with an action summary focused on suspending irrigation in all sectors because reserves were too low and continuity margin had become minimal even for the top-priority sector.
+
+**Why this was needed**  
+The project needed evidence that Agro-DO could identify the point where selective continuity should no longer be sustained, even for the highest-priority sector. It also needed a defensible stopping point for the prioritization family so that the project could move to a broader decision family instead of continuing to micro-sample the same constrained allocation logic.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the fifteenth case and was necessary before concluding whether the prioritization family had a real collapse boundary or whether Agro-DO would keep sustaining ultra-restrictive continuity indefinitely.
+
+**What this enables next**  
+It confirms that the prioritization family is now sufficiently characterized:
+- Case 13 -> A full, B reduced, C suspended
+- Case 14 -> A only, B suspended, C suspended
+- Case 15 -> all sectors suspended, `stop_and_review`
+
+This is a strong maturity signal because Agro-DO does not collapse too early, but it also does not continue continuity blindly when the last remaining continuity option becomes too fragile. The next useful step is now to move to a new family centered on alternative recovery paths rather than more internal prioritization variation.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The fifteenth governed generative validation gives the closure we needed for this family. Agro-DO finally crossed to `stop_and_review` once even protecting Sector A alone no longer had a credible reserve margin. That means the service is not only able to prioritize and tighten allocation; it can also recognize when the prioritization regime itself has collapsed.
+

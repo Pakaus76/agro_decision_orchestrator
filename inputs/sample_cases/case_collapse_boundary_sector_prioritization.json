@@ -1,0 +1,111 @@
+{
+  "case_id": "case_collapse_boundary_sector_prioritization_001",
+  "title": "Collapse-boundary sector prioritization under water constraint",
+  "summary": "Water reserves are now so constrained that even protecting only the top-priority sector has minimal operational margin, although hydraulic execution is still technically possible.",
+  "greenhouse_id": "gh_tomato_01",
+  "sector_id": null,
+  "crop_phase": "production",
+  "source": "manual",
+  "suspected_issue": "The greenhouse is under extreme water constraint. Sector B and Sector C are already assumed fully sacrificed, and the main question is whether protecting only Sector A still makes operational sense or whether even top-priority continuity should now be abandoned in favor of a stricter response.",
+  "severity_hint": "high",
+  "visibility_level": "full",
+  "affected_asset_ids": [
+    "asset_main_tank",
+    "asset_main_pump",
+    "asset_controller"
+  ],
+  "related_sensor_ids": [
+    "sensor_tank_level",
+    "sensor_main_flow",
+    "sensor_main_pressure"
+  ],
+  "related_actuator_ids": [
+    "actuator_main_pump",
+    "actuator_sector_a_valve",
+    "actuator_sector_b_valve",
+    "actuator_sector_c_valve"
+  ],
+  "symptoms": [
+    "The main tank level is critically low and below the level seen in the previous tighter prioritization case.",
+    "Hydraulic flow and pressure remain technically available, but continuity confidence is now minimal.",
+    "Sector A remains the only sector that could still be considered for protection.",
+    "Sector B and Sector C are already fully sacrificed under current constraint assumptions.",
+    "The remaining reserve margin may no longer justify even one-sector continuity.",
+    "The service must decide whether extreme prioritization remains credible or whether the situation now requires a stricter interruption-oriented response."
+  ],
+  "observed_signals": [
+    {
+      "signal_id": "signal_001",
+      "metric_name": "Main tank level",
+      "sensor_id": "sensor_tank_level",
+      "value": "11",
+      "unit": "pct",
+      "interpretation": "Tank level is critically low and leaves almost no credible reserve margin for continuity beyond the most restrictive possible allocation.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_002",
+      "metric_name": "Main line flow",
+      "sensor_id": "sensor_flow_main",
+      "value": "technically_available_but_fragile_for_one_sector",
+      "unit": null,
+      "interpretation": "Flow is still technically available for a very limited one-sector strategy, but the continuity margin is weak.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_003",
+      "metric_name": "Main line pressure",
+      "sensor_id": "sensor_pressure_main",
+      "value": "barely_adequate_with_low_margin",
+      "unit": null,
+      "interpretation": "Pressure remains barely adequate for minimal selective execution, but operating confidence is poor.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    },
+    {
+      "signal_id": "signal_004",
+      "metric_name": "Supply replenishment status",
+      "sensor_id": null,
+      "value": "no_near_term_recovery_expected",
+      "unit": null,
+      "interpretation": "No near-term replenishment recovery is expected, so reserve depletion risk must be treated as immediate and severe.",
+      "is_out_of_expected_range": true,
+      "is_trusted": true
+    }
+  ],
+  "operational_context": [
+    {
+      "category": "operational",
+      "note": "Hydraulic execution is still technically possible, but only with minimal credibility and only for the top-priority sector.",
+      "impact": "The service should decide whether ultra-restrictive continuity still makes sense or whether operational risk has now overtaken the benefits."
+    },
+    {
+      "category": "operational",
+      "note": "Sector B and Sector C are already considered fully sacrificed under current conditions.",
+      "impact": "The decision is no longer about broader allocation, but about whether Sector A should still be sustained at all."
+    },
+    {
+      "category": "operational",
+      "note": "The continuity window is materially narrower than in the previous case.",
+      "impact": "The service should reveal the collapse boundary of the prioritization family."
+    }
+  ],
+  "agronomic_context": [
+    {
+      "category": "agronomic",
+      "note": "Sector A still carries the highest agronomic sensitivity and business value, but the available reserve margin may no longer support even its isolated protection with confidence.",
+      "impact": "The service should weigh whether preserving Sector A still reduces total loss or whether trying to sustain it now creates excessive operational risk."
+    }
+  ],
+  "business_context": [
+    {
+      "category": "business",
+      "note": "Continuing even a one-sector strategy may protect residual value, but exhausting the last reserves under weak recovery conditions may worsen total loss if continuity fails anyway.",
+      "impact": "The service should reason about whether the final narrow continuity strategy is still worth attempting."
+    }
+  ],
+  "recommended_review_by_human": true,
+  "notes": "This case is designed to test the collapse boundary of the prioritization family by forcing Agro-DO to decide whether even the top-priority sector should still be sustained under extreme water constraint."
+}
