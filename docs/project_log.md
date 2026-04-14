@@ -1331,3 +1331,52 @@ This is a strong maturity signal because Agro-DO does not collapse too early, bu
 **Project manager comment / voice note**
 - The fifteenth governed generative validation gives the closure we needed for this family. Agro-DO finally crossed to `stop_and_review` once even protecting Sector A alone no longer had a credible reserve margin. That means the service is not only able to prioritize and tighten allocation; it can also recognize when the prioritization regime itself has collapsed.
 
+### [LOG-049]
+**Date:** 2026-04-13  
+**Type:** milestone  
+**Title:** Sixteenth realistic sample case created and validated through the bridge for emergency alternative water supply
+
+**What happened**  
+A sixteenth realistic operational case was added to the project: emergency alternative water supply after internal continuity collapse. The case was validated first as JSON and then through the bridge, confirming that it references valid greenhouse entities and can be converted into a proper execution payload without structural inconsistencies.
+
+**Why this was needed**  
+The internal prioritization family had already been sufficiently characterized, including its collapse boundary. The project therefore needed to move to a new family where the key question was whether a credible external recovery path could change the recommendation after internal continuity had already collapsed.
+
+**Why it happened at this moment**  
+This was the correct next step after Case 15, because the next meaningful question was no longer whether internal allocation could be tightened further, but whether Agro-DO could reason differently when an external backup water path existed.
+
+**What this enables next**  
+It opens a new recovery-oriented family. The project can now test whether Agro-DO distinguishes between collapse with no recovery path and collapse with a credible external supply option.
+
+**Files affected**
+- `inputs/sample_cases/case_emergency_alternative_water_supply.json`
+
+**Project manager comment / voice note**
+- None recorded.
+
+### [LOG-050]
+**Date:** 2026-04-13  
+**Type:** test-result  
+**Title:** Sixteenth governed generative run confirmed backup-oriented recovery logic after internal continuity collapse
+
+**What happened**  
+The sixteenth case was executed successfully through the governed generative path. The resulting recommendation kept high priority, required human review, kept confidence high, and selected `switch_to_backup` with an action summary focused on activating emergency external water supply and prioritizing irrigation recovery for Sector A upon tanker arrival.
+
+**Why this was needed**  
+The project needed evidence that Agro-DO could change its recommendation when internal continuity had collapsed but a credible external recovery path existed. It also needed to confirm whether the service treats backup continuity as a distinct policy mode rather than collapsing all severe water-collapse cases into a single stop-oriented response.
+
+**Why it happened at this moment**  
+This validation directly followed bridge validation of the sixteenth case and was necessary before documenting whether Agro-DO could reason about recovery alternatives beyond internal allocation.
+
+**What this enables next**  
+It confirms a new class of decision behavior:
+- internal collapse with no credible recovery -> `stop_and_review`
+- internal collapse with confirmed emergency supply -> `switch_to_backup`
+
+This is a strong maturity signal because the service is no longer only deciding how to degrade continuity. It can now recognize when continuity should be re-routed through an external backup path and recommend a staged recovery focused on the highest-priority sector.
+
+**Files affected**
+- runtime validation only
+
+**Project manager comment / voice note**
+- The sixteenth governed generative validation is a very strong result. Agro-DO did not treat this case as another collapse-to-stop scenario. Instead, it selected `switch_to_backup` and explicitly tied the recommendation to emergency tanker activation and staged recovery for Sector A. That means the system is beginning to reason about operational recovery paths, not only internal deterioration.

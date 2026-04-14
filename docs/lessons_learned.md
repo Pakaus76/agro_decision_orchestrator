@@ -359,3 +359,25 @@ A decision-support service does not need endless variations once a constrained-a
 - Stop sampling more micro-variations inside the same allocation pattern once the collapse boundary has been observed.
 - Move to a new family where Agro-DO must reason about recovery alternatives, backup paths, or post-collapse continuity options.
 
+### [LESSON-027]
+**Title:** External recovery paths should be treated as a distinct decision family, not as a minor variant of internal collapse
+
+A decision-support service shows broader operational intelligence when it can distinguish between internal collapse with no way out and internal collapse with a credible backup or recovery path. In Agro-DO, confirmed emergency external water supply changed the recommendation from interruption-oriented logic to backup-oriented recovery logic.
+
+**Operational consequence**
+- Add recovery-oriented case families after internal collapse families are mapped.
+- Do not treat confirmed backup supply as a small detail inside a collapse case; it can change the policy mode entirely.
+- Treat `switch_to_backup` outcomes as a first-class maturity signal when recovery depends on credible external support.
+
+### [LESSON-028]
+**Title:** Temporary result files must never be left in the repository root after documentation is complete
+
+Intermediate JSON outputs, validation dumps, and execution result files are useful only while they add immediate traceability during active work. Once the relevant outcome has already been captured in the permanent project documents and the corresponding commit has been completed, those temporary files stop adding value and become repository noise.
+
+**Operational consequence**
+- Do not save temporary JSON result files in the repository root.
+- Only keep intermediate result files when they provide real ongoing value.
+- When temporary results must be preserved, store them in a coherent location under `outputs/reports/`, not in the repository root.
+- After the result has been documented in `README.md`, `docs/project_log.md`, `docs/lessons_learned.md`, or `docs/handoff/current_handoff.md`, delete the temporary file unless the project manager explicitly requests that it be retained.
+- Do not invent a new storage location from one case to the next; keep the same repository rule consistently.
+

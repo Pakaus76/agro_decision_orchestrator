@@ -19,31 +19,30 @@ The following capabilities have already been validated:
 - local OpenAI integration
 - governed generative recommendation execution
 
-The project has already validated fifteen realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
+The project has already validated sixteen realistic sample cases and has demonstrated differentiated behavior across multiple operational patterns.
 
 ### Latest validated result
 
 The latest validated scenario is:
 
-- `inputs/sample_cases/case_collapse_boundary_sector_prioritization.json`
+- `inputs/sample_cases/case_emergency_alternative_water_supply.json`
 
-This case was created to test whether Agro-DO would finally abandon selective continuity once even the top-priority sector could no longer be protected with a credible reserve margin.
+This case was created to test whether Agro-DO would change its recommendation when internal continuity had already collapsed but a credible external emergency water supply was confirmed.
 
 The governed recommendation for this case produced:
 
 - priority: `high`
-- action type: `stop_and_review`
+- action type: `switch_to_backup`
 - human review required: `true`
 - confidence: `high`
 
-This is important because it confirms the collapse boundary of the prioritization family. Agro-DO did not keep forcing one-sector continuity indefinitely. Instead, it recommended:
+This is important because Agro-DO did not treat the scenario as another simple collapse-to-stop case. Instead, it recommended:
 
-- suspension of Sector A
-- suspension of Sector B
-- suspension of Sector C
-- escalation for human review
+- activating emergency external water supply
+- restoring continuity through the backup path
+- prioritizing recovery irrigation for Sector A
 
-The new comparison confirms that Agro-DO can now reason across the full prioritization spectrum, from selective continuity to final interruption.
+The new comparison confirms that Agro-DO can now reason about external recovery paths after internal continuity collapse.
 
 <!-- PROJECT_TREE_START -->
 ## Project tree
@@ -141,6 +140,7 @@ Main implemented modules:
 - `inputs/sample_cases/case_sector_prioritization_under_water_constraint.json`
 - `inputs/sample_cases/case_tighter_sector_prioritization_under_water_constraint.json`
 - `inputs/sample_cases/case_collapse_boundary_sector_prioritization.json`
+- `inputs/sample_cases/case_emergency_alternative_water_supply.json`
 
 ## Validated behavioral coverage
 
@@ -161,8 +161,9 @@ The project has already demonstrated coherent governed behavior for at least the
 - constrained water continuity with sector prioritization -> prioritized selective continuity through operational adjustment
 - tighter constrained continuity with one-sector protection -> stricter selective continuity through operational adjustment
 - collapse-boundary prioritization under extreme water constraint -> full interruption with human review
+- internal collapse with confirmed emergency external water supply -> backup-oriented recovery through `switch_to_backup`
 
-This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator, and it now reveals both a stable scarcity-family threshold and a complete prioritization family under constrained resources.
+This means Agro-DO is already behaving as a governed service with differentiated operational reasoning rather than as a generic alert generator, and it now reveals a stable scarcity-family threshold, a complete prioritization family, and a first recovery-oriented backup family.
 
 ## Decision policy signal exposed by recent case families
 
@@ -190,14 +191,25 @@ Case 13 showed that Agro-DO can reason about selective continuity across sectors
 
 Case 14 showed that Agro-DO can intensify that logic when conditions become tighter, narrowing continuity to the top-priority sector only.
 
-Case 15 closes the family by showing that Agro-DO will finally abandon continuity once even that top-priority-only strategy becomes too fragile.
+Case 15 closed the family by showing that Agro-DO will finally abandon continuity once even that top-priority-only strategy becomes too fragile.
 
 The important signal is that the service can now:
 - preserve continuity selectively,
 - tighten the allocation pattern as reserves worsen,
 - and still recognize the point where prioritization itself has collapsed.
 
-That is a broader form of decision intelligence than simple global stop-versus-continue logic.
+### External recovery after internal collapse
+
+Case 16 opens a new family. It shows that Agro-DO can distinguish between:
+- internal collapse with no credible recovery path,
+- and internal collapse with a confirmed emergency external water source.
+
+The important signal is that the service can now:
+- recognize that internal continuity has collapsed,
+- avoid treating all collapse cases as identical,
+- and recommend `switch_to_backup` when a credible external recovery path exists.
+
+That is a broader form of decision intelligence than simple internal degradation or allocation logic.
 
 ## Local execution notes
 
@@ -265,15 +277,19 @@ This includes:
 
 ## Immediate next focus
 
-The prioritization family is now sufficiently characterized for the current stage:
+The project now has:
+- a closed scarcity-plus-hydraulics threshold family,
+- a closed internal prioritization family,
+- and a first recovery-oriented backup case.
 
-- broader selective continuity
-- top-priority-only continuity
-- and final collapse into interruption
+The next work should deepen the external recovery family by testing a case where emergency recovery exists but is less certain, later, or operationally weaker than in the confirmed-tanker scenario.
 
-The next work should move to a different family centered on recovery alternatives rather than more internal allocation variation. A strong next candidate is a case family where emergency alternative water supply, temporary backup sourcing, or rapid replenishment possibility changes the decision compared with the collapse-boundary case.
+A strong next candidate is a case where:
+- internal continuity has collapsed,
+- external recovery is possible but delayed or uncertain,
+- and Agro-DO must decide whether the backup path is still strong enough to justify `switch_to_backup` or whether the situation should remain in `stop_and_review`.
 
-In practical terms, the repository is now in a good position to test whether Agro-DO can reason not only about internal allocation, but also about external recovery paths after continuity collapse.
+In practical terms, the repository is now in a good position to test not only whether recovery exists, but whether recovery credibility changes the recommendation.
 
 ## Repository language rules
 
